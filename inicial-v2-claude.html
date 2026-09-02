@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personalidade e Necessidades — Jogo da Alma</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F6F3;--card:#FFF;--ink:#1A1A1A;--ink2:#3D3D3D;--ink3:#6B6B6B;--muted:#9A9A9A;
+  --border:#E8E6E1;--border-l:#F0EFEB;--gold:#C9A84C;--gold-soft:rgba(201,168,76,.09);
+  --deep:#16181A;--pos:#3E8E6B;--pos-bg:#F2FAF6;--neg:#B04A46;--neg-bg:#FDF4F3;
+  --basico:#D95A55;--sacral:#EA8B3A;--plexo:#E8A317;--cardiaco:#4CAF82;
+  --laringeo:#4A9FD9;--frontal:#8B5CF6;--coronario:#C77DBA;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.62;font-size:16px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:820px;margin:0 auto;padding:0 24px}
+.narrow{max-width:700px}
+h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.01em}
+h2{font-size:30px;line-height:1.2;margin-bottom:14px}
+h3{font-size:18px}
+p{max-width:64ch}
+.lede{font-size:17px;color:var(--ink2)}
+section{padding:66px 0}
+
+/* hero */
+.hero{padding:88px 0 62px;border-bottom:1px solid var(--border)}
+.hero h1{font-size:64px;line-height:1.02;max-width:14ch;margin-bottom:20px}
+.hero .sub{font-size:21px;color:var(--ink2);max-width:52ch}
+.hero .ask{margin-top:20px;font-size:16.5px;color:var(--ink3);max-width:58ch}
+.hero .ask b{color:var(--ink);font-weight:500}
+.q-mark{font-family:'Fraunces',serif;font-size:14px;font-style:italic;color:var(--gold);margin-bottom:18px}
+.qlist{margin-top:34px;border-top:1px solid var(--border);padding-top:22px}
+.qlist-cap{font-size:12.5px;color:var(--muted);margin-bottom:14px}
+.qlist ul{display:grid;grid-template-columns:1fr 1fr;gap:10px 26px;max-width:640px}
+.qlist li{list-style:none;font-family:'Fraunces',serif;font-size:17.5px;color:var(--ink);padding-left:19px;position:relative;line-height:1.4}
+.qlist li::before{content:'';position:absolute;left:0;top:12px;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+
+.part{border-top:1px solid var(--border)}
+.part-tag{font-family:'Fraunces',serif;font-size:14px;font-style:italic;color:var(--gold);margin-bottom:8px}
+
+/* frequency map */
+.freq{margin-top:28px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 24px}
+.freq-cap{font-size:12.5px;color:var(--muted);margin-bottom:16px}
+.frow{display:grid;grid-template-columns:104px 1fr 58px;align-items:center;gap:14px;padding:6px 0}
+.fname{font-size:13.5px;color:var(--ink2)}
+.ftrack{height:9px;background:var(--border-l);border-radius:99px;overflow:hidden}
+.ffill{height:100%;border-radius:99px}
+.flvl{font-size:11.5px;color:var(--muted);text-align:right}
+.frow.hi .fname{font-weight:700;color:var(--ink)}
+.frow.hi .flvl{color:var(--ink2);font-weight:500}
+.freq-note{margin-top:16px;padding-top:15px;border-top:1px solid var(--border-l);font-size:13.5px;color:var(--ink3)}
+
+/* pleasure vs lack */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:26px}
+.two > div{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:19px 21px}
+.two h3{margin-bottom:7px}
+.two p{font-size:14px;color:var(--ink3)}
+.two .a{border-top:3px solid var(--gold)}
+.two .b{border-top:3px solid var(--ink3)}
+
+
+.inline-cta{margin-top:18px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px 26px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.ic-orbs{display:flex;gap:5px;flex-shrink:0}
+.ic-orbs i{width:13px;height:13px;border-radius:50%;display:block}
+.ic-txt{flex:1;min-width:240px}
+.ic-txt h3{font-family:'Fraunces',serif;font-weight:500;font-size:20px;margin-bottom:4px}
+.ic-txt p{font-size:14px;color:var(--ink3);max-width:52ch}
+.inline-cta .btn{margin-top:0;flex-shrink:0}
+@media(max-width:720px){
+  .inline-cta{padding:20px;gap:14px}
+  .ic-txt{min-width:0}
+  .inline-cta .btn{width:100%;text-align:center}
+}
+
+/* ---- painel de perfis (abas) ---- */
+.pcast{display:grid;grid-template-columns:266px 1fr;margin-top:30px;border:1px solid var(--border);border-radius:20px;overflow:hidden;background:var(--card)}
+.rail{border-right:1px solid var(--border);background:#FCFCFA;padding:10px}
+.rail button{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:11px;width:100%;padding:13px 14px;border-radius:12px;cursor:pointer;border:1px solid transparent}
+.rail button:hover{background:#fff}
+.rail button:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.r-num{font-size:11.5px;color:var(--muted);width:18px;flex-shrink:0}
+.r-dot{width:10px;height:10px;border-radius:50%;background:var(--k);flex-shrink:0}
+.r-txt{flex:1;min-width:0}
+.r-txt b{display:block;font-family:'Fraunces',serif;font-weight:500;font-size:17px;line-height:1.2}
+.r-txt small{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+.r-arrow{color:var(--muted);font-size:14px;opacity:0}
+.rail button[aria-selected="true"]{background:#fff;border-color:var(--k);box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.rail button[aria-selected="true"] .r-arrow{opacity:.5}
+.rail button[aria-selected="true"] .r-num{color:var(--ink3)}
+
+.panes{position:relative;min-height:706px}
+.pan{position:relative;padding:30px 32px;overflow:hidden;height:100%}
+.pan-glow{position:absolute;top:-130px;right:-115px;width:340px;height:340px;border-radius:50%;background:var(--k);opacity:.07;pointer-events:none}
+.pan-head{display:flex;align-items:center;gap:16px;position:relative}
+.pan-orb{width:62px;height:62px;border-radius:50%;flex-shrink:0;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.pan-orb::after{content:'';width:20px;height:20px;border-radius:50%;background:var(--k)}
+.pan-ident{font-size:11.5px;color:var(--k);font-weight:700;margin-bottom:3px}
+.pan-name{font-family:'Fraunces',serif;font-size:29px;line-height:1.12;display:flex;flex-wrap:wrap;align-items:baseline;gap:0 7px}
+.pan-name span+span::before{content:'·';color:var(--muted);margin-right:7px;font-weight:400}
+.pan-meta{font-size:12.5px;color:var(--muted);margin-top:3px}
+
+.pan-nec{margin-top:22px;border-left:3px solid var(--k);padding:12px 0 12px 18px;position:relative}
+.pan-nec small{display:block;font-size:11px;color:var(--muted);font-weight:700;margin-bottom:4px}
+.pan-nec p{font-family:'Fraunces',serif;font-size:19.5px;line-height:1.38;color:var(--ink);max-width:52ch}
+
+.pan-cap{position:relative;margin-top:20px;margin-bottom:8px;font-size:11px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:10px}
+.pan-cap::after{content:'';flex:1;height:1px;background:var(--border-l)}
+
+.pan-two{display:grid;grid-template-columns:1fr 1fr;gap:11px;position:relative}
+.pan-box{border:1px solid var(--border);border-radius:13px;padding:15px 17px}
+.pan-box b{display:block;font-size:11px;font-weight:700;margin-bottom:5px}
+.pan-box p{font-size:13.5px;color:var(--ink2)}
+.pan-box.st{background:#FCFCFA}
+.pan-box.st b{color:var(--ink3)}
+.pan-box.st p{font-size:13.5px;color:var(--ink2)}
+.pan-box.up{background:var(--pos-bg);border-color:rgba(62,142,107,.2)}
+.pan-box.up b{color:var(--pos)}
+.pan-box.down{background:var(--neg-bg);border-color:rgba(176,74,70,.18)}
+.pan-box.down b{color:var(--neg)}
+
+.pan-foot{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-top:20px;padding-top:16px;border-top:1px solid var(--border-l);position:relative}
+.vies small{display:block;font-size:11px;color:var(--muted);font-weight:700;margin-bottom:2px}
+.vies q{font-family:'Fraunces',serif;font-style:italic;font-size:18px;color:var(--ink)}
+.vies q::before,.vies q::after{content:'"'}
+.pan-link{margin-left:auto;font-size:13.5px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--k);padding-bottom:1px;white-space:nowrap}
+
+@media(max-width:820px){
+  .pcast{grid-template-columns:1fr}
+  .rail{border-right:none;border-bottom:1px solid var(--border);display:flex;gap:7px;overflow-x:auto;padding:11px}
+  .rail button{width:auto;flex-shrink:0;padding:9px 13px;gap:8px}
+  .r-num,.r-arrow{display:none}
+  .r-txt b{font-size:15px}.r-txt small{display:none}
+  .panes{min-height:0}
+  .pan{padding:24px 20px}
+  .pan-name{font-size:24px}.pan-nec p{font-size:17px}
+  .pan-two{grid-template-columns:1fr}
+  .pan-link{margin-left:0}
+}
+
+/* profiles (lista antiga) */
+.profiles{margin-top:30px;border-top:1px solid var(--border)}
+.prof{display:grid;grid-template-columns:120px 1fr 168px;gap:22px;padding:24px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit;align-items:start}
+.prof:hover{background:rgba(255,255,255,.55)}
+.prof:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.p-left{display:flex;align-items:baseline;gap:9px}
+.p-dot{width:10px;height:10px;border-radius:50%;background:var(--k);flex-shrink:0;transform:translateY(-1px)}
+.p-chakra{font-size:13px;color:var(--ink3)}
+.p-name{font-family:'Fraunces',serif;font-size:22px;line-height:1.2}
+.p-driver{font-size:14px;color:var(--ink2);margin-top:3px}
+.p-bias{margin-top:12px;border-left:2px solid var(--k);padding-left:14px}
+.p-bias small{display:block;font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.p-bias q{font-family:'Fraunces',serif;font-style:italic;font-size:17px;color:var(--ink)}
+.p-emo{font-size:13px;color:var(--ink3);padding-top:4px}
+.p-emo b{display:block;font-weight:500;color:var(--ink2)}
+.p-emo .plus{color:var(--pos)}
+.p-emo .minus{color:var(--neg)}
+.p-go{font-size:12.5px;color:var(--muted);margin-top:11px}
+
+/* combos */
+.combos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.combo{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:17px 18px}
+.combo h3{font-size:16px;margin-bottom:6px}
+.combo p{font-size:13.5px;color:var(--ink3)}
+.combo.tense{border-color:rgba(201,168,76,.4);background:var(--gold-soft)}
+
+/* 3x */
+.effect{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:26px}
+.eff{border-radius:15px;padding:20px 22px;border:1px solid var(--border);background:var(--card)}
+.eff.in{border-left:3px solid var(--pos)}
+.eff.out{border-left:3px solid var(--neg)}
+.eff h3{font-size:16.5px;margin-bottom:10px}
+.eff li{list-style:none;font-size:13.5px;color:var(--ink2);padding:4px 0 4px 15px;position:relative}
+.eff li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:50%}
+.eff.in li::before{background:var(--pos)}
+.eff.out li::before{background:var(--neg)}
+
+/* hinge */
+.hinge{background:var(--deep);color:#F2F0EC;padding:74px 0}
+.hinge .t{font-family:'Fraunces',serif;font-size:31px;line-height:1.32;max-width:20ch;color:#fff}
+.hinge p{margin-top:18px;font-size:16px;color:rgba(255,255,255,.62);max-width:56ch}
+
+/* need flow */
+.flow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:26px}
+.step{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:19px 20px}
+.step em{font-style:normal;font-size:12px;color:var(--muted);display:block;margin-bottom:5px}
+.step h3{font-size:17px;margin-bottom:5px}
+.step p{font-size:13.5px;color:var(--ink3)}
+
+/* needs table */
+.needs{margin-top:28px;border-top:1px solid var(--border)}
+.need{padding:22px 0;border-bottom:1px solid var(--border)}
+.n-top{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin-bottom:12px}
+.n-dot{width:10px;height:10px;border-radius:50%;background:var(--k)}
+.n-need{font-family:'Fraunces',serif;font-size:21px}
+.n-chakra{font-size:13px;color:var(--ink3)}
+.n-emo{margin-left:auto;font-size:12.5px;color:var(--muted)}
+.n-emo .p{color:var(--pos)}.n-emo .n{color:var(--neg)}
+.n-forms{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form{border-radius:12px;padding:13px 15px;font-size:13.5px}
+.form b{display:block;font-size:11.5px;font-weight:700;margin-bottom:4px}
+.form.p{background:var(--pos-bg);color:#2C5F49}
+.form.p b{color:var(--pos)}
+.form.n{background:var(--neg-bg);color:#7B3330}
+.form.n b{color:var(--neg)}
+.n-link{font-size:12.5px;color:var(--muted);margin-top:10px;display:inline-block;text-decoration:none}
+.n-link:hover{color:var(--ink2)}
+
+.insight{margin-top:34px;border-left:2px solid var(--gold);padding-left:22px}
+.insight p{font-family:'Fraunces',serif;font-size:23px;line-height:1.42}
+
+.h-tag{font-family:'Fraunces',serif;font-size:13.5px;font-style:italic;color:var(--gold);margin-bottom:14px}
+.h-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.h-chips span{font-size:13px;color:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:5px 14px}
+.eq{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.eq > div{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:20px 22px}
+.eq b{display:block;font-family:'Fraunces',serif;font-weight:500;font-size:22px;margin-bottom:2px}
+.eq span{font-size:15px;color:var(--ink3)}
+.bigline{font-family:'Fraunces',serif;font-size:23px;line-height:1.42;border-left:2px solid var(--gold);padding-left:22px;margin-top:26px;max-width:34ch}
+@media(max-width:720px){.eq{grid-template-columns:1fr}.bigline{font-size:19px;max-width:none}}
+
+/* two measures + cta */
+.measures{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:26px}
+.meas{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:22px}
+.meas h3{font-size:18px;margin-bottom:7px}
+.meas p{font-size:14px;color:var(--ink3);margin-bottom:16px}
+.btn{display:inline-block;background:var(--ink);color:#F7F6F3;padding:12px 22px;border-radius:999px;font-size:14.5px;font-weight:500;text-decoration:none}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.cta{padding:64px 0 84px;border-top:1px solid var(--border)}
+.cta h2{max-width:18ch}
+.cta .note{font-size:13px;color:var(--muted);margin-top:16px}
+footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;color:var(--muted)}
+
+@media(max-width:720px){
+  .hero{padding:64px 0 48px}.hero h1{font-size:44px;max-width:none}.hero .sub{font-size:18px}
+  .qlist ul{grid-template-columns:1fr;gap:9px}.qlist li{font-size:16px}
+  h2{font-size:25px}section{padding:52px 0}
+  .two,.effect,.combos,.flow,.n-forms,.measures{grid-template-columns:1fr}
+  .prof{grid-template-columns:1fr;gap:10px;padding:22px 0}
+  .p-emo{padding-top:0}
+  .hinge{padding:56px 0}.hinge .t{font-size:24px}
+  .n-emo{margin-left:0;width:100%}
+  .insight p{font-size:19px}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="q-mark">As 7 Perguntas — 01</div>
+    <h1>Quem você é?</h1>
+    <p class="sub">Você não é uma coisa só. É uma combinação de sete frequências — e o que faz uma pessoa ser feliz, render no trabalho, manter disciplina ou ganhar dinheiro pode ser exatamente o que trava você.</p>
+    <p class="ask">Muita gente não está infeliz por falta de empenho. Está infeliz por <b>incompatibilidade</b>: fazendo, do jeito certo, a coisa errada para si.</p>
+
+    <div class="qlist">
+      <div class="qlist-cap">O que muda quando você conhece a sua combinação</div>
+      <ul>
+        <li>O que te faz feliz</li>
+        <li>Como ter melhores resultados no trabalho</li>
+        <li>Como ter melhores relacionamentos</li>
+        <li>Como entender quem pensa diferente de você</li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PARTE 1 ============ -->
+
+<section class="wrap">
+  <div class="part-tag">Primeira parte — Personalidade</div>
+  <h2>Os sete perfis</h2>
+  <p class="lede">Cada um nasce de uma frequência e tem uma busca legítima, forças que ninguém te ensinou a valorizar, sombras previsíveis — e um viés: a frase silenciosa que filtra como você enxerga todos os seus problemas. Reconheça o seu.</p>
+
+  <div class="pcast">
+    <div class="rail" role="tablist" aria-label="Os sete perfis">
+      <button role="tab" id="tab-basico" aria-selected="true" aria-controls="pan-basico" style="--k:var(--basico)">
+        <span class="r-num">01</span><span class="r-dot"></span>
+        <span class="r-txt"><b>Básico</b><small>Segurança</small></span>
+        <span class="r-arrow">→</span>
+      </button>
+      <button role="tab" id="tab-sacral" aria-selected="false" aria-controls="pan-sacral" style="--k:var(--sacral)">
+        <span class="r-num">02</span><span class="r-dot"></span>
+        <span class="r-txt"><b>Sacral</b><small>Prazer</small></span>
+        <span class="r-arrow">→</span>
+      </button>
+      <button role="tab" id="tab-plexo" aria-selected="false" aria-controls="pan-plexo" style="--k:var(--plexo)">
+        <span class="r-num">03</span><span class="r-dot"></span>
+        <span class="r-txt"><b>Plexo Solar</b><small>Valor</small></span>
+        <span class="r-arrow">→</span>
+      </button>
+      <button role="tab" id="tab-cardiaco" aria-selected="false" aria-controls="pan-cardiaco" style="--k:var(--cardiaco)">
+        <span class="r-num">04</span><span class="r-dot"></span>
+        <span class="r-txt"><b>Cardíaco</b><small>Conexão</small></span>
+        <span class="r-arrow">→</span>
+      </button>
+      <button role="tab" id="tab-laringeo" aria-selected="false" aria-controls="pan-laringeo" style="--k:var(--laringeo)">
+        <span class="r-num">05</span><span class="r-dot"></span>
+        <span class="r-txt"><b>Laríngeo</b><small>Expressão</small></span>
+        <span class="r-arrow">→</span>
+      </button>
+      <button role="tab" id="tab-frontal" aria-selected="false" aria-controls="pan-frontal" style="--k:var(--frontal)">
+        <span class="r-num">06</span><span class="r-dot"></span>
+        <span class="r-txt"><b>Frontal</b><small>Conhecimento</small></span>
+        <span class="r-arrow">→</span>
+      </button>
+      <button role="tab" id="tab-coronario" aria-selected="false" aria-controls="pan-coronario" style="--k:var(--coronario)">
+        <span class="r-num">07</span><span class="r-dot"></span>
+        <span class="r-txt"><b>Coronário</b><small>Sentido</small></span>
+        <span class="r-arrow">→</span>
+      </button>
+    </div>
+    <div class="panes">
+    <div class="pan" role="tabpanel" id="pan-basico" aria-labelledby="tab-basico" style="--k:var(--basico)">
+      <div class="pan-glow"></div>
+      <div class="pan-head">
+        <div class="pan-orb"></div>
+        <div>
+          <div class="pan-ident">Personalidade 01</div>
+          <h3 class="pan-name"><span>Tradicional</span><span>Eficiente</span></h3>
+          <div class="pan-meta">Chakra Básico · Segurança</div>
+        </div>
+      </div>
+
+      <div class="pan-nec">
+        <small>Necessidade maior</small>
+        <p>Estabilidade e segurança. Precisa de rotina estruturada, regras definidas e a sensação de estar no controle da própria vida.</p>
+      </div>
+
+      <div class="pan-cap">Como os outros veem</div>
+      <div class="pan-two">
+        <div class="pan-box st"><b>Estereótipo positivo</b><p>A pessoa trabalhadora e familiar, que faz o serviço bem feito do jeito que sempre fez. Organizada, eficiente e leal aos seus, é quem os outros procuram quando precisam de alguém que não falha e que está sempre no mesmo lugar.</p></div>
+        <div class="pan-box st"><b>Estereótipo negativo</b><p>O conservador que nunca sai da zona de conforto. Visto como devagar, sem ambição e preso ao passado, alguém que recusa novidade por princípio e que faz hoje exatamente o mesmo que fazia dez anos atrás.</p></div>
+      </div>
+
+      <div class="pan-cap">Como de fato funciona</div>
+      <div class="pan-two">
+        <div class="pan-box up"><b>Pontos fortes</b><p>Estável, confiável e leal. Lida bem com rotina e é muito eficiente para executar e repetir. Cuida dos próximos, vive o presente e consegue ser feliz com as coisas simples.</p></div>
+        <div class="pan-box down"><b>Pontos fracos</b><p>Não lida bem com mudança e estressa fácil diante do inesperado. Preocupação excessiva com saúde, segurança ou dinheiro. Tende a procrastinar e a ficar parada no tempo.</p></div>
+      </div>
+
+      <div class="pan-foot">
+        <span class="vies"><small>O viés que filtra tudo</small><q>Se está funcionando, não mexa.</q></span>
+        <a class="pan-link" href="personalidade-basico.html">Conhecer a personalidade Tradicional</a>
+      </div>
+    </div>
+    <div class="pan" role="tabpanel" id="pan-sacral" aria-labelledby="tab-sacral" style="--k:var(--sacral)" hidden>
+      <div class="pan-glow"></div>
+      <div class="pan-head">
+        <div class="pan-orb"></div>
+        <div>
+          <div class="pan-ident">Personalidade 02</div>
+          <h3 class="pan-name"><span>Social</span><span>Criativa</span><span>Sensível</span></h3>
+          <div class="pan-meta">Chakra Sacral · Prazer</div>
+        </div>
+      </div>
+
+      <div class="pan-nec">
+        <small>Necessidade maior</small>
+        <p>Prazer, variedade e experiência. Precisa de novidade, estímulo e liberdade para sentir a vida acontecendo.</p>
+      </div>
+
+      <div class="pan-cap">Como os outros veem</div>
+      <div class="pan-two">
+        <div class="pan-box st"><b>Estereótipo positivo</b><p>A pessoa animada e sociável, sempre num projeto novo, que conhece todo mundo e muda o clima de um ambiente ao entrar. É quem chamam quando querem que a coisa aconteça de verdade e não fique só na conversa.</p></div>
+        <div class="pan-box st"><b>Estereótipo negativo</b><p>O irresponsável que não termina nada. Visto como imaturo e disperso, alguém que leva tudo na brincadeira, some quando o assunto fica sério e troca de paixão antes de qualquer coisa dar fruto.</p></div>
+      </div>
+
+      <div class="pan-cap">Como de fato funciona</div>
+      <div class="pan-two">
+        <div class="pan-box up"><b>Pontos fortes</b><p>Criativa, adaptável e cheia de energia emocional. Lê o clima antes de alguém falar, recomeça sem drama e traz movimento onde havia estagnação.</p></div>
+        <div class="pan-box down"><b>Pontos fracos</b><p>Dispersa, larga projetos na metade e troca de direção por tédio. Foge do desconforto, decide no impulso e confunde intensidade com importância.</p></div>
+      </div>
+
+      <div class="pan-foot">
+        <span class="vies"><small>O viés que filtra tudo</small><q>Preciso de algo novo.</q></span>
+        <a class="pan-link" href="personalidade-sacral.html">Conhecer a personalidade Criativa</a>
+      </div>
+    </div>
+    <div class="pan" role="tabpanel" id="pan-plexo" aria-labelledby="tab-plexo" style="--k:var(--plexo)" hidden>
+      <div class="pan-glow"></div>
+      <div class="pan-head">
+        <div class="pan-orb"></div>
+        <div>
+          <div class="pan-ident">Personalidade 03</div>
+          <h3 class="pan-name"><span>Ambiciosa</span><span>Confiante</span></h3>
+          <div class="pan-meta">Chakra Plexo Solar · Valor</div>
+        </div>
+      </div>
+
+      <div class="pan-nec">
+        <small>Necessidade maior</small>
+        <p>Valor, conquista e reconhecimento. Precisa estar crescendo e ser importante em alguma área da vida.</p>
+      </div>
+
+      <div class="pan-cap">Como os outros veem</div>
+      <div class="pan-two">
+        <div class="pan-box st"><b>Estereótipo positivo</b><p>O vencedor. Focado e competitivo, sempre com uma meta e um número para bater. É quem assume a frente quando ninguém assume, e quem os outros seguem quando a situação aperta.</p></div>
+        <div class="pan-box st"><b>Estereótipo negativo</b><p>O egoísta que passa por cima de todo mundo. Visto como frio, arrogante e obcecado por status, alguém que só se aproxima quando tem interesse e que não consegue desligar nem no fim de semana.</p></div>
+      </div>
+
+      <div class="pan-cap">Como de fato funciona</div>
+      <div class="pan-two">
+        <div class="pan-box up"><b>Pontos fortes</b><p>Decide rápido, executa e sustenta o que promete. Aguenta pressão, assume risco e puxa os outros junto. Transforma intenção em resultado visível.</p></div>
+        <div class="pan-box down"><b>Pontos fracos</b><p>Cobra demais de si e dos outros, confunde pausa com fracasso e relação com competição. Pode passar por cima de pessoas em nome do objetivo.</p></div>
+      </div>
+
+      <div class="pan-foot">
+        <span class="vies"><small>O viés que filtra tudo</small><q>Se não estou crescendo, estou fracassando.</q></span>
+        <a class="pan-link" href="personalidade-plexo-solar.html">Conhecer a personalidade Ambiciosa</a>
+      </div>
+    </div>
+    <div class="pan" role="tabpanel" id="pan-cardiaco" aria-labelledby="tab-cardiaco" style="--k:var(--cardiaco)" hidden>
+      <div class="pan-glow"></div>
+      <div class="pan-head">
+        <div class="pan-orb"></div>
+        <div>
+          <div class="pan-ident">Personalidade 04</div>
+          <h3 class="pan-name"><span>Empática</span><span>Amigável</span></h3>
+          <div class="pan-meta">Chakra Cardíaco · Conexão</div>
+        </div>
+      </div>
+
+      <div class="pan-nec">
+        <small>Necessidade maior</small>
+        <p>Conexão, cuidado e pertencimento. Precisa de vínculos verdadeiros e de sentir que importa para alguém.</p>
+      </div>
+
+      <div class="pan-cap">Como os outros veem</div>
+      <div class="pan-two">
+        <div class="pan-box st"><b>Estereótipo positivo</b><p>A pessoa boa. Aquela que todo mundo procura para desabafar, que lembra do aniversário e que aparece na hora difícil sem precisar ser chamada. É o ponto de encontro do grupo.</p></div>
+        <div class="pan-box st"><b>Estereótipo negativo</b><p>A pessoa que não sabe dizer não. Vista como ingênua e sem posição, alguém que se deixa usar, carrega o problema dos outros de graça e depois reclama sem nunca ter dito nada na hora.</p></div>
+      </div>
+
+      <div class="pan-cap">Como de fato funciona</div>
+      <div class="pan-two">
+        <div class="pan-box up"><b>Pontos fortes</b><p>Empática, generosa e leal. Constrói confiança rápido, sustenta relações longas e percebe o que o outro sente antes de ele dizer. Costura grupos que sozinhos não se falariam.</p></div>
+        <div class="pan-box down"><b>Pontos fracos</b><p>Se anula, evita conflito e chama isso de paz. Diz sim quando queria dizer não, acumula mágoa em silêncio e sente culpa quando prioriza a si.</p></div>
+      </div>
+
+      <div class="pan-foot">
+        <span class="vies"><small>O viés que filtra tudo</small><q>Preciso ajudar todo mundo antes de mim.</q></span>
+        <a class="pan-link" href="personalidade-cardiaco.html">Conhecer a personalidade Empática</a>
+      </div>
+    </div>
+    <div class="pan" role="tabpanel" id="pan-laringeo" aria-labelledby="tab-laringeo" style="--k:var(--laringeo)" hidden>
+      <div class="pan-glow"></div>
+      <div class="pan-head">
+        <div class="pan-orb"></div>
+        <div>
+          <div class="pan-ident">Personalidade 05</div>
+          <h3 class="pan-name"><span>Expressiva</span><span>Comunicativa</span></h3>
+          <div class="pan-meta">Chakra Laríngeo · Expressão</div>
+        </div>
+      </div>
+
+      <div class="pan-nec">
+        <small>Necessidade maior</small>
+        <p>Expressão e influência. Precisa dizer o que pensa, ser ouvida e ver a própria ideia mudar alguma coisa.</p>
+      </div>
+
+      <div class="pan-cap">Como os outros veem</div>
+      <div class="pan-two">
+        <div class="pan-box st"><b>Estereótipo positivo</b><p>O carismático. Bom de palco e de discussão, sabe falar, convence e levanta a voz por quem não fala. É quem chamam para representar o grupo e defender a causa.</p></div>
+        <div class="pan-box st"><b>Estereótipo negativo</b><p>O dono da verdade. Visto como falante demais e incapaz de escutar, alguém que precisa dar a última palavra, transforma conversa em debate e confunde franqueza com licença para machucar.</p></div>
+      </div>
+
+      <div class="pan-cap">Como de fato funciona</div>
+      <div class="pan-two">
+        <div class="pan-box up"><b>Pontos fortes</b><p>Comunica com clareza, traduz o complexo e ensina com naturalidade. Negocia, defende a própria posição e dá voz ao que os outros só sentem.</p></div>
+        <div class="pan-box down"><b>Pontos fracos</b><p>Fala mais do que escuta e explica até convencer. Confunde sinceridade com dureza e fica ressentida quando é ignorada.</p></div>
+      </div>
+
+      <div class="pan-foot">
+        <span class="vies"><small>O viés que filtra tudo</small><q>Eu sei o que é melhor.</q></span>
+        <a class="pan-link" href="personalidade-laringeo.html">Conhecer a personalidade Expressiva</a>
+      </div>
+    </div>
+    <div class="pan" role="tabpanel" id="pan-frontal" aria-labelledby="tab-frontal" style="--k:var(--frontal)" hidden>
+      <div class="pan-glow"></div>
+      <div class="pan-head">
+        <div class="pan-orb"></div>
+        <div>
+          <div class="pan-ident">Personalidade 06</div>
+          <h3 class="pan-name"><span>Intelectual</span><span>Curiosa</span></h3>
+          <div class="pan-meta">Chakra Frontal · Conhecimento</div>
+        </div>
+      </div>
+
+      <div class="pan-nec">
+        <small>Necessidade maior</small>
+        <p>Conhecimento e clareza. Precisa entender como as coisas funcionam antes de aceitar, decidir ou se comprometer.</p>
+      </div>
+
+      <div class="pan-cap">Como os outros veem</div>
+      <div class="pan-two">
+        <div class="pan-box st"><b>Estereótipo positivo</b><p>O inteligente. Lê sobre tudo, entende de tudo e resolve o problema que ninguém resolve. É quem consultam antes de uma decisão difícil, porque costuma enxergar o que os outros não viram.</p></div>
+        <div class="pan-box st"><b>Estereótipo negativo</b><p>O arrogante que pensa demais. Visto como cheio de razão e distante da vida real, alguém que tem uma teoria pronta para cada assunto, transforma decisão simples em análise longa e nunca conclui porque sempre falta mais um dado.</p></div>
+      </div>
+
+      <div class="pan-cap">Como de fato funciona</div>
+      <div class="pan-two">
+        <div class="pan-box up"><b>Pontos fortes</b><p>Analisa com profundidade, prevê consequências e reconhece padrões que os outros não veem. Separa fato de suposição e resolve o que parecia insolúvel.</p></div>
+        <div class="pan-box down"><b>Pontos fracos</b><p>Analisa até a decisão perder a validade. Substitui ação por estudo, subestima quem não argumenta bem e sempre acha que falta uma informação.</p></div>
+      </div>
+
+      <div class="pan-foot">
+        <span class="vies"><small>O viés que filtra tudo</small><q>Se não entendo, não aceito.</q></span>
+        <a class="pan-link" href="personalidade-frontal.html">Conhecer a personalidade Intelectual</a>
+      </div>
+    </div>
+    <div class="pan" role="tabpanel" id="pan-coronario" aria-labelledby="tab-coronario" style="--k:var(--coronario)" hidden>
+      <div class="pan-glow"></div>
+      <div class="pan-head">
+        <div class="pan-orb"></div>
+        <div>
+          <div class="pan-ident">Personalidade 07</div>
+          <h3 class="pan-name"><span>Espiritualista</span><span>Intuitiva</span></h3>
+          <div class="pan-meta">Chakra Coronário · Sentido</div>
+        </div>
+      </div>
+
+      <div class="pan-nec">
+        <small>Necessidade maior</small>
+        <p>Sentido e propósito. Precisa sentir que a vida aponta para algo maior que a rotina e o resultado imediato.</p>
+      </div>
+
+      <div class="pan-cap">Como os outros veem</div>
+      <div class="pan-two">
+        <div class="pan-box st"><b>Estereótipo positivo</b><p>O espiritualista. Busca o motivo e a lição maior por trás de tudo o que acontece, e é quem procuram nas horas em que a pergunta não tem resposta prática. Calmo e pouco impressionado com status, traz a leitura que ninguém tinha.</p></div>
+        <div class="pan-box st"><b>Estereótipo negativo</b><p>O alienado que vive nas nuvens. Visto como desligado e pouco prático, alguém que responde pergunta objetiva com filosofia, foge da responsabilidade concreta e chama de desapego o que é fuga.</p></div>
+      </div>
+
+      <div class="pan-cap">Como de fato funciona</div>
+      <div class="pan-two">
+        <div class="pan-box up"><b>Pontos fortes</b><p>Enxerga o todo, ressignifica o que aconteceu e sustenta a incerteza sem desmoronar. Traz calma na crise e sentido onde só havia tarefa.</p></div>
+        <div class="pan-box down"><b>Pontos fracos</b><p>Abstrai o concreto e adia o prático em nome do essencial. Despreza o cotidiano que sustenta tudo e pode usar a aceitação como forma de não agir.</p></div>
+      </div>
+
+      <div class="pan-foot">
+        <span class="vies"><small>O viés que filtra tudo</small><q>Isso é pequeno demais para importar.</q></span>
+        <a class="pan-link" href="personalidade-coronario.html">Conhecer a personalidade Espiritualista</a>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.pcast .rail button'));
+    var pans = Array.prototype.slice.call(document.querySelectorAll('.pcast .pan'));
+    function sel(i){
+      tabs.forEach(function(t,j){ t.setAttribute('aria-selected', String(j===i)); });
+      pans.forEach(function(p,j){ p.hidden = (j!==i); });
+    }
+    tabs.forEach(function(t,i){
+      t.addEventListener('click', function(){ sel(i); });
+      t.addEventListener('keydown', function(e){
+        var d = e.key==='ArrowDown'||e.key==='ArrowRight' ? 1 : (e.key==='ArrowUp'||e.key==='ArrowLeft' ? -1 : 0);
+        if(!d) return;
+        e.preventDefault();
+        var n=(i+d+tabs.length)%tabs.length; sel(n); tabs[n].focus();
+      });
+    });
+  })();
+  </script>
+
+  <div class="inline-cta">
+    <div class="ic-orbs">
+      <i style="background:var(--basico)"></i><i style="background:var(--sacral)"></i><i style="background:var(--plexo)"></i><i style="background:var(--cardiaco)"></i><i style="background:var(--laringeo)"></i><i style="background:var(--frontal)"></i><i style="background:var(--coronario)"></i>
+    </div>
+    <div class="ic-txt">
+      <h3>Qual desses é você?</h3>
+      <p>Quase ninguém acerta o próprio perfil só de ler. O quiz mostra quais frequências dominam em você e em que proporção.</p>
+    </div>
+    <a class="btn" href="questionario-personalidade.html">Descobrir minha personalidade</a>
+  </div>
+
+</section>
+
+<section class="wrap">
+  <h2>Você provavelmente não é um perfil só</h2>
+  <p class="lede">As sete frequências existem em todo mundo, em algum nível. Ninguém tem zero de nada. O tabuleiro é o mesmo — o que muda é a intensidade de cada uma em você, e <b>geralmente entre uma e três ficam no alto</b>.</p>
+
+  <div class="freq">
+    <div class="freq-cap">Exemplo — as sete frequências de uma pessoa</div>
+    <div class="frow hi"><span class="fname">Coronário</span><div class="ftrack"><div class="ffill" style="width:88%;background:var(--coronario)"></div></div><span class="flvl">Alto</span></div>
+    <div class="frow hi"><span class="fname">Frontal</span><div class="ftrack"><div class="ffill" style="width:84%;background:var(--frontal)"></div></div><span class="flvl">Alto</span></div>
+    <div class="frow"><span class="fname">Laríngeo</span><div class="ftrack"><div class="ffill" style="width:52%;background:var(--laringeo)"></div></div><span class="flvl">Médio</span></div>
+    <div class="frow hi"><span class="fname">Cardíaco</span><div class="ftrack"><div class="ffill" style="width:80%;background:var(--cardiaco)"></div></div><span class="flvl">Alto</span></div>
+    <div class="frow"><span class="fname">Plexo Solar</span><div class="ftrack"><div class="ffill" style="width:24%;background:var(--plexo)"></div></div><span class="flvl">Baixo</span></div>
+    <div class="frow"><span class="fname">Sacral</span><div class="ftrack"><div class="ffill" style="width:22%;background:var(--sacral)"></div></div><span class="flvl">Baixo</span></div>
+    <div class="frow"><span class="fname">Básico</span><div class="ftrack"><div class="ffill" style="width:20%;background:var(--basico)"></div></div><span class="flvl">Baixo</span></div>
+    <p class="freq-note">Uma pessoa Espiritualista, Intelectual e Empática. Suas dominantes amplificam em três vezes tudo o que representam — as necessidades, os talentos e também as sombras.</p>
+  </div>
+
+</section>
+
+
+
+<section class="wrap">
+  <h2>Quando você vive na sua personalidade: o efeito 3×</h2>
+  <div class="effect" style="margin-top:22px">
+    <div class="eff in">
+      <h3>Jogando dentro da sua personalidade</h3>
+      <ul>
+        <li>Sua capacidade é três vezes maior</li>
+        <li>Você aprende muito mais rápido</li>
+        <li>O tempo voa</li>
+        <li>O resultado no trabalho vem com naturalidade</li>
+        <li>A vida entra em evolução constante</li>
+      </ul>
+    </div>
+    <div class="eff out">
+      <h3>Jogando fora dela</h3>
+      <ul>
+        <li>Sua capacidade despenca</li>
+        <li>Tudo exige disciplina forçada</li>
+        <li>O tempo se arrasta</li>
+        <li>A infelicidade vira rotina</li>
+        <li>Você fica preso em trabalhos e relações que não funcionam</li>
+      </ul>
+    </div>
+  </div>
+  <p class="lede" style="margin-top:18px;font-size:14px;color:var(--ink3)">Não é falta de esforço. É desalinhamento de frequência — e a saída começa por saber, com precisão, qual é a sua.</p>
+</section>
+
+<!-- ============ DOBRADIÇA ============ -->
+
+<div class="hinge">
+  <div class="wrap">
+    <div class="h-tag">Segunda parte — Necessidades</div>
+    <p class="t">O que te move?</p>
+    <p>O que está por trás de cada pensamento, emoção e ação que você faz? A primeira parte respondeu quem joga. Esta responde por que se joga — e aqui a resposta é a mesma para os sete perfis.</p>
+    <div class="h-chips"><span>Pensamento</span><span>Emoção</span><span>Ação</span></div>
+  </div>
+</div>
+
+<!-- ============ PARTE 2 ============ -->
+
+<section class="wrap">
+  <h2>Tudo o que você faz é para preencher uma necessidade</h2>
+  <p class="lede">Direta ou indiretamente. Abrir um negócio, mudar de cidade, discutir, calar, comer de madrugada, checar o celular de novo — nada disso é aleatório. Cada movimento está tentando atender alguma coisa.</p>
+  <p class="lede" style="margin-top:14px">Nem sempre a que você diria estar buscando. Você pode afirmar que quer uma coisa enquanto seus pensamentos, emoções e ações revelam outra prioridade.</p>
+
+  <div class="flow">
+    <div class="step"><em>Etapa 1</em><h3>Necessidade</h3><p>Algo essencial pede atenção: segurança, prazer, valor, conexão, expressão, conhecimento ou sentido.</p></div>
+    <div class="step"><em>Etapa 2</em><h3>Estratégia</h3><p>Você escolhe um caminho para preencher essa necessidade. Ele pode ser positivo ou negativo.</p></div>
+    <div class="step"><em>Etapa 3</em><h3>Resultado</h3><p>O positivo gera satisfação sustentável. O negativo gera alívio agora e custo depois.</p></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>As sete necessidades, e as duas estratégias para preencher cada uma</h2>
+  <p class="lede">Segurança pode virar estabilidade ou controle. Prazer pode virar criatividade ou vício. Valor pode virar realização ou dominação. A mesma necessidade, dois destinos.</p>
+
+  <div class="needs">
+
+    <div class="need" style="--k:var(--basico)">
+      <div class="n-top"><span class="n-dot"></span><span class="n-need">Segurança</span><span class="n-chakra">Básico — sobrevivência, estabilidade, base material</span><span class="n-emo"><span class="p">Tranquilidade</span> ↔ <span class="n">Ansiedade</span></span></div>
+      <div class="n-forms">
+        <div class="form p"><b>Estratégia positiva</b>Construir estabilidade financeira, cuidar da saúde, criar uma casa segura, planejar o futuro.</div>
+        <div class="form n"><b>Estratégia negativa</b>Viver em medo constante, acumular obsessivamente, controlar pessoas para não perder o chão.</div>
+      </div>
+      <a class="n-link" href="chakra-basico-problemas.html">Ver problemas e estratégias</a>
+    </div>
+
+    <div class="need" style="--k:var(--sacral)">
+      <div class="n-top"><span class="n-dot"></span><span class="n-need">Prazer</span><span class="n-chakra">Sacral — emoção, criatividade, desejo</span><span class="n-emo"><span class="p">Entusiasmo</span> ↔ <span class="n">Tédio</span></span></div>
+      <div class="n-forms">
+        <div class="form p"><b>Estratégia positiva</b>Hobbies, arte, esporte, sexualidade saudável, viajar, explorar a vida.</div>
+        <div class="form n"><b>Estratégia negativa</b>Vícios, compulsões, estímulo sem pausa, fuga constante da realidade.</div>
+      </div>
+      <a class="n-link" href="chakra-sacral-problemas.html">Ver problemas e estratégias</a>
+    </div>
+
+    <div class="need" style="--k:var(--plexo)">
+      <div class="n-top"><span class="n-dot"></span><span class="n-need">Valor</span><span class="n-chakra">Plexo Solar — autonomia, conquista, identidade</span><span class="n-emo"><span class="p">Confiança</span> ↔ <span class="n">Raiva</span></span></div>
+      <div class="n-forms">
+        <div class="form p"><b>Estratégia positiva</b>Desenvolver habilidades, superar desafios, construir algo significativo, liderar com responsabilidade.</div>
+        <div class="form n"><b>Estratégia negativa</b>Dominar pessoas, manipular, competir de forma destrutiva, obsessão por status.</div>
+      </div>
+      <a class="n-link" href="chakra-plexo-solar-problemas.html">Ver problemas e estratégias</a>
+    </div>
+
+    <div class="need" style="--k:var(--cardiaco)">
+      <div class="n-top"><span class="n-dot"></span><span class="n-need">Conexão</span><span class="n-chakra">Cardíaco — amor, empatia, vínculo</span><span class="n-emo"><span class="p">Amor</span> ↔ <span class="n">Mágoa</span></span></div>
+      <div class="n-forms">
+        <div class="form p"><b>Estratégia positiva</b>Amizades verdadeiras, relações saudáveis, cooperação, ajudar sem se perder.</div>
+        <div class="form n"><b>Estratégia negativa</b>Dependência emocional, manipulação afetiva, ausência de limites, sacrifício de si.</div>
+      </div>
+      <a class="n-link" href="chakra-cardiaco-problemas.html">Ver problemas e estratégias</a>
+    </div>
+
+    <div class="need" style="--k:var(--laringeo)">
+      <div class="n-top"><span class="n-dot"></span><span class="n-need">Expressão</span><span class="n-chakra">Laríngeo — comunicação, verdade, criação</span><span class="n-emo"><span class="p">Liberdade</span> ↔ <span class="n">Frustração</span></span></div>
+      <div class="n-forms">
+        <div class="form p"><b>Estratégia positiva</b>Falar a verdade, comunicar ideias, ensinar, criar arte e conteúdo.</div>
+        <div class="form n"><b>Estratégia negativa</b>Mentir, manipular narrativas, usar a comunicação para atacar.</div>
+      </div>
+      <a class="n-link" href="chakra-laringeo-problemas.html">Ver problemas e estratégias</a>
+    </div>
+
+    <div class="need" style="--k:var(--frontal)">
+      <div class="n-top"><span class="n-dot"></span><span class="n-need">Conhecimento</span><span class="n-chakra">Frontal — visão, saber, entendimento</span><span class="n-emo"><span class="p">Clareza</span> ↔ <span class="n">Confusão</span></span></div>
+      <div class="n-forms">
+        <div class="form p"><b>Estratégia positiva</b>Aprender, estudar, refletir, compreender os sistemas da vida.</div>
+        <div class="form n"><b>Estratégia negativa</b>Arrogância intelectual, achar que sabe tudo, usar conhecimento para humilhar.</div>
+      </div>
+      <a class="n-link" href="chakra-frontal-problemas.html">Ver problemas e estratégias</a>
+    </div>
+
+    <div class="need" style="--k:var(--coronario)">
+      <div class="n-top"><span class="n-dot"></span><span class="n-need">Sentido</span><span class="n-chakra">Coronário — propósito, espiritualidade, transcendência</span><span class="n-emo"><span class="p">Paz</span> ↔ <span class="n">Vazio</span></span></div>
+      <div class="n-forms">
+        <div class="form p"><b>Estratégia positiva</b>Espiritualidade saudável, propósito de vida, conexão com algo maior.</div>
+        <div class="form n"><b>Estratégia negativa</b>Fanatismo, submissão cega a autoridades, fuga da realidade concreta.</div>
+      </div>
+      <a class="n-link" href="chakra-coronario-problemas.html">Ver problemas e estratégias</a>
+    </div>
+
+  </div>
+
+  <div class="insight">
+    <p>A necessidade não é o problema. O problema é a estratégia que você usa para satisfazê-la.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>Onde as duas partes se encontram</h2>
+  <div class="eq">
+    <div><b>Personalidade</b><span>é quem você é</span></div>
+    <div><b>Necessidades</b><span>é o que te move</span></div>
+  </div>
+  <p class="bigline">O segredo da felicidade é ter uma vida compatível com quem você é, e aprender a preencher suas necessidades com estratégias saudáveis.</p>
+
+  <div class="measures">
+    <div class="meas">
+      <h3>Quiz de Personalidade</h3>
+      <p>Revela suas frequências dominantes: quem você é, seus talentos e suas sombras previsíveis.</p>
+      <a class="btn" href="questionario-personalidade.html">Descobrir minha personalidade</a>
+    </div>
+    <div class="meas">
+      <h3>Diagnóstico dos Chakras / Necessidades</h3>
+      <p>Revela quais necessidades estão pedindo atenção neste momento e quais estratégias podem gerar movimento.</p>
+      <a class="btn alt" href="questionario.html">Fazer o diagnóstico</a>
+    </div>
+  </div>
+</section>
+
+<section class="cta wrap">
+  <h2>Comece pela régua certa</h2>
+  <p class="lede">Se você não sabe qual é a sua configuração, está se medindo pela régua de outra pessoa. É a coisa mais fácil de corrigir e a que muda mais coisas de uma vez.</p>
+  <p style="margin-top:22px"><a class="btn" href="questionario-personalidade.html">Descobrir minha personalidade</a></p>
+  <p class="note">Cerca de oito minutos. O resultado é uma configuração, não uma caixa.</p>
+</section>
+
+<footer class="wrap">Jogo da Alma — Personalidade e Necessidades · Não substitui acompanhamento profissional.</footer>
+</body>
+</html>

@@ -545,7 +545,6 @@ window.downloadPDF = function() {
     rank.forEach((archId, pos) => {
       checkPage(8);
       const opt = q.options.find(o => o.archId === archId);
-      const pts = POINTS[pos];
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
 
@@ -579,7 +578,6 @@ window.downloadPDF = function() {
   y += 8;
 
   const sorted = calcScores();
-  const maxPts = 175;
 
   sorted.forEach((a, i) => {
     checkPage(12);
@@ -587,28 +585,16 @@ window.downloadPDF = function() {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(10);
 
-    if (i === 0) doc.setTextColor(245, 158, 11);
-    else if (i === 1) doc.setTextColor(139, 92, 246);
-    else if (i === 2) doc.setTextColor(236, 72, 153);
-    else doc.setTextColor(107, 107, 107);
+    if (i === 0) doc.setTextColor(201, 168, 76);
+    else if (i === 1) doc.setTextColor(26, 26, 26);
+    else if (i === 2) doc.setTextColor(107, 107, 107);
+    else doc.setTextColor(154, 154, 154);
 
     doc.text(rankNum + 'o  ' + a.name, mx, y);
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.text('Chakra ' + a.chakra, mx + 2, y + 4);
-
-    // Bar
-    const barX = pw - mx - 50;
-    const barW = 48;
-    const barH = 4;
-    doc.setFillColor(240, 239, 235);
-    doc.roundedRect(barX, y - 2.5, barW, barH, 1.5, 1.5, 'F');
-
-    const fillW = (a.score / maxPts) * barW;
-    const rgb = hexToRgb(a.color);
-    doc.setFillColor(rgb.r, rgb.g, rgb.b);
-    doc.roundedRect(barX, y - 2.5, fillW, barH, 1.5, 1.5, 'F');
 
     y += 12;
   });

@@ -179,8 +179,6 @@ function renderQuiz(app) {
   rank.forEach((archId, i) => {
     const opt = q.options.find(o => o.archId === archId);
     const a = getArchetype(archId);
-    const pts = POINTS[i];
-    const ptsClass = i < 2 ? 'pts-high' : '';
     items += `
       <div class="pq-rank-item" draggable="true" data-idx="${i}"
            ondragstart="onDragStart(event,${i})"
@@ -192,7 +190,6 @@ function renderQuiz(app) {
            ontouchend="onTouchEnd(event)">
         <span class="pq-rank-pos ${posClass(i)}">${i + 1}</span>
         <span class="pq-rank-text">${opt.text}</span>
-        <span class="pq-rank-pts ${ptsClass}">${pts}pts</span>
         <span class="pq-rank-arrows">
           <button class="pq-arrow-btn" onclick="moveItem(${i},-1)" ${i === 0 ? 'disabled' : ''} aria-label="Subir">&#9650;</button>
           <button class="pq-arrow-btn" onclick="moveItem(${i},1)" ${i === 6 ? 'disabled' : ''} aria-label="Descer">&#9660;</button>

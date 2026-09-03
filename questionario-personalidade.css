@@ -191,16 +191,6 @@
   cursor: default;
 }
 
-.pq-rank-pts {
-  font-size: 0.6rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  min-width: 28px;
-  text-align: center;
-  flex-shrink: 0;
-}
-
-.pq-rank-pts.pts-high { color: var(--accent-dark); }
 
 .pq-nav {
   display: flex;

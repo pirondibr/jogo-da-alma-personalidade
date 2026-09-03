@@ -39,7 +39,7 @@ const ARCHETYPES = [
   { id:'tradicional', name:'Tradicional · Eficiente', chakra:'Básico', color:'#D95A55', article:'personalidade-basico-v2.html' },
   { id:'criativa',    name:'Sensível · Amigável · Espontâneo', chakra:'Sacral', color:'#EA8B3A', article:'personalidade-sacral.html' },
   { id:'ambiciosa',   name:'Ambiciosa · Confiante', chakra:'Plexo Solar', color:'#E8A317', article:'personalidade-plexo-solar.html' },
-  { id:'empatica',    name:'Empática · Amigável', chakra:'Cardíaco', color:'#4CAF82', article:'personalidade-cardiaco.html' },
+  { id:'empatica',    name:'Empática', chakra:'Cardíaco', color:'#4CAF82', article:'personalidade-cardiaco.html' },
   { id:'expressiva',  name:'Expressiva · Comunicativa', chakra:'Laríngeo', color:'#4A9FD9', article:'personalidade-laringeo.html' },
   { id:'intelectual', name:'Intelectual · Curiosa', chakra:'Frontal', color:'#8B5CF6', article:'personalidade-frontal.html' },
   { id:'espiritualista', name:'Espiritualista · Intuitiva', chakra:'Coronário', color:'#C77DBA', article:'personalidade-coronario.html' }
@@ -232,7 +232,6 @@ function calcScores() {
 
 function renderResult(app) {
   const sorted = calcScores();
-  const max = 175;
 
   let cards = '';
   sorted.forEach((a, i) => {
@@ -243,8 +242,6 @@ function renderResult(app) {
     else if (i === 1) { cardClass = 'top-2'; rankClass = 'rank-2'; }
     else if (i === 2) { cardClass = 'top-3'; rankClass = 'rank-3'; }
 
-    const pct = ((a.score / max) * 100).toFixed(0);
-
     cards += `
       <div class="pq-result-card ${cardClass}">
         <span class="pq-result-rank ${rankClass}">${rankNum}</span>
@@ -252,10 +249,6 @@ function renderResult(app) {
           <p class="pq-result-name">${a.name}</p>
           <span class="pq-result-chakra">Chakra ${a.chakra}</span>
           <a class="pq-result-link" href="${a.article}" style="color:${a.color}">Conhecer o perfil →</a>
-        </div>
-        <div class="pq-result-bar-wrap">
-          <div class="pq-result-bar-track"><div class="pq-result-bar-fill" style="width:${pct}%;background:${a.color}"></div></div>
-          <span class="pq-result-bar-label" style="color:${a.color}">${a.score} pts</span>
         </div>
       </div>`;
   });
@@ -562,7 +555,7 @@ window.downloadPDF = function() {
         doc.setTextColor(107, 107, 107);
       }
 
-      const posLabel = (pos + 1) + 'o (' + pts + 'pts)';
+      const posLabel = (pos + 1) + 'o';
       doc.text(posLabel, mx, y);
 
       doc.setTextColor(61, 61, 61);
@@ -603,7 +596,7 @@ window.downloadPDF = function() {
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
-    doc.text('Chakra ' + a.chakra + '  -  ' + a.score + ' pts (' + ((a.score / maxPts) * 100).toFixed(0) + '%)', mx + 2, y + 4);
+    doc.text('Chakra ' + a.chakra, mx + 2, y + 4);
 
     // Bar
     const barX = pw - mx - 50;

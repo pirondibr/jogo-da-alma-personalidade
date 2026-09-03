@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personalidade Empática · Amigável — Jogo da Alma</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --bg:#F7F6F3;--card:#FFF;--ink:#1A1A1A;--ink2:#3D3D3D;--ink3:#6B6B6B;--muted:#9A9A9A;
+  --border:#E8E6E1;--border-l:#F0EFEB;--gold:#C9A84C;--gold-soft:rgba(201,168,76,.09);
+  --deep:#16181A;--pos:#3E8E6B;--pos-bg:#F2FAF6;--neg:#B04A46;--neg-bg:#FDF4F3;
+  --basico:#D95A55;--sacral:#EA8B3A;--plexo:#E8A317;--cardiaco:#4CAF82;
+  --laringeo:#4A9FD9;--frontal:#8B5CF6;--coronario:#C77DBA;
+  --k:var(--cardiaco);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.62;font-size:16px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:820px;margin:0 auto;padding:0 24px}
+h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.01em}
+h2{font-size:27px;line-height:1.2;margin-bottom:12px}
+h3{font-size:17px}
+p{max-width:64ch}
+.lede{font-size:16.5px;color:var(--ink2)}
+section{padding:58px 0}
+section+section{border-top:1px solid var(--border)}
+.cap{font-size:11px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.cap::after{content:'';flex:1;height:1px;background:var(--border-l)}
+
+nav{border-bottom:1px solid var(--border);background:rgba(247,246,243,.94);position:sticky;top:0;z-index:5;backdrop-filter:blur(6px)}
+nav .wrap{display:flex;gap:8px;padding-top:12px;padding-bottom:12px;font-size:12.5px;flex-wrap:wrap;align-items:center}
+nav a{color:var(--ink3);text-decoration:none;display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;border:1px solid transparent}
+nav a:hover{background:#fff;border-color:var(--border)}
+nav a i{width:8px;height:8px;border-radius:50%;font-style:normal}
+nav a[aria-current]{background:#fff;border-color:var(--k);color:var(--ink);font-weight:500}
+nav .home{color:var(--muted);margin-right:6px}
+
+/* hero */
+.hero{padding:52px 0 44px;position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:-180px;right:-140px;width:420px;height:420px;border-radius:50%;background:var(--k);opacity:.08;pointer-events:none}
+.crumb{font-size:12.5px;color:var(--muted);margin-bottom:20px}
+.h-top{display:flex;align-items:center;gap:18px;position:relative}
+.orb{width:74px;height:74px;border-radius:50%;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.orb::after{content:'';width:26px;height:26px;border-radius:50%;background:var(--k)}
+.h-eyebrow{font-size:11.5px;font-weight:700;color:var(--k);margin-bottom:4px}
+.hero h1{font-size:42px;line-height:1.06;display:flex;flex-wrap:wrap;gap:0 8px;align-items:baseline}
+.hero h1 span+span::before{content:'·';color:var(--muted);margin-right:8px;font-weight:400}
+.h-meta{font-size:13px;color:var(--muted);margin-top:5px}
+.need{margin-top:26px;border-left:3px solid var(--k);padding:13px 0 13px 20px;position:relative}
+.need small{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:5px}
+.need p{font-family:'Fraunces',serif;font-size:20px;line-height:1.42;max-width:54ch}
+
+/* two-box rows */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.box{border:1px solid var(--border);border-radius:14px;padding:17px 19px;background:var(--card)}
+.box b{display:block;font-size:11px;font-weight:700;margin-bottom:6px;color:var(--muted)}
+.box p{font-size:14px;color:var(--ink2)}
+.box.up{background:var(--pos-bg);border-color:rgba(62,142,107,.2)}
+.box.up b{color:var(--pos)}
+.box.down{background:var(--neg-bg);border-color:rgba(176,74,70,.18)}
+.box.down b{color:var(--neg)}
+.stack{margin-top:14px}
+
+/* dia a dia */
+.areas{margin-top:24px;border-top:1px solid var(--border)}
+.area{display:grid;grid-template-columns:158px 1fr 1fr;gap:0 20px;padding:20px 0;border-bottom:1px solid var(--border)}
+.a-name{font-family:'Fraunces',serif;font-size:18px;line-height:1.25}
+.a-name small{display:block;font-family:'DM Sans';font-size:12px;color:var(--muted);margin-top:2px}
+.a-col b{display:block;font-size:11px;font-weight:700;margin-bottom:4px}
+.a-col p{font-size:13.5px;color:var(--ink2)}
+.a-col.ok b{color:var(--pos)}
+.a-col.risk b{color:var(--neg)}
+.a-col.risk{border-left:1px solid var(--border-l);padding-left:20px}
+
+/* work */
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.chips span{font-size:13px;border:1px solid var(--border);border-radius:999px;padding:5px 13px;background:var(--card);color:var(--ink2)}
+.note{font-size:13px;color:var(--ink3);margin-top:14px}
+
+/* energia */
+.energy{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:22px}
+.en{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:19px 21px}
+.en h3{margin-bottom:7px}
+.en p{font-size:14px;color:var(--ink2)}
+.center{margin-top:14px;background:var(--card);border:1px solid var(--border);border-radius:15px;padding:19px 21px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.center .dot{width:34px;height:34px;border-radius:50%;background:var(--k);opacity:.9;flex-shrink:0}
+.center p{font-size:14px;color:var(--ink2);flex:1;min-width:220px}
+.center a{font-size:13.5px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--k);white-space:nowrap}
+
+/* complementares */
+.comps{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:24px}
+.comp{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:18px 20px;border-top:3px solid var(--c)}
+.comp h3{font-size:16.5px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.comp h3 i{width:9px;height:9px;border-radius:50%;background:var(--c);font-style:normal;flex-shrink:0}
+.comp p{font-size:13.5px;color:var(--ink2)}
+
+/* ambiente ideal */
+.env{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-top:24px}
+.env-col{border:1px solid var(--border);border-radius:15px;padding:18px 19px;background:var(--card)}
+.env-tag{display:inline-block;font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:999px;margin-bottom:10px}
+.env-col h3{font-size:16px;margin-bottom:9px}
+.env-col li{list-style:none;font-size:13.5px;color:var(--ink2);padding:4px 0 4px 15px;position:relative}
+.env-col li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:50%}
+.env-ex{font-size:12.5px;color:var(--ink3);margin-top:11px;padding-top:10px;border-top:1px solid var(--border-l)}
+.env-col.ok{background:var(--pos-bg);border-color:rgba(62,142,107,.2)}
+.env-col.ok .env-tag{background:rgba(62,142,107,.14);color:var(--pos)}
+.env-col.ok li::before{background:var(--pos)}
+.env-col.mid .env-tag{background:var(--gold-soft);color:#8A6D1F}
+.env-col.mid li::before{background:var(--gold)}
+.env-col.bad{background:var(--neg-bg);border-color:rgba(176,74,70,.18)}
+.env-col.bad .env-tag{background:rgba(176,74,70,.12);color:var(--neg)}
+.env-col.bad li::before{background:var(--neg)}
+
+/* régua */
+.tick{margin-top:2px}
+.tick li{list-style:none;font-size:13.5px;color:var(--ink2);padding:4px 0 4px 16px;position:relative}
+.tick li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.45}
+.pull{margin-top:22px;margin-bottom:8px;border-left:2px solid var(--gold);padding-left:22px;font-family:'Fraunces',serif;font-size:21px;line-height:1.45;max-width:44ch}
+
+/* fórmula */
+.fml{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:24px}
+.fml-side{border:1px solid var(--border);border-radius:15px;padding:18px 19px}
+.fml-side b{display:block;font-size:11px;font-weight:700;margin-bottom:11px}
+.fml-side.ok{background:var(--pos-bg);border-color:rgba(62,142,107,.2)}
+.fml-side.ok b{color:var(--pos)}
+.fml-side.bad{background:var(--neg-bg);border-color:rgba(176,74,70,.18)}
+.fml-side.bad b{color:var(--neg)}
+.fml-side .chips{margin-top:0}
+.fml-side .chips span{background:rgba(255,255,255,.75)}
+@media(max-width:720px){.env,.fml{grid-template-columns:1fr}.pull{font-size:18px;max-width:none}}
+
+/* comparação de comportamento */
+.cmp{margin-top:26px;background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden}
+.cmp-head{padding:20px 22px 16px;border-bottom:1px solid var(--border-l);display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.cmp-head h3{font-size:23px;line-height:1.2;flex:1;min-width:200px}
+.cmp-count{font-size:12px;color:var(--muted)}
+.cmp-row{display:grid;grid-template-columns:158px 1fr;gap:16px;padding:12px 22px;border-bottom:1px solid var(--border-l);align-items:baseline}
+.cmp-row:last-child{border-bottom:none}
+.cr-name{font-size:13.5px;color:var(--ink3);display:flex;align-items:center;gap:8px}
+.cr-name i{width:9px;height:9px;border-radius:50%;background:var(--c);flex-shrink:0}
+.cr-txt{font-size:14px;color:var(--ink2)}
+.cmp-row.me{background:rgba(217,90,85,.06);box-shadow:inset 3px 0 0 var(--k)}
+.cmp-row.me .cr-name{color:var(--ink);font-weight:700}
+.cmp-row.me .cr-txt{color:var(--ink);font-family:'Fraunces',serif;font-size:15.5px}
+.cmp-foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 22px;border-top:1px solid var(--border-l);background:#FCFCFA}
+.cmp-nav{display:flex;gap:7px}
+.cmp-nav button{all:unset;cursor:pointer;width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--ink2)}
+.cmp-nav button:hover{border-color:var(--k)}
+.cmp-nav button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.cmp-pager{display:flex;gap:4px;flex-wrap:wrap}
+.cmp-pager button{all:unset;cursor:pointer;min-width:26px;height:26px;padding:0 5px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12.5px;color:var(--muted)}
+.cmp-pager button:hover{background:#fff;color:var(--ink2)}
+.cmp-pager button[aria-current="true"]{background:var(--k);color:#fff}
+.cmp-pager button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+@media(max-width:720px){
+  .cmp-head h3{font-size:19px}
+  .cmp-row{grid-template-columns:1fr;gap:3px;padding:12px 16px}
+  .cmp-foot{padding:12px 16px}
+}
+
+/* cta */
+.cta{background:var(--deep);color:#F2F0EC;padding:62px 0}
+.cta h2{color:#fff;max-width:20ch}
+.cta p{color:rgba(255,255,255,.62);font-size:16px;margin-top:12px;max-width:54ch}
+.btn{display:inline-block;margin-top:24px;background:#F7F6F3;color:var(--ink);padding:13px 26px;border-radius:999px;font-size:15px;font-weight:500;text-decoration:none}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;color:var(--muted)}
+
+@media(max-width:720px){
+  .hero h1{font-size:31px}h2{font-size:23px}section{padding:46px 0}
+  .two,.energy,.comps{grid-template-columns:1fr}
+  .area{grid-template-columns:1fr;gap:10px}
+  .a-col.risk{border-left:none;padding-left:0}
+  .orb{width:58px;height:58px}.orb::after{width:20px;height:20px}
+  .need p{font-size:17.5px}
+}
+
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="home" href="inicial-v2.html">Início</a>
+  <a href="personalidade-basico.html"><i style="background:var(--basico)"></i>Tradicional</a>
+  <a href="personalidade-sacral.html"><i style="background:var(--sacral)"></i>Criativa</a>
+  <a href="personalidade-plexo.html"><i style="background:var(--plexo)"></i>Ambiciosa</a>
+  <a href="personalidade-cardiaco.html" aria-current="page"><i style="background:var(--cardiaco)"></i>Empática</a>
+  <a href="personalidade-laringeo.html"><i style="background:var(--laringeo)"></i>Expressiva</a>
+  <a href="personalidade-frontal.html"><i style="background:var(--frontal)"></i>Intelectual</a>
+  <a href="personalidade-coronario.html"><i style="background:var(--coronario)"></i>Espiritualista</a>
+</div></nav>
+
+<header class="hero">
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <div class="crumb">As sete personalidades</div>
+    <div class="h-top">
+      <div class="orb"></div>
+      <div>
+        <div class="h-eyebrow">Personalidade 04</div>
+        <h1><span>Empática</span><span>Amigável</span></h1>
+        <div class="h-meta">Chakra Cardíaco · Necessidade de Conexão</div>
+      </div>
+    </div>
+    <div class="need">
+      <small>Necessidade maior</small>
+      <p>Conexão, cuidado e pertencimento. Precisa de vínculos verdadeiros, de estar contribuindo na vida de alguém e de sentir que importa.</p>
+    </div>
+    <p class="lede" style="margin-top:20px">Você percebe primeiro como o outro está e o que a situação vai custar para as pessoas envolvidas. O vínculo vem antes do resultado, quase sempre.</p>
+  </div>
+</header>
+
+<section class="wrap">
+  <div class="cap">Como os outros veem</div>
+  <div class="two">
+    <div class="box"><b>Estereótipo positivo</b><p>A pessoa boa. Aquela que todo mundo procura para desabafar, que lembra do aniversário e que aparece na hora difícil sem precisar ser chamada. É o ponto de encontro do grupo e quem defende quem não consegue se defender.</p></div>
+    <div class="box"><b>Estereótipo negativo</b><p>A pessoa que não sabe dizer não. Vista como ingênua e sem posição, alguém que se deixa usar, carrega o problema dos outros de graça e depois reclama sem nunca ter dito nada na hora.</p></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cap">Como de fato funciona</div>
+  <div class="two">
+    <div class="box up"><b>Pontos fortes</b><p>Sente o que o outro sente, compreende, respeita e perdoa com facilidade. Percebe o que a pessoa está precisando antes de ela dizer, media conflito enxergando os dois lados e mantém grupos unidos. Tem valores muito bem definidos e um senso de justiça claro.</p></div>
+    <div class="box down"><b>Pontos fracos</b><p>É muito afetada pelas emoções alheias e pode ficar dependente delas para estar bem. Perdoa em excesso, custa a reconhecer uma situação abusiva e tenta salvar quem não pediu ajuda. Pode ser ciumenta, possessiva e moralista, e esquece de cuidar da própria vida.</p></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>No dia a dia</h2>
+  <p class="lede">A mesma necessidade aparece em todas as áreas da vida. Em cada uma existe a versão que funciona e a versão que aprisiona.</p>
+  <div class="areas">
+    <div class="area">
+      <div class="a-name">Tempo livre<small>Descanso</small></div>
+      <div class="a-col ok"><b>Quando funciona</b><p>Descansa junto de quem ama, ou fazendo algo que contribui com alguém ou alguma causa.</p></div>
+      <div class="a-col risk"><b>O risco</b><p>Passa o tempo livre tentando mudar uma pessoa ou uma situação que não está sob o seu controle.</p></div>
+    </div>
+    <div class="area">
+      <div class="a-name">Amizades<small>Vínculo</small></div>
+      <div class="a-col ok"><b>Quando funciona</b><p>Amigável e aberta com quase todo mundo, cria confiança rápido e sustenta relações longas.</p></div>
+      <div class="a-col risk"><b>O risco</b><p>Acha que sabe o que é melhor para o amigo, exagera na proteção e entra em assunto que não lhe cabe.</p></div>
+    </div>
+    <div class="area">
+      <div class="a-name">Dinheiro<small>Consumo</small></div>
+      <div class="a-col ok"><b>Quando funciona</b><p>Investe no que ajuda alguém: formação, doação, apoio a projeto e causa.</p></div>
+      <div class="a-col risk"><b>O risco</b><p>Empresta, banca e sustenta além do que pode, e não cobra de volta para não desagradar.</p></div>
+    </div>
+    <div class="area">
+      <div class="a-name">Conflito<small>Discussões</small></div>
+      <div class="a-col ok"><b>Quando funciona</b><p>Busca o acordo que serve aos dois lados e entende a diferença de opinião sem levar para o pessoal.</p></div>
+      <div class="a-col risk"><b>O risco</b><p>Fica emotiva e perde o argumento racional. Se a moral dela for ferida, aí entra em conflito sem freio.</p></div>
+    </div>
+    <div class="area">
+      <div class="a-name">Limite<small>Dizer não</small></div>
+      <div class="a-col ok"><b>Quando funciona</b><p>Consegue dizer não quando entende que sustentar o limite é parte do cuidado.</p></div>
+      <div class="a-col risk"><b>O risco</b><p>Diz sim quando queria dizer não, acumula em silêncio e sente culpa quando prioriza a si.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>Trabalho</h2>
+  <p class="lede">Vai ser feliz onde sentir que está tendo impacto positivo na vida de alguém. Não gosta de papéis de cobrar, julgar ou demitir — quer funções de suporte, cuidado e inspiração. Injustiça no trabalho é o que mais desgasta esse perfil.</p>
+  <div class="cap" style="margin-top:26px">Onde costuma render</div>
+  <div class="chips"><span>Saúde</span><span>Educação</span><span>Psicologia e terapias</span><span>Assistência social</span><span>Terceiro setor e ONGs</span><span>Medicina veterinária</span><span>Atendimento e cuidado</span><span>Mediação</span><span>Recursos humanos</span></div>
+  <p class="note">São ambientes onde essa frequência é o valor entregue — não uma lista fechada de profissões. Esse perfil pode trabalhar em qualquer área; o que muda é o que ele precisa encontrar ali para render.</p>
+</section>
+
+<section class="wrap">
+  <h2>Seu ambiente ideal</h2>
+  <p class="lede">Todo ambiente tem uma frequência dominante. Quando ela combina com a sua, você floresce. Quando é oposta, você murcha — e o desgaste aparece como ansiedade, irritação constante e desânimo, mesmo quando não há nada de objetivamente errado.</p>
+  <div class="env">
+    <div class="env-col ok">
+      <span class="env-tag">Alinhado</span>
+      <h3>Você floresce quando</h3>
+      <ul>
+        <li>O trabalho tem impacto humano direto</li>
+        <li>Existe colaboração e não competição</li>
+        <li>As pessoas são tratadas como pessoas</li>
+        <li>O propósito social é claro</li>
+      </ul>
+      <p class="env-ex">Saúde, educação, ONGs, assistência social.</p>
+    </div>
+    <div class="env-col mid">
+      <span class="env-tag">Neutro</span>
+      <h3>Funciona, mas sem brilho</h3>
+      <ul>
+        <li>Gente boa por perto, mas sem propósito claro</li>
+        <li>Falta significado no que se faz</li>
+        <li>“Não tenho do que reclamar, mas falta algo”</li>
+      </ul>
+      <p class="env-ex">É o ambiente mais perigoso, porque não dói o bastante para você sair.</p>
+    </div>
+    <div class="env-col bad">
+      <span class="env-tag">Desalinhado</span>
+      <h3>Você murcha quando</h3>
+      <ul>
+        <li>O ambiente é individualista e competitivo</li>
+        <li>O foco é exclusivamente financeiro</li>
+        <li>Pessoas são números, não seres humanos</li>
+        <li>Empatia é lida como fraqueza</li>
+      </ul>
+      <p class="env-ex">Corporativo agressivo, venda predatória.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>Energia e emoção</h2>
+  <div class="energy">
+    <div class="en"><h3>Expressão emocional</h3><p>Mais emocional que racional, sensível ao que acontece ao redor. Não tem dificuldade de expressar afeto e carinho. Em situação de pressão pode ficar emotiva demais, e às vezes recorre ao vitimismo.</p></div>
+    <div class="en"><h3>Tipo de energia</h3><p>Costuma manter equilíbrio entre energia mental e física, mas a energia física é mais leve e sutil, para atividades tranquilas. A fonte principal de energia é o vínculo: conectada rende, isolada murcha.</p></div>
+  </div>
+  <div class="center">
+    <div class="dot"></div>
+    <p><b>Centro de energia:</b> chakra Cardíaco, no centro do peito. É de onde vem a necessidade de conexão e a capacidade de acolher, cooperar e construir confiança.</p>
+    <a href="chakra-cardiaco.html">Ver o chakra Cardíaco</a>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>Comparação de comportamento</h2>
+  <p class="lede">A mesma situação, sete reações diferentes. É aqui que fica mais fácil enxergar o que é seu e o que é da personalidade de quem está do outro lado.</p>
+  <div class="cmp">
+    <div class="cmp-head">
+      <h3 id="cmpTitle"></h3>
+      <span class="cmp-count" id="cmpCount"></span>
+    </div>
+    <div class="cmp-rows" id="cmpRows"></div>
+    <div class="cmp-foot">
+      <div class="cmp-nav">
+        <button id="cmpPrev" aria-label="Comparação anterior">←</button>
+        <button id="cmpNext" aria-label="Próxima comparação">→</button>
+      </div>
+      <div class="cmp-pager" id="cmpPager"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var P = [["cardiaco", "Empática"], ["basico", "Tradicional"], ["sacral", "Criativa"], ["plexo", "Ambiciosa"], ["laringeo", "Expressiva"], ["frontal", "Intelectual"], ["coronario", "Espiritualista"]];
+  var C = [["Só fale comigo se…", ["For algum assunto em que eu possa te ajudar", "For falar sobre um tema conhecido ou do meu interesse", "For falar sobre algo novo que podemos fazer", "For alguém importante", "For ouvir minha opinião sobre tudo o que tenho a dizer", "For conversar sobre algo intelectual e profundo", "Não fale comigo em hipótese alguma"]], ["Usam o conhecimento para…", ["Ajudar mais pessoas", "Executar algo, ou fazer de forma mais rápida e prática", "Ter mais tempo livre", "Ganhar mais dinheiro", "Ganhar mais debates e discussões", "Aprofundar ainda mais, porque nunca sabem o suficiente", "Não precisar mais falar com ninguém"]], ["Em uma reunião…", ["Querem que todos saiam satisfeitos com o resultado", "Prestam atenção ao que lhes cabe", "Ficam entediados e pensando em outras coisas", "Querem liderar e traçar metas", "Falam mais que todos e querem que sua opinião pese mais", "Enxergam muitas formas de resolver cada ponto discutido", "Não vão à reunião, estão ocupados meditando"]], ["Em uma discussão…", ["Se magoam e levam para o lado pessoal", "Fingem que não é com eles", "Ficam emocionais e defensivos", "Não gostam de perder, e você nunca terá razão", "Falam tudo o que pensam sem filtro", "Analisam o tema e trazem argumentos incontestáveis", "Não entram em discussões"]], ["Esperam de um relacionamento…", ["Conexão e contribuição mútua", "Estabilidade e tranquilidade", "Diversão e parceria", "Importância e reconhecimento", "Atenção e alguém que os escute", "Crescimento e aprendizado", "Não costumam procurar um relacionamento"]], ["Me convide para…", ["Ajudar alguém ou apoiar uma causa", "Fazer alguma coisa com pessoas conhecidas", "Viajar, ir a festas e conhecer lugares e pessoas novas", "Um evento de networking ou com gente influente", "Dar uma palestra ou falar para um público", "Estudar, pesquisar, ler, fazer cursos e seminários", "Meditar bem longe da sociedade"]], ["Relação com a família…", ["Quer resolver o problema de todos e vive apartando briga", "Estável, leal e às vezes muito dependente", "Está em todas as festas, mas foge dos problemas", "Manda quem pode, obedece quem tem juízo", "Fala com todo mundo e faz piada sobre tudo", "Geralmente não diz à família o que realmente pensa", "Família? O que é isso?"]], ["A família os vê como…", ["Bonzinhos, mas às vezes emotivos demais", "Leais, tranquilos e comprometidos", "Incontroláveis e às vezes irresponsáveis", "Líderes, e às vezes rígidos demais", "A pessoa que não para de falar, às vezes cansativa", "Estudiosos, inteligentes e nerds", "Incompreendidos, que ainda não encontraram seu lugar"]], ["Os amigos os veem como…", ["Sempre prontos para ajudar e dar suporte emocional", "Estáveis e previsíveis, sabem que sempre estarão lá", "Divertidos, sempre prontos para uma nova aventura", "Disciplinados e focados no sucesso", "Extrovertidos, mas que às vezes não deixam os outros falarem", "Inteligentes e perceptivos, porém às vezes sérios demais", "Amigos? O que é isso?"]], ["Na vida a dois…", ["Precisam de conexão emocional profunda antes de qualquer coisa", "Preferem quem já conhecem e o que já têm prática", "Gostam de inovar no lugar, na roupa e no clima", "Gostam de conduzir e de se sentir os melhores parceiros", "Gostam de se expressar, falar, provocar, fazer barulho", "Pesquisam, testam e estão sempre atrás de novas formas", "Têm pouca libido e pouco interesse nessa área"]], ["Em uma viagem de férias…", ["Buscam conhecer a cultura e as pessoas locais", "Vão a lugares que já conhecem e onde têm tudo por perto", "Se aventuram em locais novos, muitas vezes sem planejar", "Vão onde possam exibir conquistas ou encontrar gente influente", "Procuram lugares movimentados, sempre em meio social", "Escolhem onde possam aprender e se divertir ao mesmo tempo", "Se isolam e escolhem lugares pouco habitados"]], ["Na vida profissional…", ["Se preocupam mais com colegas e clientes do que com o próprio progresso", "São focados no que precisa ser feito e gostam da rotina", "Preferem tarefas dinâmicas, sem pressão e com flexibilidade", "Buscam poder, sucesso e dinheiro, e lidam bem com pressão", "Procuram posições onde sua opinião tenha mais peso", "Querem sempre expandir, inovar e aprender, nunca ficam satisfeitos", "Raramente se encaixam nos empregos comuns"]], ["Como cuidam da saúde mental…", ["Falam sobre o que estão sentindo", "Evitam conflito e situações diferentes", "Buscam festa e estímulo para não sentir o desconforto", "Se mantêm ativos e trabalhando", "Descarregam falando, muitas vezes com ironia", "Encontram uma nova teoria para estudar", "Meditam por mais horas no dia"]]];
+  var i = 0;
+  var elT = document.getElementById('cmpTitle'), elR = document.getElementById('cmpRows');
+  var elC = document.getElementById('cmpCount'), elP = document.getElementById('cmpPager');
+  C.forEach(function(c, n){
+    var b = document.createElement('button');
+    b.textContent = n + 1;
+    b.addEventListener('click', function(){ go(n); });
+    elP.appendChild(b);
+  });
+  function go(n){
+    i = (n + C.length) % C.length;
+    elT.textContent = C[i][0];
+    elC.textContent = (i + 1) + ' de ' + C.length;
+    elR.innerHTML = '';
+    P.forEach(function(p, j){
+      var row = document.createElement('div');
+      row.className = 'cmp-row' + (j === 0 ? ' me' : '');
+      row.style.setProperty('--c', 'var(--' + p[0] + ')');
+      row.innerHTML = '<span class="cr-name"><i></i>' + p[1] + '</span><span class="cr-txt">' + C[i][1][j] + '</span>';
+      elR.appendChild(row);
+    });
+    Array.prototype.forEach.call(elP.children, function(b, n2){ b.setAttribute('aria-current', String(n2 === i)); });
+  }
+  document.getElementById('cmpPrev').addEventListener('click', function(){ go(i - 1); });
+  document.getElementById('cmpNext').addEventListener('click', function(){ go(i + 1); });
+  go(0);
+})();
+</script>
+
+<section class="wrap">
+  <h2>Como lidar com sua autocobrança?</h2>
+  <p class="lede">A maior parte do sofrimento por autocobrança vem de se medir pela régua errada. A Empática costuma se medir pela régua da Ambiciosa ou da Expressiva. Você não precisa competir, liderar ou brilhar no centro: precisa conectar, cuidar e ter limite.</p>
+  <div class="two" style="margin-top:24px">
+    <div class="box up"><b>Faz sentido se cobrar</b><ul class="tick">
+        <li>Colocar limite claro</li>
+        <li>Cuidar de si antes dos outros</li>
+        <li>Aprender a dizer não sem culpa</li>
+        <li>Não confundir amor com autoanulação</li>
+    </ul></div>
+    <div class="box down"><b>Não faz sentido se cobrar</b><ul class="tick">
+        <li>Ser competitiva ou individualista</li>
+        <li>Colocar resultado acima de pessoas</li>
+        <li>Ser emocionalmente independente de vínculos</li>
+        <li>Priorizar carreira sobre conexão humana</li>
+    </ul></div>
+  </div>
+  <blockquote class="pull">Você não precisa ser mais dura. Precisa ser mais seletiva. Cuidar de todos é impossível. Cuidar dos certos, incluindo você, é sabedoria.</blockquote>
+</section>
+
+<section class="wrap">
+  <h2 style="margin-top:8px">A fórmula de sucesso da Empática</h2>
+  <p class="lede">Sucesso não é a mesma coisa para todo mundo. Sucesso para a Empática não é conquista material nem destaque. É impacto humano, conexão de verdade e a sensação de estar fazendo diferença para alguém.</p>
+  <div class="fml">
+    <div class="fml-side ok"><b>O que funciona para você</b><div class="chips"><span>Conexão humana</span><span>Contribuição social</span><span>Reconhecimento afetivo</span><span>Propósito claro</span><span>Colaboração</span><span>Vínculo profundo</span></div></div>
+    <div class="fml-side bad"><b>O que vai te frustrar</b><div class="chips"><span>Trabalho individualista</span><span>Foco só em dinheiro</span><span>Competição destrutiva</span><span>Isolamento social</span><span>Ambiente sem empatia</span><span>Ausência de propósito</span></div></div>
+  </div>
+  <p class="lede" style="margin-top:22px">A Empática que encontra propósito vai longe, não pela velocidade e sim pela profundidade. A que ignora a própria necessidade de conexão adoece em silêncio, carregando um vazio que nenhum salário preenche.</p>
+</section>
+
+<section class="wrap">
+  <h2>Personalidades complementares</h2>
+  <p class="lede">Ninguém é um perfil puro. Existe uma personalidade dominante, que responde pela maior parte das suas necessidades e comportamentos, e uma ou duas complementares logo atrás. A complementar não substitui a dominante — ela muda o jeito como a dominante se expressa.</p>
+  <p class="lede" style="margin-top:12px">Veja qual dessas combinações faz mais sentido para você.</p>
+  <div class="comps">
+    <div class="comp" style="--c:var(--basico)">
+      <h3><i></i>Empática + Tradicional</h3>
+      <p>Você quer ajudar as pessoas de forma simples e próxima, sem precisar de grande escala nem de grande impacto.</p>
+    </div>
+    <div class="comp" style="--c:var(--sacral)">
+      <h3><i></i>Empática + Criativa</h3>
+      <p>Você quer ajudar de forma leve e social, por meio de conversa, encontro e do que for mais dinâmico.</p>
+    </div>
+    <div class="comp" style="--c:var(--plexo)">
+      <h3><i></i>Empática + Ambiciosa</h3>
+      <p>Você quer ajudar de forma impactante: muita gente, ou gente enfrentando problemas realmente grandes.</p>
+    </div>
+    <div class="comp" style="--c:var(--laringeo)">
+      <h3><i></i>Empática + Expressiva</h3>
+      <p>Você quer ajudar através da sua voz, inspirando, explicando e mostrando caminhos para grupos.</p>
+    </div>
+    <div class="comp" style="--c:var(--frontal)">
+      <h3><i></i>Empática + Intelectual</h3>
+      <p>Você quer ajudar de forma profunda, ensinando a pessoa a mudar a própria forma de pensar e de agir.</p>
+    </div>
+    <div class="comp" style="--c:var(--coronario)">
+      <h3><i></i>Empática + Espiritualista</h3>
+      <p>Você quer ajudar as pessoas a sofrerem menos com o que não podem controlar, mostrando outra forma de ver.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <h2>Tem certeza de que essa é a sua?</h2>
+    <p>Quase ninguém acerta o próprio perfil só de ler. O quiz mostra quais frequências dominam em você, em que proporção, e qual é a sua complementar.</p>
+    <a class="btn" href="questionario-personalidade.html">Descobrir minha personalidade</a>
+  </div>
+</section>
+
+<footer class="wrap">Jogo da Alma — Personalidade Empática · Amigável · Não substitui acompanhamento profissional.</footer>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personalidade Espiritualista · Intuitiva — Jogo da Alma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F6F3;--card:#FFF;--ink:#1A1A1A;--ink2:#3D3D3D;--ink3:#6B6B6B;--muted:#9A9A9A;
+  --border:#E8E6E1;--border-l:#F0EFEB;--gold:#C9A84C;--gold-soft:rgba(201,168,76,.10);
+  --deep:#16181A;--pos:#3E8E6B;--pos-bg:#F2FAF6;--neg:#B04A46;--neg-bg:#FDF4F3;
+  --basico:#D95A55;--sacral:#EA8B3A;--plexo:#E8A317;--cardiaco:#4CAF82;
+  --laringeo:#4A9FD9;--frontal:#8B5CF6;--coronario:#C77DBA;--k:#C77DBA;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.62;font-size:16px;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:820px;margin:0 auto;padding:0 24px}
+h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.01em}
+h2{font-size:30px;line-height:1.2;margin-bottom:12px} h3{font-size:17px}
+p{max-width:64ch}.lede{font-size:16.5px;color:var(--ink2)}
+section{padding:60px 0} section+section{border-top:1px solid var(--border)}
+.cap{font-size:11px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:10px;margin-bottom:10px;text-transform:uppercase;letter-spacing:.02em}
+.cap::after{content:'';flex:1;height:1px;background:var(--border-l)}
+.kicker{font-family:'Fraunces',serif;font-size:13px;font-style:italic;color:var(--gold);margin-bottom:10px}
+
+nav{border-bottom:1px solid var(--border);background:rgba(247,246,243,.94);position:sticky;top:0;z-index:10;backdrop-filter:blur(7px)}
+nav .wrap{display:flex;gap:8px;padding-top:12px;padding-bottom:12px;font-size:12.5px;flex-wrap:wrap;align-items:center}
+nav a{color:var(--ink3);text-decoration:none;display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;border:1px solid transparent}
+nav a:hover{background:#fff;border-color:var(--border)} nav a i{width:8px;height:8px;border-radius:50%}
+nav a[aria-current]{background:#fff;border-color:var(--k);color:var(--ink);font-weight:500}.home{color:var(--muted)!important;margin-right:6px}
+
+.hero{padding:58px 0 48px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero-glow{position:absolute;top:-180px;right:-140px;width:420px;height:420px;border-radius:50%;background:var(--k);opacity:.08;pointer-events:none}
+.crumb{font-size:12.5px;color:var(--muted);margin-bottom:22px}.h-top{display:flex;align-items:center;gap:18px;position:relative}
+.orb{width:76px;height:76px;border-radius:50%;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 18px rgba(0,0,0,.025)}
+.orb::after{content:'';width:27px;height:27px;border-radius:50%;background:var(--k)}
+.h-eyebrow{font-size:11.5px;font-weight:700;color:var(--k);margin-bottom:4px}.hero h1{font-size:43px;line-height:1.06;display:flex;flex-wrap:wrap;gap:0 8px}
+.hero h1 span+span::before{content:'·';color:var(--muted);margin-right:8px;font-weight:400}.h-meta{font-size:13px;color:var(--muted);margin-top:5px}
+.need{margin-top:28px;border-left:3px solid var(--k);padding:13px 0 13px 20px}.need small{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:5px}
+.need p{font-family:'Fraunces',serif;font-size:21px;line-height:1.42;max-width:54ch}.hero .intro{margin-top:20px;color:var(--ink2);font-size:16.5px}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.box{border:1px solid var(--border);border-radius:15px;padding:18px 20px;background:var(--card)}
+.box b{display:block;font-size:11px;font-weight:700;margin-bottom:7px;color:var(--muted)}.box p{font-size:14px;color:var(--ink2)}
+.box.up{background:var(--pos-bg);border-color:rgba(62,142,107,.2)}.box.up b{color:var(--pos)}
+.box.down{background:var(--neg-bg);border-color:rgba(176,74,70,.18)}.box.down b{color:var(--neg)}
+
+.traits{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.trait{border-radius:15px;padding:18px 20px;border:1px solid var(--border);background:var(--card)}
+.trait h3{margin-bottom:7px}.trait p{font-size:14px;color:var(--ink2)}.trait.good{box-shadow:inset 3px 0 0 var(--pos)}.trait.pressure{box-shadow:inset 3px 0 0 var(--neg)}
+.bias{margin-top:16px;padding:18px 20px;border-radius:14px;background:color-mix(in srgb,var(--k) 7%,#fff);border:1px solid color-mix(in srgb,var(--k) 20%,var(--border))}
+.bias small{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:3px}.bias q{font-family:'Fraunces',serif;font-size:21px;font-style:italic}.bias q::before,.bias q::after{content:'“';}.bias q::after{content:'”'}
+
+.areas{margin-top:24px;border-top:1px solid var(--border)}.area{display:grid;grid-template-columns:150px 1fr 1fr;gap:0 20px;padding:20px 0;border-bottom:1px solid var(--border)}
+.a-name{font-family:'Fraunces',serif;font-size:18px;line-height:1.25}.a-name small{display:block;font-family:'DM Sans';font-size:12px;color:var(--muted);margin-top:2px}
+.a-col b{display:block;font-size:11px;font-weight:700;margin-bottom:4px}.a-col p{font-size:13.5px;color:var(--ink2)}.a-col.ok b{color:var(--pos)}
+.a-col.risk{border-left:1px solid var(--border-l);padding-left:20px}.a-col.risk b{color:var(--neg)}
+
+.cmp{margin-top:26px;background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden}.cmp-head{padding:20px 22px 16px;border-bottom:1px solid var(--border-l);display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.cmp-head h3{font-size:23px;line-height:1.2;flex:1;min-width:200px}.cmp-count{font-size:12px;color:var(--muted)}
+.cmp-row{display:grid;grid-template-columns:158px 1fr;gap:16px;padding:12px 22px;border-bottom:1px solid var(--border-l);align-items:baseline}.cmp-row:last-child{border-bottom:none}
+.cr-name{font-size:13.5px;color:var(--ink3);display:flex;align-items:center;gap:8px}.cr-name i{width:9px;height:9px;border-radius:50%;background:var(--c);flex-shrink:0}.cr-txt{font-size:14px;color:var(--ink2)}
+.cmp-row.me{background:rgba(217,90,85,.06);box-shadow:inset 3px 0 0 var(--k)}.cmp-row.me .cr-name{color:var(--ink);font-weight:700}.cmp-row.me .cr-txt{color:var(--ink);font-family:'Fraunces',serif;font-size:15.5px}
+.cmp-foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 22px;border-top:1px solid var(--border-l);background:#FCFCFA}.cmp-nav{display:flex;gap:7px}
+.cmp-nav button{all:unset;cursor:pointer;width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center}.cmp-pager{display:flex;gap:4px;flex-wrap:wrap}
+.cmp-pager button{all:unset;cursor:pointer;min-width:26px;height:26px;padding:0 5px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12.5px;color:var(--muted)}.cmp-pager button[aria-current=true]{background:var(--k);color:#fff}
+
+.workgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}.workcard{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:20px 22px}.workcard h3{margin-bottom:8px}.workcard p{font-size:14px;color:var(--ink2)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}.chips span{font-size:13px;border:1px solid var(--border);border-radius:999px;padding:5px 13px;background:#fff;color:var(--ink2)}.note{font-size:13px;color:var(--ink3);margin-top:14px}
+
+.env{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-top:24px}.env-col{border:1px solid var(--border);border-radius:15px;padding:18px 19px;background:var(--card)}
+.env-tag{display:inline-block;font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:999px;margin-bottom:10px}.env-col h3{font-size:16px;margin-bottom:9px}.env-col li{list-style:none;font-size:13.5px;color:var(--ink2);padding:4px 0 4px 15px;position:relative}.env-col li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:50%}
+.env-ex{font-size:12.5px;color:var(--ink3);margin-top:11px;padding-top:10px;border-top:1px solid var(--border-l)}.env-col.ok{background:var(--pos-bg);border-color:rgba(62,142,107,.2)}.env-col.ok .env-tag{background:rgba(62,142,107,.14);color:var(--pos)}.env-col.ok li::before{background:var(--pos)}
+.env-col.mid .env-tag{background:var(--gold-soft);color:#8A6D1F}.env-col.mid li::before{background:var(--gold)}.env-col.bad{background:var(--neg-bg);border-color:rgba(176,74,70,.18)}.env-col.bad .env-tag{background:rgba(176,74,70,.12);color:var(--neg)}.env-col.bad li::before{background:var(--neg)}
+
+.expect{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}.tick{margin-top:2px}.tick li{list-style:none;font-size:13.5px;color:var(--ink2);padding:4px 0 4px 16px;position:relative}.tick li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.45}
+.pull{margin-top:24px;border-left:2px solid var(--gold);padding-left:22px;font-family:'Fraunces',serif;font-size:23px;line-height:1.45;max-width:44ch}
+
+.formula{background:var(--deep);color:#F2F0EC;border-top:none!important}.formula h2{color:#fff}.formula .lede{color:rgba(255,255,255,.65)}
+.fml{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}.fml-side{border:1px solid rgba(255,255,255,.12);border-radius:15px;padding:19px 20px;background:rgba(255,255,255,.035)}.fml-side b{display:block;font-size:11px;font-weight:700;margin-bottom:11px}.fml-side.ok b{color:#75C7A4}.fml-side.bad b{color:#E48B86}.fml-side .chips{margin-top:0}.fml-side .chips span{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.13);color:rgba(255,255,255,.82)}
+.formula-note{font-size:15px;color:rgba(255,255,255,.72);margin-top:22px;max-width:62ch}
+
+.comps{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:24px}.comp{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:18px 20px;border-top:3px solid var(--c)}.comp h3{font-size:16.5px;margin-bottom:6px;display:flex;align-items:center;gap:8px}.comp h3 i{width:9px;height:9px;border-radius:50%;background:var(--c)}.comp p{font-size:13.5px;color:var(--ink2)}
+
+.cta{background:#fff;border-top:1px solid var(--border);padding:64px 0 72px}.cta-box{border:1px solid var(--border);border-radius:20px;padding:28px 30px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}.cta-txt{flex:1;min-width:250px}.cta h2{font-size:26px;margin-bottom:6px}.cta p{font-size:14.5px;color:var(--ink3)}.btn{display:inline-block;background:var(--ink);color:#F7F6F3;padding:12px 22px;border-radius:999px;font-size:14.5px;font-weight:500;text-decoration:none;white-space:nowrap}
+footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;color:var(--muted)}
+
+
+/* sentir: energia, emoção e regulação */
+.feel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.feel-card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:20px 21px}
+.feel-card .feel-tag{font-size:10.5px;font-weight:700;color:var(--k);text-transform:uppercase;letter-spacing:.03em;margin-bottom:8px}
+.feel-card h3{font-size:18px;margin-bottom:7px}.feel-card p{font-size:14px;color:var(--ink2)}
+.energy-center{margin-top:14px;background:color-mix(in srgb,var(--k) 6%,#fff);border:1px solid color-mix(in srgb,var(--k) 18%,var(--border));border-radius:16px;padding:19px 21px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.energy-center .ec-orb{width:42px;height:42px;border-radius:50%;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.energy-center .ec-orb::after{content:'';width:15px;height:15px;border-radius:50%;background:var(--k)}
+.energy-center .ec-copy{flex:1;min-width:220px}.energy-center .ec-copy b{font-family:'Fraunces',serif;font-size:17px;font-weight:500;display:block;margin-bottom:2px}.energy-center .ec-copy p{font-size:13.5px;color:var(--ink2)}
+.energy-center a{font-size:13.5px;font-weight:500;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--k);white-space:nowrap}
+.energy-center a:hover{color:var(--k)}
+
+@media(max-width:720px){
+  .hero h1{font-size:32px}h2{font-size:24px}section{padding:48px 0}.two,.traits,.workgrid,.env,.expect,.fml,.comps{grid-template-columns:1fr}.area{grid-template-columns:1fr;gap:10px}.a-col.risk{border-left:none;padding-left:0}.cmp-row{grid-template-columns:1fr;gap:3px;padding:12px 16px}.cmp-foot{padding:12px 16px}.orb{width:58px;height:58px}.orb::after{width:20px;height:20px}.need p{font-size:18px}.pull{font-size:20px}.cta-box{padding:22px}.btn{width:100%;text-align:center}
+}
+</style>
+</head>
+
+<body>
+<nav><div class="wrap"><a class="home" href="inicial-v2-3.html">Início</a><a href="personalidade-basico-v2.html"><i style="background:var(--basico)"></i>Tradicional</a><a href="personalidade-sacral-v2.html"><i style="background:var(--sacral)"></i>Sensível</a><a href="personalidade-plexo-v2.html"><i style="background:var(--plexo)"></i>Ambiciosa</a><a href="personalidade-cardiaco-v2.html"><i style="background:var(--cardiaco)"></i>Empática</a><a href="personalidade-laringeo-v2.html"><i style="background:var(--laringeo)"></i>Expressiva</a><a href="personalidade-frontal-v2.html"><i style="background:var(--frontal)"></i>Intelectual</a><a href="personalidade-coronario-v2.html" aria-current="page"><i style="background:var(--coronario)"></i>Espiritualista</a></div></nav>
+<header class="hero"><div class="hero-glow"></div><div class="wrap">
+<div class="crumb">As sete personalidades</div>
+<div class="h-top"><div class="orb"></div><div><div class="h-eyebrow">Personalidade 07</div>
+<h1><span>Espiritualista</span><span>Intuitiva</span></h1>
+<div class="h-meta">Chakra Coronário · Necessidade de Sentido</div></div></div>
+<div class="need"><small>Necessidade maior</small><p>Sentido e propósito. Precisa perceber que a vida aponta para algo maior que a rotina imediata e conseguir integrar os acontecimentos em uma visão mais ampla.</p></div>
+<p class="intro">Você percebe primeiro o significado por trás do que acontece. Problemas concretos podem parecer pequenos diante do todo — e essa perspectiva é ao mesmo tempo sua maior força e seu maior risco.</p>
+</div></header>
+
+<section class="wrap"><div class="kicker">1. Entender</div><h2>Como essa personalidade funciona</h2>
+<p class="lede">A Espiritualista organiza a vida a partir de sentido e integração. Quando essa energia está proporcional, ela vira perspectiva, imaginação e confiança. Quando passa do ponto, visão ampla pode virar abstração, passividade e desconexão do concreto.</p>
+<div class="cap" style="margin-top:26px">Como costuma ser vista</div>
+<div class="two"><div class="box"><b>Visão positiva</b><p>A pessoa que traz perspectiva quando todos estão presos no imediato. Enxerga relações entre acontecimentos, aceita incerteza e ajuda a lembrar que nem tudo precisa ser controlado agora.</p></div>
+<div class="box"><b>Visão negativa</b><p>A pessoa que vive nas nuvens. Pode ser vista como alienada, pouco prática, passiva ou como alguém que transforma qualquer problema concreto em filosofia para evitar agir.</p></div></div>
+<div class="cap" style="margin-top:24px">Como tende a funcionar de verdade</div>
+<div class="traits"><div class="trait good"><h3>Quando está bem</h3><p>É intuitiva, integradora, imaginativa, reflexiva e confiante. Sustenta incerteza, enxerga o todo e encontra significado mesmo quando a resposta ainda não está disponível.</p></div>
+<div class="trait pressure"><h3>Quando está sob pressão</h3><p>Afasta-se do concreto, idealiza possibilidades, posterga decisões e pode usar desapego ou significado como justificativa para não lidar com aquilo que exige presença, limite e execução.</p></div></div>
+<div class="bias"><small>O viés que filtra tudo</small><q>Se eu entender o sentido maior, o restante se resolve.</q></div></section>
+
+<section class="wrap"><div class="kicker">2. Reconhecer</div><h2>Como isso aparece no dia a dia</h2>
+<p class="lede">A mesma necessidade muda de forma conforme o contexto. Em cada área existe uma versão proporcional — e um ponto em que a capacidade começa a trabalhar contra você.</p>
+<div class="areas"><div class="area"><div class="a-name">Tempo livre<small>Contemplação</small></div>
+        <div class="a-col ok"><b>Quando funciona</b><p>Recupera energia com silêncio, reflexão, natureza, imaginação e tempo sem obrigação de produzir.</p></div>
+        <div class="a-col risk"><b>Quando pesa</b><p>Pode se recolher tanto que descanso vira afastamento da vida prática e das relações que precisam de presença.</p></div></div>
+<div class="area"><div class="a-name">Amizades<small>Afinidade</small></div>
+        <div class="a-col ok"><b>Quando funciona</b><p>Prefere poucas relações com valores alinhados, espaço para profundidade e respeito à autonomia.</p></div>
+        <div class="a-col risk"><b>Quando pesa</b><p>Pode desaparecer por longos períodos e pressupor que o vínculo continuará intacto sem manutenção.</p></div></div>
+<div class="area"><div class="a-name">Dinheiro<small>Simplicidade</small></div>
+        <div class="a-col ok"><b>Quando funciona</b><p>Usa recursos de forma mais desapegada e prioriza experiência, aprendizado, liberdade e significado.</p></div>
+        <div class="a-col risk"><b>Quando pesa</b><p>Pode negligenciar planejamento, prazo e segurança material por considerar o concreto pequeno demais.</p></div></div>
+<div class="area"><div class="a-name">Conflito<small>Perspectiva</small></div>
+        <div class="a-col ok"><b>Quando funciona</b><p>Não escala briga por vaidade, consegue observar de fora e separar o essencial do ruído.</p></div>
+        <div class="a-col risk"><b>Quando pesa</b><p>Pode se retirar antes de resolver o que precisa de conversa, limite ou decisão objetiva.</p></div></div>
+<div class="area"><div class="a-name">Vida prática<small>Manifestação</small></div>
+        <div class="a-col ok"><b>Quando funciona</b><p>Quando traz a visão para o concreto, consegue escolher com grande clareza o que realmente importa.</p></div>
+        <div class="a-col risk"><b>Quando pesa</b><p>Pode adiar execução em nome de uma visão mais perfeita, até o pequeno virar urgente.</p></div></div></div></section>
+
+<section class="wrap"><div class="kicker">3. Sentir</div><h2>Como você sente e regula sua energia</h2>
+<p class="lede">Personalidade também é experiência interna: o que tende a ativar você, como essa ativação é sentida e quais caminhos ajudam a recuperar proporção.</p>
+<div class="feel-grid">
+<div class="feel-card"><div class="feel-tag">Emoção</div><h3>Tende a ampliar a perspectiva antes de reagir</h3><p>Diante de emoções intensas, frequentemente procura significado, contexto ou uma visão maior. Isso pode trazer serenidade, mas também afastar do sentimento específico que ainda precisa ser vivido.</p></div>
+<div class="feel-card"><div class="feel-tag">Energia</div><h3>Energia cresce com sentido e espaço interno</h3><p>Propósito, autonomia, contemplação e possibilidade de integrar ideias tendem a energizar. Microgestão, urgência permanente e tarefa sem significado drenam muito rápido.</p></div>
+<div class="feel-card"><div class="feel-tag">Regulação</div><h3>Regula através de integração — e aterramento</h3><p>Silêncio, contemplação, natureza, escrita reflexiva e reconexão com propósito ajudam a reorganizar a energia. O equilíbrio exige também voltar ao corpo, ao prazo e ao próximo passo concreto.</p></div></div>
+<div class="energy-center"><div class="ec-orb"></div><div class="ec-copy"><b>Centro de energia: Chakra Coronário</b>
+<p>Dentro do Jogo da Alma, é o centro associado a sentido, integração, confiança, imaginação e visão do todo. A futura página do chakra aprofunda essa energia para além da personalidade Espiritualista.</p></div><a href="chakra-coronario.html">Ver o Chakra Coronário →</a></div></section>
+
+<section class="wrap"><div class="kicker">4. Comparar</div><h2>A mesma situação, sete respostas</h2>
+<p class="lede">Comparar ajuda a separar “o jeito certo” do “meu jeito”. A mesma realidade pode ativar prioridades completamente diferentes em cada personalidade.</p>
+<div class="cmp"><div class="cmp-head"><h3 id="cmpTitle"></h3><span class="cmp-count" id="cmpCount"></span></div>
+<div class="cmp-rows" id="cmpRows"></div><div class="cmp-foot"><div class="cmp-nav"><button id="cmpPrev">←</button><button id="cmpNext">→</button></div><div class="cmp-pager" id="cmpPager"></div></div></div></section>
+
+<section class="wrap"><div class="kicker">5. Compatibilizar</div><h2>Onde você tende a render melhor</h2>
+<p class="lede">Compatibilidade não limita profissão. Ela mostra quais condições permitem que sua capacidade apareça com menos atrito e menos gasto de energia.</p>
+<div class="workgrid"><div class="workcard"><h3>O trabalho combina mais quando…</h3><p>Existe propósito percebido, autonomia, espaço para reflexão, visão ampla e conexão entre o trabalho diário e algo que faça sentido para você.</p><div class="chips"><span>Filosofia</span><span>Ensino</span><span>Escrita</span><span>Projetos de propósito</span><span>Sustentabilidade</span><span>Consultoria</span><span>Pesquisa conceitual</span><span>Práticas contemplativas</span></div></div>
+<div class="workcard"><h3>O trabalho pesa mais quando…</h3><p>O ambiente é materialista, orientado apenas a resultado imediato, microgerenciado ou exige execução repetitiva sem mostrar por que aquilo importa.</p></div></div>
+<div class="cap" style="margin-top:32px">Seu ambiente ideal</div>
+<div class="env">
+<div class="env-col ok"><span class="env-tag">Alinhado</span><h3>Você floresce quando</h3><ul><li>Existe propósito visível</li><li>Há espaço para reflexão</li><li>A visão ampla é valorizada</li><li>Ritmos individuais são respeitados</li></ul></div>
+<div class="env-col mid"><span class="env-tag">Neutro</span><h3>Funciona, mas sem brilho</h3><ul><li>Há algum sentido, mas muito ruído operacional</li><li>Você funciona, mas não se identifica</li><li>A rotina ocupa mais espaço que o propósito</li></ul><p class="env-ex">É o contexto em que nada está claramente errado, mas sua personalidade também não encontra tudo o que precisa para florescer.</p></div>
+<div class="env-col bad"><span class="env-tag">Desalinhado</span><h3>Você murcha quando</h3><ul><li>Tudo é medido apenas por resultado</li><li>Microgestão e urgência são constantes</li><li>Não existe espaço para reflexão</li><li>O propósito é exclusivamente financeiro</li></ul></div></div></section>
+
+<section class="wrap"><div class="kicker">6. Recalibrar expectativas</div><h2>O que faz sentido esperar de você?</h2>
+<p class="lede">Autoconhecimento não é desculpa para excessos nem obrigação de virar outra personalidade. É aprender quais capacidades desenvolver sem usar a régua errada contra si.</p>
+<div class="expect"><div class="box up"><b>Faz sentido se cobrar</b><ul class="tick"><li>Ancorar ideias em ações concretas</li><li>Resolver o pequeno antes de ele virar urgente</li><li>Diferenciar desapego de fuga</li><li>Criar estrutura mínima para manifestar visão</li></ul></div>
+<div class="box down"><b>Não faz sentido se cobrar</b><ul class="tick"><li>Perseguir status para provar valor</li><li>Tratar dinheiro como único critério</li><li>Socializar o tempo todo</li><li>Abandonar sua necessidade de significado</li></ul></div></div>
+<blockquote class="pull">Você não precisa descer da sua visão. Precisa trazer a visão para cá. O concreto não reduz o propósito — é o lugar onde ele ganha forma.</blockquote></section>
+
+<section class="formula"><div class="wrap"><div class="kicker">7. Escolher</div><h2>A fórmula de sucesso da Espiritualista</h2>
+<p class="lede">Sucesso para a Espiritualista é viver de forma coerente com aquilo que faz sentido. A maturidade está em transformar significado em escolhas, limites, rotina e manifestação concreta.</p>
+<div class="fml"><div class="fml-side ok"><b>CONSTRUA MAIS DISSO</b><div class="chips"><span>Propósito</span><span>Liberdade</span><span>Contemplação</span><span>Visão ampla</span><span>Simplicidade</span><span>Integração</span></div></div>
+<div class="fml-side bad"><b>REDUZA O CUSTO DISSO</b><div class="chips"><span>Abstração excessiva</span><span>Passividade</span><span>Vida sem sentido</span><span>Microgestão</span><span>Urgência constante</span><span>Desconexão do concreto</span></div></div></div>
+<p class="formula-note">O caminho não é trocar propósito por produtividade. É construir uma ponte entre os dois: visão ampla, próximo passo pequeno, ritmo sustentável e feedback da realidade.</p></div></section>
+
+<section class="wrap"><div class="kicker">8. Personalizar</div><h2>Você não é só Espiritualista</h2>
+<p class="lede">Uma ou duas personalidades complementares podem mudar bastante a forma como essa necessidade aparece. O núcleo permanece; a expressão muda.</p>
+<div class="comps"><div class="comp" style="--c:var(--basico)"><h3><i></i>Espiritualista + Tradicional</h3>
+        <p>A base espiritualista permanece, enquanto a personalidade Tradicional traz mais estabilidade, pragmatismo e necessidade de estrutura.</p></div>
+<div class="comp" style="--c:var(--sacral)"><h3><i></i>Espiritualista + Sensível</h3>
+        <p>A base espiritualista permanece, enquanto a personalidade Sensível traz mais espontaneidade, variedade, sensibilidade e busca de experiência.</p></div>
+<div class="comp" style="--c:var(--plexo)"><h3><i></i>Espiritualista + Ambiciosa</h3>
+        <p>A base espiritualista permanece, enquanto a personalidade Ambiciosa traz mais direção, ambição, autonomia e orientação a resultado.</p></div>
+<div class="comp" style="--c:var(--cardiaco)"><h3><i></i>Espiritualista + Empática</h3>
+        <p>A base espiritualista permanece, enquanto a personalidade Empática traz mais cuidado, vínculo, cooperação e preocupação com pessoas.</p></div>
+<div class="comp" style="--c:var(--laringeo)"><h3><i></i>Espiritualista + Expressiva</h3>
+        <p>A base espiritualista permanece, enquanto a personalidade Expressiva traz mais expressão, comunicação, influência e presença social.</p></div>
+<div class="comp" style="--c:var(--frontal)"><h3><i></i>Espiritualista + Intelectual</h3>
+        <p>A base espiritualista permanece, enquanto a personalidade Intelectual traz mais análise, profundidade, estratégia e busca de compreensão.</p></div></div></section>
+
+<section class="cta"><div class="wrap"><div class="cta-box"><div class="cta-txt"><h2>Essa combinação parece com você?</h2>
+<p>O quiz mostra quais frequências aparecem mais fortes em você e como elas se combinam.</p></div>
+<a class="btn" href="questionario-personalidade.html">Descobrir minha personalidade</a></div></div></section>
+<footer class="wrap">Jogo da Alma — Personalidade Espiritualista · Intuitiva</footer>
+
+<script>
+(function(){
+const P=[["basico", "Tradicional"], ["sacral", "Sensível"], ["plexo", "Ambiciosa"], ["cardiaco", "Empática"], ["laringeo", "Expressiva"], ["frontal", "Intelectual"], ["coronario", "Espiritualista"]];
+const C=[["Em uma mudança inesperada…", ["Quer entender o que muda e recuperar estabilidade", "Explora rapidamente o lado novo da situação", "Assume controle e escolhe o próximo passo", "Pensa primeiro no impacto sobre as pessoas", "Fala, pergunta e tenta influenciar a direção", "Analisa causas, cenários e consequências", "Procura o significado maior do que está acontecendo"]], ["No trabalho…", ["Valoriza clareza, estabilidade e execução consistente", "Valoriza variedade, liberdade e estímulo", "Valoriza crescimento, autonomia e resultado", "Valoriza vínculo, cooperação e contribuição", "Valoriza voz, exposição e influência", "Valoriza complexidade, aprendizado e estratégia", "Valoriza propósito, integração e visão ampla"]], ["Em um conflito…", ["Tenta reduzir tensão e preservar estabilidade", "Sente o clima rápido e pode reagir ao momento", "Se posiciona e busca uma decisão", "Tenta preservar o vínculo entre as pessoas", "Precisa colocar sua visão para fora", "Procura entender argumentos e causas", "Busca uma perspectiva maior antes de responder"]], ["Quando tudo está bem…", ["Quer manter o que está funcionando", "Quer aproveitar e experimentar mais", "Quer avançar para o próximo nível", "Quer compartilhar o bem-estar", "Quer expressar, comunicar e celebrar", "Quer compreender e aprimorar", "Quer integrar a experiência e encontrar significado"]]];
+const me=6;
+let i=0;
+const t=document.getElementById('cmpTitle'),r=document.getElementById('cmpRows'),c=document.getElementById('cmpCount'),pg=document.getElementById('cmpPager');
+C.forEach((_,n)=>{const b=document.createElement('button');b.textContent=n+1;b.onclick=()=>go(n);pg.appendChild(b);});
+function go(n){i=(n+C.length)%C.length;t.textContent=C[i][0];c.textContent=(i+1)+' de '+C.length;r.innerHTML='';
+P.forEach((x,j)=>{const row=document.createElement('div');row.className='cmp-row'+(j===me?' me':'');row.style.setProperty('--c','var(--'+x[0]+')');
+row.innerHTML='<span class="cr-name"><i></i>'+x[1]+'</span><span class="cr-txt">'+C[i][1][j]+'</span>';r.appendChild(row);});
+[...pg.children].forEach((b,n2)=>b.setAttribute('aria-current',String(n2===i)));}
+document.getElementById('cmpPrev').onclick=()=>go(i-1);document.getElementById('cmpNext').onclick=()=>go(i+1);go(0);
+})();
+</script></body></html>

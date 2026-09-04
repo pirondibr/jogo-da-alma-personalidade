@@ -88,6 +88,19 @@ nav a[aria-current]{background:#fff;border-color:var(--k);color:var(--ink);font-
 .cta{background:#fff;border-top:1px solid var(--border);padding:64px 0 72px}.cta-box{border:1px solid var(--border);border-radius:20px;padding:28px 30px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}.cta-txt{flex:1;min-width:250px}.cta h2{font-size:26px;margin-bottom:6px}.cta p{font-size:14.5px;color:var(--ink3)}.btn{display:inline-block;background:var(--ink);color:#F7F6F3;padding:12px 22px;border-radius:999px;font-size:14.5px;font-weight:500;text-decoration:none;white-space:nowrap}
 footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;color:var(--muted)}
 
+
+/* sentir: energia, emoção e regulação */
+.feel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.feel-card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:20px 21px}
+.feel-card .feel-tag{font-size:10.5px;font-weight:700;color:var(--k);text-transform:uppercase;letter-spacing:.03em;margin-bottom:8px}
+.feel-card h3{font-size:18px;margin-bottom:7px}.feel-card p{font-size:14px;color:var(--ink2)}
+.energy-center{margin-top:14px;background:color-mix(in srgb,var(--k) 6%,#fff);border:1px solid color-mix(in srgb,var(--k) 18%,var(--border));border-radius:16px;padding:19px 21px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.energy-center .ec-orb{width:42px;height:42px;border-radius:50%;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.energy-center .ec-orb::after{content:'';width:15px;height:15px;border-radius:50%;background:var(--k)}
+.energy-center .ec-copy{flex:1;min-width:220px}.energy-center .ec-copy b{font-family:'Fraunces',serif;font-size:17px;font-weight:500;display:block;margin-bottom:2px}.energy-center .ec-copy p{font-size:13.5px;color:var(--ink2)}
+.energy-center a{font-size:13.5px;font-weight:500;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--k);white-space:nowrap}
+.energy-center a:hover{color:var(--k)}
+
 @media(max-width:720px){
   .hero h1{font-size:32px}h2{font-size:24px}section{padding:48px 0}.two,.traits,.workgrid,.env,.expect,.fml,.comps{grid-template-columns:1fr}.area{grid-template-columns:1fr;gap:10px}.a-col.risk{border-left:none;padding-left:0}.cmp-row{grid-template-columns:1fr;gap:3px;padding:12px 16px}.cmp-foot{padding:12px 16px}.orb{width:58px;height:58px}.orb::after{width:20px;height:20px}.need p{font-size:18px}.pull{font-size:20px}.cta-box{padding:22px}.btn{width:100%;text-align:center}
 }
@@ -159,7 +172,23 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
 </section>
 
 <section class="wrap">
-  <div class="kicker">3. Comparar</div>
+  <div class="kicker">3. Sentir</div>
+  <h2>Como você sente e regula sua energia</h2>
+  <p class="lede">Personalidade não aparece apenas no que você faz. Ela também influencia como você percebe pressão, como sua energia tende a se organizar e o que ajuda você a voltar ao equilíbrio.</p>
+  <div class="feel-grid">
+    <div class="feel-card"><div class="feel-tag">Emoção</div><h3>Busca estabilidade emocional</h3><p>Tende a ficar melhor quando sente que a vida está sob controle. Mudanças inesperadas, insegurança e falta de referência aumentam o estresse porque ameaçam o chão que organiza o restante.</p></div>
+    <div class="feel-card"><div class="feel-tag">Energia</div><h3>Constância antes de intensidade</h3><p>Tende a funcionar melhor em um ritmo sustentável e previsível do que em grandes picos de intensidade. Repetir, manter e sustentar costuma consumir menos energia do que reinventar a todo momento.</p></div>
+    <div class="feel-card"><div class="feel-tag">Regulação</div><h3>Volta ao equilíbrio pelo familiar</h3><p>Rotina, descanso, casa, pessoas conhecidas e atividades que já domina ajudam a recuperar a sensação de segurança. O conhecido funciona como uma base para reorganizar a energia.</p></div>
+  </div>
+  <div class="energy-center">
+    <div class="ec-orb"></div>
+    <div class="ec-copy"><b>Centro de energia: Chakra Básico</b><p>Dentro do Jogo da Alma, é o centro associado à segurança, presença, estrutura e sustentação. A página do chakra aprofunda essa energia para além da personalidade Tradicional.</p></div>
+    <a href="chakra-basico.html">Ver o Chakra Básico →</a>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="kicker">4. Comparar</div>
   <h2>A mesma situação, sete respostas</h2>
   <p class="lede">Comparar ajuda a separar “o jeito certo” do “meu jeito”. O Tradicional não reage assim porque é melhor ou pior — reage assim porque prioriza segurança.</p>
   <div class="cmp">
@@ -170,7 +199,7 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
 </section>
 
 <section class="wrap">
-  <div class="kicker">4. Compatibilizar</div>
+  <div class="kicker">5. Compatibilizar</div>
   <h2>Onde você tende a render melhor</h2>
   <p class="lede">Compatibilidade não é uma lista de profissões permitidas. É entender quais condições fazem sua capacidade aparecer com menos atrito.</p>
   <div class="workgrid">
@@ -188,7 +217,7 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
 </section>
 
 <section class="wrap">
-  <div class="kicker">5. Recalibrar expectativas</div>
+  <div class="kicker">6. Recalibrar expectativas</div>
   <h2>O que faz sentido esperar de você?</h2>
   <p class="lede">Autoconhecimento não serve para eliminar toda cobrança. Serve para separar desenvolvimento real de comparação injusta.</p>
   <div class="expect">
@@ -200,7 +229,7 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
 
 <section class="formula">
   <div class="wrap">
-    <div class="kicker">6. Escolher</div>
+    <div class="kicker">7. Escolher</div>
     <h2>A fórmula de sucesso do Tradicional</h2>
     <p class="lede">Sua personalidade não determina o destino. Ela muda quais caminhos tendem a ser sustentáveis para você.</p>
     <div class="fml">
@@ -212,7 +241,7 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
 </section>
 
 <section class="wrap">
-  <div class="kicker">7. Personalizar</div>
+  <div class="kicker">8. Personalizar</div>
   <h2>Você não é só Tradicional</h2>
   <p class="lede">Uma ou duas personalidades complementares podem mudar bastante a forma como sua necessidade de segurança aparece. O núcleo permanece; a expressão muda.</p>
   <div class="comps">

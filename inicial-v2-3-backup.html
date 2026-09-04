@@ -106,7 +106,7 @@ section{padding:66px 0}
 .rail button[aria-selected="true"] .r-arrow{opacity:.5}
 .rail button[aria-selected="true"] .r-num{color:var(--ink3)}
 
-.panes{position:relative;min-height:838px}
+.panes{position:relative;min-height:706px}
 .pan{position:relative;padding:30px 32px;overflow:hidden;height:100%}
 .pan-glow{position:absolute;top:-130px;right:-115px;width:340px;height:340px;border-radius:50%;background:var(--k);opacity:.07;pointer-events:none}
 .pan-head{display:flex;align-items:center;gap:16px;position:relative}
@@ -136,22 +136,6 @@ section{padding:66px 0}
 .pan-box.down{background:var(--neg-bg);border-color:rgba(176,74,70,.18)}
 .pan-box.down b{color:var(--neg)}
 
-.bs{display:grid;grid-template-columns:1fr 1fr;gap:11px;position:relative}
-.bs-col{border:1px solid var(--border);border-radius:13px;padding:14px 16px;background:#FDFDFC}
-.bs-col b{display:block;font-size:11px;font-weight:700;margin-bottom:9px}
-.bs-col.up{box-shadow:inset 3px 0 0 var(--pos)}
-.bs-col.up b{color:var(--pos)}
-.bs-col.down{box-shadow:inset 3px 0 0 var(--neg)}
-.bs-col.down b{color:var(--neg)}
-.bs-chips{display:flex;flex-wrap:wrap;gap:5px}
-.bs-chips span{font-size:12.5px;border:1px solid var(--border);border-radius:7px;padding:3px 9px;background:#fff;color:var(--ink2)}
-.qs{display:grid;grid-template-columns:1fr 1fr;gap:11px;position:relative}
-.qs-col{display:flex;flex-wrap:wrap;gap:5px;align-content:flex-start;border:1px solid var(--border);border-radius:13px;padding:13px 15px}
-.qs-col span{font-size:12.5px;border-radius:999px;padding:4px 11px}
-.qs-col.up{background:var(--pos-bg);border-color:rgba(62,142,107,.2)}
-.qs-col.up span{background:rgba(255,255,255,.7);color:#2C5F49}
-.qs-col.down{background:var(--neg-bg);border-color:rgba(176,74,70,.18)}
-.qs-col.down span{background:rgba(255,255,255,.7);color:#7B3330}
 .pan-foot{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:22px -32px -30px;padding:18px 32px;border-top:1px solid var(--border-l);position:relative;background:color-mix(in srgb, var(--k) 7%, #FCFCFA)}
 .vies{flex:1;min-width:220px}
 .vies small{display:block;font-size:11px;color:var(--muted);font-weight:700;margin-bottom:2px}
@@ -171,24 +155,8 @@ section{padding:66px 0}
   .panes{min-height:0}
   .pan{padding:24px 20px}
   .pan-name{font-size:24px}.pan-nec p{font-size:17px}
-  .pan-two,.qs,.bs{grid-template-columns:1fr}
-  .bs{display:grid;grid-template-columns:1fr 1fr;gap:11px;position:relative}
-.bs-col{border:1px solid var(--border);border-radius:13px;padding:14px 16px;background:#FDFDFC}
-.bs-col b{display:block;font-size:11px;font-weight:700;margin-bottom:9px}
-.bs-col.up{box-shadow:inset 3px 0 0 var(--pos)}
-.bs-col.up b{color:var(--pos)}
-.bs-col.down{box-shadow:inset 3px 0 0 var(--neg)}
-.bs-col.down b{color:var(--neg)}
-.bs-chips{display:flex;flex-wrap:wrap;gap:5px}
-.bs-chips span{font-size:12.5px;border:1px solid var(--border);border-radius:7px;padding:3px 9px;background:#fff;color:var(--ink2)}
-.qs{display:grid;grid-template-columns:1fr 1fr;gap:11px;position:relative}
-.qs-col{display:flex;flex-wrap:wrap;gap:5px;align-content:flex-start;border:1px solid var(--border);border-radius:13px;padding:13px 15px}
-.qs-col span{font-size:12.5px;border-radius:999px;padding:4px 11px}
-.qs-col.up{background:var(--pos-bg);border-color:rgba(62,142,107,.2)}
-.qs-col.up span{background:rgba(255,255,255,.7);color:#2C5F49}
-.qs-col.down{background:var(--neg-bg);border-color:rgba(176,74,70,.18)}
-.qs-col.down span{background:rgba(255,255,255,.7);color:#7B3330}
-.pan-foot{margin:20px -20px -24px;padding:16px 20px}
+  .pan-two{grid-template-columns:1fr}
+  .pan-foot{margin:20px -20px -24px;padding:16px 20px}
   .pan-link{margin-left:0;width:100%;justify-content:center}
 }
 
@@ -210,35 +178,6 @@ section{padding:66px 0}
 .p-emo .plus{color:var(--pos)}
 .p-emo .minus{color:var(--neg)}
 .p-go{font-size:12.5px;color:var(--muted);margin-top:11px}
-
-/* forças e sombras */
-.fs{margin-top:26px;border:1px solid var(--border);border-radius:18px;overflow:hidden;background:var(--card)}
-.fs-head{display:grid;grid-template-columns:158px 1fr 1fr;background:#FCFCFA;border-bottom:1px solid var(--border)}
-.fs-hl{padding:12px 16px;font-size:11.5px;font-weight:700;border-left:1px solid var(--border)}
-.fs-hl.up{color:var(--pos)}
-.fs-hl.down{color:var(--neg)}
-.fs-row{display:grid;grid-template-columns:158px 1fr 1fr;border-top:1px solid var(--border-l)}
-.fs-row:first-of-type{border-top:none}
-.fs-name{padding:15px 16px;display:flex;flex-wrap:wrap;align-items:baseline;gap:0 8px;align-content:flex-start}
-.fs-name i{width:9px;height:9px;border-radius:50%;background:var(--c);flex-shrink:0}
-.fs-name b{font-family:'Fraunces',serif;font-weight:500;font-size:16.5px}
-.fs-name small{width:100%;font-size:12px;color:var(--muted);padding-left:17px}
-.fs-col{padding:14px 16px;border-left:1px solid var(--border-l)}
-.fs-lbl{display:none}
-.fs-chips{display:flex;flex-wrap:wrap;gap:5px}
-.fs-chips span{font-size:12.5px;border-radius:999px;padding:4px 11px}
-.fs-col.up .fs-chips span{background:var(--pos-bg);color:#2C5F49;border:1px solid rgba(62,142,107,.18)}
-.fs-col.down .fs-chips span{background:var(--neg-bg);color:#7B3330;border:1px solid rgba(176,74,70,.16)}
-.note-mini{font-size:13.5px;color:var(--ink3);margin-top:16px;max-width:60ch}
-@media(max-width:760px){
-  .fs-head{display:none}
-  .fs-row{grid-template-columns:1fr;padding-bottom:6px}
-  .fs-name{padding-bottom:2px}
-  .fs-col{border-left:none;padding-top:8px;padding-bottom:8px}
-  .fs-lbl{display:block;font-size:10.5px;font-weight:700;margin-bottom:6px}
-  .fs-col.up .fs-lbl{color:var(--pos)}
-  .fs-col.down .fs-lbl{color:var(--neg)}
-}
 
 /* combos */
 .combos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
@@ -417,17 +356,12 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
         <div class="pan-box st"><b>Estereótipo negativo</b><p>O conservador que nunca sai da zona de conforto. Visto como devagar, sem ambição e preso ao passado, alguém que recusa novidade por princípio e que faz hoje exatamente o mesmo que fazia dez anos atrás.</p></div>
       </div>
 
-      <div class="pan-cap">Onde você brilha e onde sofre</div>
-      <div class="bs">
-        <div class="bs-col up"><b>Onde brilha</b><div class="bs-chips"><span>Rotina</span><span>estabilidade</span><span>processos claros</span><span>execução consistente</span><span>manutenção</span><span>previsibilidade</span><span>ambientes estruturados</span></div></div>
-        <div class="bs-col down"><b>Onde sofre</b><div class="bs-chips"><span>Mudanças constantes</span><span>caos</span><span>improvisação</span><span>riscos altos</span><span>incerteza prolongada</span><span>falta de estrutura</span></div></div>
+      <div class="pan-cap">Como de fato funciona</div>
+      <div class="pan-two">
+        <div class="pan-box up"><b>Pontos fortes</b><p>Estável, confiável e leal. Lida bem com rotina e é muito eficiente para executar e repetir. Cuida dos próximos, vive o presente e consegue ser feliz com as coisas simples.</p></div>
+        <div class="pan-box down"><b>Pontos fracos</b><p>Não lida bem com mudança e estressa fácil diante do inesperado. Preocupação excessiva com saúde, segurança ou dinheiro. Tende a procrastinar e a ficar parada no tempo.</p></div>
       </div>
 
-      <div class="pan-cap">Qualidades e sombras</div>
-      <div class="qs">
-        <div class="qs-col up"><span>Estabilidade</span><span>Eficiência</span><span>Consistência</span><span>Lealdade</span><span>Praticidade</span></div>
-        <div class="qs-col down"><span>Medo</span><span>Rigidez</span><span>Conservadorismo</span><span>Tribalismo</span><span>Apego</span></div>
-      </div>
       <div class="pan-foot">
         <span class="vies"><small>O viés que filtra tudo</small><q>Se está funcionando, não mexa.</q></span>
         <a class="pan-link" href="personalidade-basico-v2.html">Página completa da Tradicional</a>
@@ -455,17 +389,12 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
         <div class="pan-box st"><b>Estereótipo negativo</b><p>O irresponsável que não termina nada. Visto como imaturo e disperso, alguém que leva tudo na brincadeira, some quando o assunto fica sério e troca de paixão antes de qualquer coisa dar fruto.</p></div>
       </div>
 
-      <div class="pan-cap">Onde você brilha e onde sofre</div>
-      <div class="bs">
-        <div class="bs-col up"><b>Onde brilha</b><div class="bs-chips"><span>Novidade</span><span>variedade</span><span>improvisação</span><span>criação</span><span>interação</span><span>experiências novas</span><span>ambientes dinâmicos</span></div></div>
-        <div class="bs-col down"><b>Onde sofre</b><div class="bs-chips"><span>Monotonia</span><span>repetição prolongada</span><span>rotina rígida</span><span>excesso de regras</span><span>pouca liberdade</span><span>ambientes sem estímulo</span></div></div>
+      <div class="pan-cap">Como de fato funciona</div>
+      <div class="pan-two">
+        <div class="pan-box up"><b>Pontos fortes</b><p>Sensível, adaptável e cheia de energia emocional. Lê o clima antes de alguém falar, recomeça sem drama e traz movimento onde havia estagnação.</p></div>
+        <div class="pan-box down"><b>Pontos fracos</b><p>Dispersa, larga projetos na metade e troca de direção por tédio. Foge do desconforto, decide no impulso e confunde intensidade com importância.</p></div>
       </div>
 
-      <div class="pan-cap">Qualidades e sombras</div>
-      <div class="qs">
-        <div class="qs-col up"><span>Flexível</span><span>Espontâneo</span><span>Criativo</span><span>Intuitivo</span><span>Entusiasmado</span></div>
-        <div class="qs-col down"><span>Impulsivo</span><span>Reativo emocionalmente</span><span>Irresponsável</span><span>Instável</span><span>Viciado em estímulos</span></div>
-      </div>
       <div class="pan-foot">
         <span class="vies"><small>O viés que filtra tudo</small><q>Preciso de algo novo.</q></span>
         <a class="pan-link" href="personalidade-sacral.html">Página completa da Sensível</a>
@@ -493,17 +422,12 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
         <div class="pan-box st"><b>Estereótipo negativo</b><p>O egoísta que passa por cima de todo mundo. Visto como frio, arrogante e obcecado por status, alguém que só se aproxima quando tem interesse e que não consegue desligar nem no fim de semana.</p></div>
       </div>
 
-      <div class="pan-cap">Onde você brilha e onde sofre</div>
-      <div class="bs">
-        <div class="bs-col up"><b>Onde brilha</b><div class="bs-chips"><span>Metas</span><span>desafios</span><span>competição</span><span>liderança</span><span>autonomia</span><span>decisões</span><span>crescimento</span><span>resultados mensuráveis</span></div></div>
-        <div class="bs-col down"><b>Onde sofre</b><div class="bs-chips"><span>Falta de autonomia</span><span>estagnação</span><span>indecisão prolongada</span><span>impotência</span><span>ausência de progresso</span><span>ambientes sem mérito</span></div></div>
+      <div class="pan-cap">Como de fato funciona</div>
+      <div class="pan-two">
+        <div class="pan-box up"><b>Pontos fortes</b><p>Decide rápido, executa e sustenta o que promete. Aguenta pressão, assume risco e puxa os outros junto. Transforma intenção em resultado visível.</p></div>
+        <div class="pan-box down"><b>Pontos fracos</b><p>Cobra demais de si e dos outros, confunde pausa com fracasso e relação com competição. Pode passar por cima de pessoas em nome do objetivo.</p></div>
       </div>
 
-      <div class="pan-cap">Qualidades e sombras</div>
-      <div class="qs">
-        <div class="qs-col up"><span>Ambição</span><span>Coragem</span><span>Disciplina</span><span>Decisão</span><span>Realização</span></div>
-        <div class="qs-col down"><span>Egoísmo</span><span>Agressividade</span><span>Ganância</span><span>Autoritarismo</span><span>Competitividade excessiva</span></div>
-      </div>
       <div class="pan-foot">
         <span class="vies"><small>O viés que filtra tudo</small><q>Se não estou crescendo, estou fracassando.</q></span>
         <a class="pan-link" href="personalidade-plexo.html">Página completa da Ambiciosa</a>
@@ -531,17 +455,12 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
         <div class="pan-box st"><b>Estereótipo negativo</b><p>A pessoa que não sabe dizer não. Vista como ingênua e sem posição, alguém que se deixa usar, carrega o problema dos outros de graça e depois reclama sem nunca ter dito nada na hora.</p></div>
       </div>
 
-      <div class="pan-cap">Onde você brilha e onde sofre</div>
-      <div class="bs">
-        <div class="bs-col up"><b>Onde brilha</b><div class="bs-chips"><span>Cooperação</span><span>relacionamentos</span><span>cuidado</span><span>trabalho em equipe</span><span>comunidade</span><span>confiança</span><span>ambientes acolhedores</span></div></div>
-        <div class="bs-col down"><b>Onde sofre</b><div class="bs-chips"><span>Conflito constante</span><span>isolamento</span><span>competição interna</span><span>relações frias</span><span>individualismo extremo</span><span>ambientes sem confiança</span></div></div>
+      <div class="pan-cap">Como de fato funciona</div>
+      <div class="pan-two">
+        <div class="pan-box up"><b>Pontos fortes</b><p>Empática, generosa e leal. Constrói confiança rápido, sustenta relações longas e percebe o que o outro sente antes de ele dizer. Costura grupos que sozinhos não se falariam.</p></div>
+        <div class="pan-box down"><b>Pontos fracos</b><p>Se anula, evita conflito e chama isso de paz. Diz sim quando queria dizer não, acumula mágoa em silêncio e sente culpa quando prioriza a si.</p></div>
       </div>
 
-      <div class="pan-cap">Qualidades e sombras</div>
-      <div class="qs">
-        <div class="qs-col up"><span>Empatia</span><span>Cooperação</span><span>Generosidade</span><span>Acolhimento</span><span>Conexão</span></div>
-        <div class="qs-col down"><span>Carência</span><span>Ingenuidade</span><span>Dependência</span><span>Autoanulação</span><span>Dificuldade de impor limites</span></div>
-      </div>
       <div class="pan-foot">
         <span class="vies"><small>O viés que filtra tudo</small><q>Preciso ajudar todo mundo antes de mim.</q></span>
         <a class="pan-link" href="personalidade-cardiaco.html">Página completa da Empática</a>
@@ -569,17 +488,12 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
         <div class="pan-box st"><b>Estereótipo negativo</b><p>O dono da verdade. Visto como falante demais e incapaz de escutar, alguém que precisa dar a última palavra, transforma conversa em debate e confunde franqueza com licença para machucar.</p></div>
       </div>
 
-      <div class="pan-cap">Onde você brilha e onde sofre</div>
-      <div class="bs">
-        <div class="bs-col up"><b>Onde brilha</b><div class="bs-chips"><span>Comunicação</span><span>ensino</span><span>negociação</span><span>exposição</span><span>influência</span><span>debate</span><span>apresentação de ideias</span><span>ambientes onde pode se expressar</span></div></div>
-        <div class="bs-col down"><b>Onde sofre</b><div class="bs-chips"><span>Silenciamento</span><span>pouca abertura ao diálogo</span><span>trabalho solitário</span><span>impossibilidade de influenciar</span><span>ambientes onde sua voz não tem espaço</span></div></div>
+      <div class="pan-cap">Como de fato funciona</div>
+      <div class="pan-two">
+        <div class="pan-box up"><b>Pontos fortes</b><p>Comunica com clareza, traduz o complexo e ensina com naturalidade. Negocia, defende a própria posição e dá voz ao que os outros só sentem.</p></div>
+        <div class="pan-box down"><b>Pontos fracos</b><p>Fala mais do que escuta e explica até convencer. Confunde sinceridade com dureza e fica ressentida quando é ignorada.</p></div>
       </div>
 
-      <div class="pan-cap">Qualidades e sombras</div>
-      <div class="qs">
-        <div class="qs-col up"><span>Comunicação</span><span>Influência</span><span>Expressão</span><span>Persuasão</span><span>Autenticidade</span></div>
-        <div class="qs-col down"><span>Manipulação</span><span>Exibicionismo</span><span>Necessidade de atenção</span><span>Provocação</span><span>Falar sem escutar</span></div>
-      </div>
       <div class="pan-foot">
         <span class="vies"><small>O viés que filtra tudo</small><q>Eu sei o que é melhor.</q></span>
         <a class="pan-link" href="personalidade-laringeo.html">Página completa da Expressiva</a>
@@ -607,17 +521,12 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
         <div class="pan-box st"><b>Estereótipo negativo</b><p>O arrogante que pensa demais. Visto como cheio de razão e distante da vida real, alguém que tem uma teoria pronta para cada assunto, transforma decisão simples em análise longa e nunca conclui porque sempre falta mais um dado.</p></div>
       </div>
 
-      <div class="pan-cap">Onde você brilha e onde sofre</div>
-      <div class="bs">
-        <div class="bs-col up"><b>Onde brilha</b><div class="bs-chips"><span>Problemas complexos</span><span>estratégia</span><span>pesquisa</span><span>aprendizado</span><span>planejamento</span><span>análise</span><span>otimização</span><span>autonomia intelectual</span></div></div>
-        <div class="bs-col down"><b>Onde sofre</b><div class="bs-chips"><span>Decisões sem informação</span><span>irracionalidade</span><span>urgência constante</span><span>tarefas sem lógica</span><span>superficialidade</span><span>agir sem compreender</span></div></div>
+      <div class="pan-cap">Como de fato funciona</div>
+      <div class="pan-two">
+        <div class="pan-box up"><b>Pontos fortes</b><p>Analisa com profundidade, prevê consequências e reconhece padrões que os outros não veem. Separa fato de suposição e resolve o que parecia insolúvel.</p></div>
+        <div class="pan-box down"><b>Pontos fracos</b><p>Analisa até a decisão perder a validade. Substitui ação por estudo, subestima quem não argumenta bem e sempre acha que falta uma informação.</p></div>
       </div>
 
-      <div class="pan-cap">Qualidades e sombras</div>
-      <div class="qs">
-        <div class="qs-col up"><span>Lógica</span><span>Estratégia</span><span>Discernimento</span><span>Aprendizado</span><span>Aprimoramento</span></div>
-        <div class="qs-col down"><span>Overthinking</span><span>Arrogância intelectual</span><span>Frieza</span><span>Rigidez mental</span><span>Paralisia pela análise</span></div>
-      </div>
       <div class="pan-foot">
         <span class="vies"><small>O viés que filtra tudo</small><q>Se não entendo, não aceito.</q></span>
         <a class="pan-link" href="personalidade-frontal.html">Página completa da Intelectual</a>
@@ -645,17 +554,12 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
         <div class="pan-box st"><b>Estereótipo negativo</b><p>O alienado que vive nas nuvens. Visto como desligado e pouco prático, alguém que responde pergunta objetiva com filosofia, foge da responsabilidade concreta e chama de desapego o que é fuga.</p></div>
       </div>
 
-      <div class="pan-cap">Onde você brilha e onde sofre</div>
-      <div class="bs">
-        <div class="bs-col up"><b>Onde brilha</b><div class="bs-chips"><span>Visão ampla</span><span>criação de possibilidades</span><span>propósito</span><span>inovação conceitual</span><span>integração de ideias</span><span>reflexão</span><span>problemas abertos</span></div></div>
-        <div class="bs-col down"><b>Onde sofre</b><div class="bs-chips"><span>Microgestão</span><span>excesso de detalhes operacionais</span><span>tarefas sem significado</span><span>pragmatismo extremo</span><span>execução repetitiva</span><span>foco só no curto prazo</span></div></div>
+      <div class="pan-cap">Como de fato funciona</div>
+      <div class="pan-two">
+        <div class="pan-box up"><b>Pontos fortes</b><p>Enxerga o todo, ressignifica o que aconteceu e sustenta a incerteza sem desmoronar. Traz calma na crise e sentido onde só havia tarefa.</p></div>
+        <div class="pan-box down"><b>Pontos fracos</b><p>Abstrai o concreto e adia o prático em nome do essencial. Despreza o cotidiano que sustenta tudo e pode usar a aceitação como forma de não agir.</p></div>
       </div>
 
-      <div class="pan-cap">Qualidades e sombras</div>
-      <div class="qs">
-        <div class="qs-col up"><span>Intuição</span><span>Integração</span><span>Significado</span><span>Imaginação</span><span>Confiança</span></div>
-        <div class="qs-col down"><span>Abstração excessiva</span><span>Passividade</span><span>Idealização</span><span>Desconexão da realidade</span><span>Falta de execução</span></div>
-      </div>
       <div class="pan-foot">
         <span class="vies"><small>O viés que filtra tudo</small><q>Isso é pequeno demais para importar.</q></span>
         <a class="pan-link" href="personalidade-coronario.html">Página completa da Espiritualista</a>

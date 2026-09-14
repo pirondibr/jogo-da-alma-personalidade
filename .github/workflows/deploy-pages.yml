@@ -1,0 +1,45 @@
+name: Deploy GitHub Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build site folder
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          mkdir -p _site
+          rsync -a --exclude '.git' --exclude '_site' --exclude '.github' --exclude 'openrouter-config.js' --exclude '_ref-chakras' --exclude 'node_modules' ./ _site/
+          python3 - <<'PY'
+          import os, json
+          key = os.environ.get("OPENROUTER_API_KEY") or ""
+          cfg = {
+            "apiKey": key,
+            "model": "openai/gpt-5.5",
+            "referer": "https://pirondibr.github.io/jogo-da-alma-personalidade/",
+            "title": "Jogo da Alma",
+          }
+          with open("_site/openrouter-config.js", "w", encoding="utf-8") as f:
+              f.write("window.OPENROUTER_CONFIG = " + json.dumps(cfg, ensure_ascii=False) + ";\n")
+          print("openrouter config written; key_present=", bool(key))
+          PY
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico da Felicidade — Jogo da Alma</title>
+<meta name="description" content="Diagnóstico das sete necessidades: descubra quais frequências estão sustentando sua vida hoje e quais estão pedindo atenção.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+<script src="quiz-lead.js"></script>
+<script src="openrouter-config.js"></script>
+<style>
+:root{
+  --bg:#F7F6F3;--card:#FFF;--ink:#1A1A1A;--ink2:#3D3D3D;--ink3:#6B6B6B;--muted:#9A9A9A;
+  --border:#E8E6E1;--border-l:#F0EFEB;--gold:#C9A84C;--gold-soft:rgba(201,168,76,.09);
+  --deep:#16181A;--pos:#3E8E6B;--pos-bg:#F2FAF6;--neg:#B04A46;--neg-bg:#FDF4F3;
+  --basico:#D95A55;--sacral:#EA8B3A;--plexo:#E8A317;--cardiaco:#4CAF82;
+  --laringeo:#4A9FD9;--frontal:#8B5CF6;--coronario:#C77DBA;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.62;font-size:16px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.01em}
+p{max-width:62ch}
+.lede{font-size:16.5px;color:var(--ink2)}
+.btn{display:inline-block;background:var(--ink);color:#F7F6F3;padding:13px 26px;border-radius:999px;font-size:15px;font-weight:500;text-decoration:none;border:none;cursor:pointer;font-family:inherit}
+.btn:disabled{opacity:.32;cursor:not-allowed}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+nav{border-bottom:1px solid var(--border);background:rgba(247,246,243,.94);position:sticky;top:0;z-index:6;backdrop-filter:blur(6px)}
+nav .wrap{display:flex;gap:8px;padding-top:12px;padding-bottom:12px;font-size:12.5px;flex-wrap:wrap;align-items:center}
+nav a{color:var(--ink3);text-decoration:none;padding:5px 11px;border-radius:999px;border:1px solid transparent}
+nav a:hover{background:#fff;border-color:var(--border)}
+nav a[aria-current]{background:#fff;border-color:var(--gold);color:var(--ink);font-weight:500}
+nav .home{color:var(--muted);margin-right:6px}
+
+/* lead form (from quiz-base, mapped to page tokens) */
+.quiz-lead-card{max-width:480px;margin:40px auto;padding:36px 28px;background:var(--card);border:1px solid var(--border);border-radius:18px;text-align:center}
+.quiz-lead-icon{width:12px;height:12px;border-radius:50%;background:var(--gold);margin:0 auto 16px}
+.quiz-lead-card h1{font-family:'Fraunces',Georgia,serif;font-size:1.85rem;font-weight:500;margin-bottom:10px;line-height:1.15;letter-spacing:-.01em}
+.quiz-lead-sub{color:var(--ink3);font-size:.95rem;margin-bottom:26px;line-height:1.55}
+.quiz-lead-form{display:flex;flex-direction:column;gap:8px;text-align:left}
+.quiz-lead-label{font-size:.75rem;font-weight:700;color:var(--muted);margin-top:8px}
+.quiz-lead-input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--ink);font-family:inherit;font-size:1rem;outline:none}
+.quiz-lead-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+.quiz-lead-error{color:var(--neg);font-size:.875rem;margin-top:4px}
+.quiz-lead-btn{margin-top:16px;padding:14px 24px;border:none;border-radius:999px;background:var(--ink);color:#fff;font-family:inherit;font-size:1rem;font-weight:500;cursor:pointer;transition:filter .2s,transform .2s}
+.quiz-lead-btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.quiz-lead-note{margin-top:14px;font-size:.75rem;color:var(--muted);text-align:center;line-height:1.5}
+
+.ai-box{margin-top:26px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 24px;border-left:3px solid var(--gold)}
+.ai-box .ai-lbl{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.04em;margin-bottom:10px}
+.ai-box p{font-size:14.5px;color:var(--ink2);max-width:58ch;line-height:1.6}
+.ai-box .ai-loading{color:var(--ink3);font-style:italic}
+.ai-box .ai-note{font-size:12px;color:var(--muted);margin-top:10px}
+
+/* intro */
+.intro{padding:60px 0 70px}
+.q-mark{font-family:'Fraunces',serif;font-size:13.5px;font-style:italic;color:var(--gold);margin-bottom:16px}
+.intro h1{font-size:44px;line-height:1.08;max-width:15ch;margin-bottom:18px}
+.intro .sub{font-size:18px;color:var(--ink2);max-width:56ch}
+.how{margin-top:30px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 24px}
+.how h3{font-size:16px;margin-bottom:10px}
+.how li{list-style:none;font-size:14px;color:var(--ink2);padding:5px 0 5px 18px;position:relative}
+.how li::before{content:'';position:absolute;left:0;top:14px;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.dots{display:flex;gap:6px;margin-top:26px}
+.dots i{width:12px;height:12px;border-radius:50%;display:block}
+
+/* quiz */
+#quiz{display:none;padding:34px 0 70px}
+.bar{position:sticky;top:49px;z-index:5;background:var(--bg);padding:14px 0 16px;border-bottom:1px solid var(--border)}
+.bar-top{display:flex;align-items:center;gap:12px;font-size:12.5px;color:var(--ink3);margin-bottom:9px}
+.bar-top b{font-weight:500;color:var(--ink)}
+.bar-top span{margin-left:auto;color:var(--muted)}
+.track{height:5px;background:var(--border);border-radius:99px;overflow:hidden}
+.fill{height:100%;background:var(--k,var(--gold));border-radius:99px;transition:width .25s ease}
+
+.step-head{margin-top:30px;display:flex;align-items:center;gap:14px}
+.step-orb{width:46px;height:46px;border-radius:50%;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-orb::after{content:'';width:17px;height:17px;border-radius:50%;background:var(--k)}
+.step-head h2{font-size:26px;line-height:1.1}
+.step-head small{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+
+.q{margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 22px}
+.q-lbl{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:5px}
+.q-txt{font-family:'Fraunces',serif;font-size:19px;line-height:1.38;margin-bottom:16px}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.scale label{display:block;cursor:pointer}
+.scale input{position:absolute;opacity:0;width:0;height:0}
+.scale span{display:block;text-align:center;font-size:12.5px;color:var(--ink2);border:1px solid var(--border);border-radius:11px;padding:11px 4px;background:#FCFCFA;line-height:1.25}
+.scale label:hover span{border-color:var(--k)}
+.scale input:checked + span{background:var(--k);border-color:var(--k);color:#fff;font-weight:500}
+.scale input:focus-visible + span{outline:2px solid var(--gold);outline-offset:2px}
+.crit{margin-top:13px;display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink3);cursor:pointer;border-top:1px solid var(--border-l);padding-top:13px}
+.crit input{width:17px;height:17px;accent-color:var(--neg);cursor:pointer;flex-shrink:0}
+.crit.on{color:var(--neg);font-weight:500}
+
+.navrow{display:flex;gap:10px;margin-top:26px;align-items:center;flex-wrap:wrap}
+.navrow .hint{font-size:12.5px;color:var(--muted);margin-left:auto}
+
+/* resultado */
+#res{display:none;padding:40px 0 80px}
+.score{background:var(--deep);color:#F2F0EC;border-radius:20px;padding:30px 32px}
+.score small{font-size:11px;font-weight:700;color:rgba(255,255,255,.45)}
+.score .big{font-family:'Fraunces',serif;font-size:54px;line-height:1;margin:8px 0 6px}
+.score p{color:rgba(255,255,255,.66);font-size:14.5px;max-width:52ch}
+
+.rank{margin-top:26px;border:1px solid var(--border);border-radius:18px;background:var(--card);overflow:hidden}
+.rk{display:grid;grid-template-columns:150px 1fr 60px;gap:14px;align-items:center;padding:14px 20px;border-top:1px solid var(--border-l)}
+.rk:first-child{border-top:none}
+.rk-name{font-size:14px;display:flex;align-items:center;gap:8px}
+.rk-name i{width:10px;height:10px;border-radius:50%;background:var(--c);flex-shrink:0}
+.rk-name b{font-family:'Fraunces',serif;font-weight:500;font-size:16px}
+.rk-track{height:9px;background:var(--border-l);border-radius:99px;overflow:hidden}
+.rk-fill{height:100%;border-radius:99px;background:var(--c)}
+.rk-val{font-size:13px;color:var(--ink3);text-align:right}
+.rk.flag .rk-name b::after{content:'!';display:inline-block;margin-left:7px;font-family:'DM Sans';font-size:10px;font-weight:700;color:#fff;background:var(--neg);width:15px;height:15px;line-height:15px;border-radius:50%;text-align:center;vertical-align:2px}
+
+.focus{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 22px;border-top:3px solid var(--c)}
+.fc-top{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:8px}
+.fc-top b{font-family:'Fraunces',serif;font-weight:500;font-size:19px}
+.fc-top span{font-size:12px;color:var(--muted)}
+.fc p{font-size:13.5px;color:var(--ink2)}
+.fc ul{margin-top:10px}
+.fc li{list-style:none;font-size:13px;color:var(--ink3);padding:3px 0 3px 15px;position:relative}
+.fc li::before{content:'';position:absolute;left:0;top:12px;width:5px;height:5px;border-radius:50%;background:var(--c)}
+.fc a{display:inline-block;margin-top:12px;font-size:13.5px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--c);padding-bottom:1px}
+
+.critbox{margin-top:26px;background:var(--neg-bg);border:1px solid rgba(176,74,70,.2);border-radius:16px;padding:20px 22px}
+.critbox h3{font-size:17px;color:var(--neg);margin-bottom:6px}
+.critbox p{font-size:13.5px;color:#7B3330;margin-bottom:10px}
+.critbox li{list-style:none;font-size:13.5px;color:#7B3330;padding:4px 0 4px 16px;position:relative}
+.critbox li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:50%;background:var(--neg)}
+.critbox b{font-weight:500}
+
+.care{margin-top:22px;border-left:2px solid var(--gold);padding-left:20px;font-size:14px;color:var(--ink3)}
+.after{margin-top:30px;display:flex;gap:10px;flex-wrap:wrap}
+footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;color:var(--muted)}
+
+@media(max-width:700px){
+  .intro h1{font-size:33px}.intro{padding:46px 0 54px}
+  .step-head h2{font-size:22px}
+  .q-txt{font-size:17px}
+  .scale{grid-template-columns:1fr 1fr}
+  .scale label:first-child{grid-column:span 2}
+  .focus{grid-template-columns:1fr}
+  .rk{grid-template-columns:1fr 52px;gap:6px 12px}
+  .rk-track{grid-column:1/-1;order:3}
+  .score .big{font-size:42px}
+  .btn{width:100%;text-align:center}
+  .navrow .hint{margin-left:0;width:100%}
+}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="home" href="inicial-v2-3.html">Início</a>
+  <a href="felicidade.html">O que é felicidade?</a>
+  <a href="questionario-felicidade.html" aria-current="page">Diagnóstico</a>
+  <a href="questionario-personalidade.html">Quiz Personalidades</a>
+</div></nav>
+
+<div id="lead" class="wrap" style="padding:40px 0 60px"></div>
+
+<!-- ========== INTRO ========== -->
+<header class="intro wrap" id="intro" style="display:none">
+  <div class="q-mark">Diagnóstico das sete necessidades</div>
+  <h1>O que a sua vida está pedindo agora?</h1>
+  <p class="sub">Felicidade é o retorno que você recebe quando suas necessidades estão sendo preenchidas. Este diagnóstico não diz quem você é — diz o que está faltando hoje, e onde vale colocar energia primeiro.</p>
+
+  <div class="how">
+    <h3>Como funciona</h3>
+    <ul>
+      <li>21 perguntas, três para cada uma das sete necessidades</li>
+      <li>Responda pensando nos últimos dois ou três meses, não na vida inteira</li>
+      <li>Marque <b>Crítico</b> quando o tema estiver pesando muito agora, mesmo que a nota não seja a pior</li>
+      <li>Leva cerca de cinco minutos; com seu e-mail, você pode guardar e revisitar seus resultados</li>
+    </ul>
+  </div>
+
+  <div class="dots">
+    <i style="background:var(--basico)"></i><i style="background:var(--sacral)"></i><i style="background:var(--plexo)"></i><i style="background:var(--cardiaco)"></i><i style="background:var(--laringeo)"></i><i style="background:var(--frontal)"></i><i style="background:var(--coronario)"></i>
+  </div>
+
+  <p style="margin-top:26px"><button class="btn" id="start">Começar o diagnóstico</button></p>
+</header>
+
+<!-- ========== QUIZ ========== -->
+<main id="quiz">
+  <div class="bar">
+    <div class="wrap">
+      <div class="bar-top"><b id="bName"></b><span id="bCount"></span></div>
+      <div class="track"><div class="fill" id="bFill" style="width:0%"></div></div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="step-head">
+      <div class="step-orb"></div>
+      <div><h2 id="sTitle"></h2><small id="sSub"></small></div>
+    </div>
+    <div id="qs"></div>
+    <div class="navrow">
+      <button class="btn alt" id="prev">Voltar</button>
+      <button class="btn" id="next" disabled>Continuar</button>
+      <span class="hint" id="hint">Responda as três para continuar</span>
+    </div>
+  </div>
+</main>
+
+<!-- ========== RESULTADO ========== -->
+<main id="res">
+  <div class="wrap">
+    <div class="score">
+      <small>ÍNDICE GERAL</small>
+      <div class="big" id="rBig"></div>
+      <p id="rTxt"></p>
+    </div>
+
+    <div id="rAi" class="ai-box" style="display:none"></div>
+
+    <h2 style="margin-top:34px;font-size:24px">Como está cada necessidade</h2>
+    <div class="rank" id="rRank"></div>
+
+    <h2 style="margin-top:34px;font-size:24px">Onde colocar energia primeiro</h2>
+    <p class="lede" style="margin-bottom:4px">As duas necessidades mais frágeis do seu momento, e o que costuma estar por trás delas.</p>
+    <div class="focus" id="rFocus"></div>
+
+    <div id="rCrit"></div>
+
+    <p class="care">Este diagnóstico é uma leitura do seu momento, não uma avaliação clínica. Se algum desses temas estiver pesando de forma difícil de sustentar sozinho, procurar apoio profissional é uma estratégia saudável como qualquer outra — e costuma ser a mais rápida.</p>
+
+    <div class="after">
+      <a class="btn" href="felicidade.html">Entender as sete necessidades</a>
+      <button class="btn alt" id="again">Refazer o diagnóstico</button>
+    </div>
+  </div>
+</main>
+
+<footer class="wrap">Jogo da Alma — Diagnóstico da Felicidade · Não substitui acompanhamento profissional.</footer>
+
+<script>
+(function(){
+  var DATA = [
+    {k:'basico', nome:'Básico', tema:'Sustentação', nec:'Segurança', url:'chakra-basico-problemas.html',
+     porque:'Quando a sustentação falha, tudo o mais fica em segundo plano. O corpo entende falta de base como emergência, e emergência não deixa espaço para nada além dela.',
+     qs:[['Financeiro','Seus recursos financeiros são suficientes para sustentar suas necessidades atuais?'],
+         ['Estrutura','Você possui moradia, rotina e condições materiais adequadas para sua vida?'],
+         ['Saúde','Sua condição física permite sustentar adequadamente o seu cotidiano?']]},
+    {k:'sacral', nome:'Sacral', tema:'Experiência', nec:'Prazer', url:'chakra-sacral-problemas.html',
+     porque:'Sem prazer e variedade, a vida vira manutenção. Você continua funcionando, mas para de sentir que vale a pena — e isso drena energia de todas as outras áreas.',
+     qs:[['Prazer','Sua vida possui fontes suficientes de prazer e satisfação?'],
+         ['Experiências','Você tem oportunidades suficientes para viver experiências de que gosta?'],
+         ['Novidade','Sua vida possui variedade e novidade suficientes para você?']]},
+    {k:'plexo', nome:'Plexo Solar', tema:'Valor', nec:'Valor', url:'chakra-plexo-solar-problemas.html',
+     porque:'Valor em falta aparece como sensação de estar parado ou de não contar. Costuma se disfarçar de preguiça, quando na verdade é ausência de autonomia ou de retorno pelo esforço.',
+     qs:[['Conquistas','Você está alcançando resultados que considera importantes?'],
+         ['Reconhecimento','Você recebe reconhecimento suficiente pelo seu valor e pelas suas contribuições?'],
+         ['Autonomia','Você possui liberdade suficiente para decidir e conduzir a sua própria vida?']]},
+    {k:'cardiaco', nome:'Cardíaco', tema:'Amor', nec:'Conexão', url:'chakra-cardiaco-problemas.html',
+     porque:'Conexão é a necessidade que menos se admite em falta. Dá para ter uma vida cheia de gente e ainda assim não ter onde chegar e ser recebido por quem você é.',
+     qs:[['Relacionamentos','Você possui relacionamentos significativos e saudáveis?'],
+         ['Afeto','Você recebe amor, carinho e cuidado suficientes das pessoas ao seu redor?'],
+         ['Pertencimento','Você possui pessoas, grupos ou ambientes nos quais sente que tem o seu lugar?']]},
+    {k:'laringeo', nome:'Laríngeo', tema:'Expressão', nec:'Expressão', url:'chakra-laringeo-problemas.html',
+     porque:'O que não é dito não some: acumula. Expressão em falta costuma sair depois como irritação, distanciamento ou uma explosão que parece desproporcional ao motivo.',
+     qs:[['Comunicação','Você consegue comunicar aos outros aquilo que precisa expressar?'],
+         ['Criação','Você possui oportunidades e meios para transformar suas ideias em algo concreto?'],
+         ['Impacto','Aquilo que você expressa consegue produzir impacto na realidade e nas pessoas?']]},
+    {k:'frontal', nome:'Frontal', tema:'Compreensão', nec:'Conhecimento', url:'chakra-frontal-problemas.html',
+     porque:'Não entender o que está acontecendo é diferente de não ter saída. Compreensão em falta gera confusão, decisão adiada e a sensação de estar reagindo à vida em vez de conduzi-la.',
+     qs:[['Informação','Você tem acesso às informações necessárias para compreender e conduzir a sua vida?'],
+         ['Respostas','Você consegue encontrar respostas para as questões importantes que enfrenta?'],
+         ['Aprendizado','Sua vida oferece oportunidades suficientes para aprender e desenvolver o seu conhecimento?']]},
+    {k:'coronario', nome:'Coronário', tema:'Integração', nec:'Sentido', url:'chakra-coronario-problemas.html',
+     porque:'Sentido em falta é o vazio que aparece mesmo quando tudo está aparentemente resolvido. É a pergunta sobre para onde tudo isso está indo, e ela não se responde com mais esforço.',
+     qs:[['Possibilidades','Sua realidade oferece possibilidades que fazem sentido para você?'],
+         ['Caminhos','Existem caminhos disponíveis para avançar em direção ao que você considera importante?'],
+         ['Propósito','Você possui oportunidades reais de dedicar a sua vida a coisas que considera significativas?']]}
+  ];
+  var ESCALA = ['Muito ruim','Ruim','Neutro','Bom','Excelente'];
+
+  var estado = DATA.map(function(d){ return d.qs.map(function(){ return {v:null, c:false}; }); });
+  var passo = 0;
+
+  var $ = function(id){ return document.getElementById(id); };
+  var intro = $('intro'), quiz = $('quiz'), res = $('res'), lead = $('lead');
+  var rAi = $('rAi');
+
+  function escHtml(s){
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function showIntro(){
+    lead.style.display = 'none';
+    lead.innerHTML = '';
+    intro.style.display = '';
+    quiz.style.display = 'none';
+    res.style.display = 'none';
+  }
+
+  function parseAiJson(raw){
+    if (!raw) return null;
+    var s = String(raw).trim();
+    var fence = s.match(/```(?:json)?\s*([\s\S]*?)```/i);
+    if (fence) s = fence[1].trim();
+    try { return JSON.parse(s); } catch (e) {}
+    var brace = s.match(/\{[\s\S]*\}/);
+    if (brace) {
+      try { return JSON.parse(brace[0]); } catch (e2) {}
+    }
+    return null;
+  }
+
+  function fetchAiReading(ctx){
+    var cfg = window.OPENROUTER_CONFIG || {};
+    if (!cfg.apiKey) return Promise.resolve(null);
+
+    var system = 'You are an assistant for Jogo da Alma methodology. Respond in Brazilian Portuguese. Be warm, clear, practical, non-clinical. Return ONLY valid JSON: {"geral":"...","foco1":"...","foco2":"..."}. Each string 2-4 sentences.';
+    var user = [
+      'Nome: ' + (ctx.name || 'participante'),
+      'Índice geral: ' + ctx.geral + '%',
+      'Ranking das 7 necessidades (da mais alta à mais baixa):',
+      ctx.rankingLines,
+      '',
+      'Duas mais frágeis:',
+      '1) ' + ctx.fracos[0].nec + ' (' + ctx.fracos[0].p + '%): ' + ctx.fracos[0].porque,
+      '2) ' + ctx.fracos[1].nec + ' (' + ctx.fracos[1].p + '%): ' + ctx.fracos[1].porque,
+      '',
+      'Marcadores críticos: ' + (ctx.critFlags.length ? ctx.critFlags.join('; ') : 'nenhum'),
+      '',
+      'Escreva uma leitura personalizada: geral (visão do momento), foco1 e foco2 (para as duas necessidades mais frágeis, nesta ordem).'
+    ].join('\n');
+
+    return fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + cfg.apiKey,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': cfg.referer || location.origin,
+        'X-Title': cfg.title || 'Jogo da Alma'
+      },
+      body: JSON.stringify({
+        model: cfg.model || 'openai/gpt-5.5',
+        messages: [
+          { role: 'system', content: system },
+          { role: 'user', content: user }
+        ]
+      })
+    }).then(function(resp){
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      return resp.json();
+    }).then(function(data){
+      var content = data && data.choices && data.choices[0] && data.choices[0].message
+        ? data.choices[0].message.content
+        : '';
+      return parseAiJson(content);
+    }).catch(function(){ return null; });
+  }
+
+  function applyAiReading(ai){
+    if (!ai || !ai.geral) {
+      rAi.style.display = 'none';
+      rAi.innerHTML = '';
+      return;
+    }
+    rAi.style.display = 'block';
+    rAi.innerHTML =
+      '<div class="ai-lbl">Leitura personalizada</div>' +
+      '<p>' + escHtml(ai.geral) + '</p>';
+    var cards = $('rFocus').querySelectorAll('.fc > p');
+    if (ai.foco1 && cards[0]) cards[0].textContent = ai.foco1;
+    if (ai.foco2 && cards[1]) cards[1].textContent = ai.foco2;
+  }
+
+  function render(){
+    var d = DATA[passo];
+    document.documentElement.style.setProperty('--k', 'var(--' + d.k + ')');
+    quiz.style.setProperty('--k', 'var(--' + d.k + ')');
+    $('bName').textContent = d.nome + ' · ' + d.tema;
+    $('bCount').textContent = 'Etapa ' + (passo + 1) + ' de 7';
+    $('bFill').style.width = ((passo) / 7 * 100) + '%';
+    $('sTitle').textContent = d.tema;
+    $('sSub').textContent = 'Necessidade de ' + d.nec.toLowerCase();
+
+    var box = $('qs');
+    box.innerHTML = '';
+    d.qs.forEach(function(q, qi){
+      var st = estado[passo][qi];
+      var el = document.createElement('div');
+      el.className = 'q';
+      var opts = ESCALA.map(function(txt, vi){
+        var chk = st.v === (vi + 1) ? ' checked' : '';
+        return '<label><input type="radio" name="q' + passo + '_' + qi + '" value="' + (vi + 1) + '"' + chk + '><span>' + txt + '</span></label>';
+      }).join('');
+      el.innerHTML =
+        '<div class="q-lbl">' + q[0] + '</div>' +
+        '<div class="q-txt">' + q[1] + '</div>' +
+        '<div class="scale">' + opts + '</div>' +
+        '<label class="crit' + (st.c ? ' on' : '') + '"><input type="checkbox"' + (st.c ? ' checked' : '') + '> Crítico — isso me afeta muito atualmente</label>';
+      box.appendChild(el);
+
+      el.querySelectorAll('.scale input').forEach(function(r){
+        r.addEventListener('change', function(){ st.v = parseInt(r.value, 10); check(); });
+      });
+      var cb = el.querySelector('.crit input');
+      cb.addEventListener('change', function(){
+        st.c = cb.checked;
+        cb.parentElement.classList.toggle('on', cb.checked);
+      });
+    });
+
+    $('prev').style.visibility = passo === 0 ? 'hidden' : 'visible';
+    $('next').textContent = passo === 6 ? 'Ver meu resultado' : 'Continuar';
+    check();
+    window.scrollTo({top: 0, behavior: 'instant'});
+  }
+
+  function check(){
+    var ok = estado[passo].every(function(s){ return s.v !== null; });
+    $('next').disabled = !ok;
+    $('hint').textContent = ok ? '' : 'Responda as três para continuar';
+  }
+
+  function pct(i){
+    var vs = estado[i].map(function(s){ return s.v; });
+    var m = (vs[0] + vs[1] + vs[2]) / 3;
+    return Math.round((m - 1) / 4 * 100);
+  }
+
+  function resultado(){
+    quiz.style.display = 'none';
+    res.style.display = 'block';
+
+    var todos = DATA.map(function(d, i){
+      return {d: d, i: i, p: pct(i), crit: estado[i].some(function(s){ return s.c; })};
+    });
+    var geral = Math.round(todos.reduce(function(a, x){ return a + x.p; }, 0) / 7);
+    $('rBig').textContent = geral + '%';
+    var t;
+    if (geral < 35) t = 'Várias necessidades estão em falta ao mesmo tempo. Nesse cenário, tentar melhorar tudo de uma vez costuma falhar — escolha uma das duas abaixo e trate só ela por algumas semanas.';
+    else if (geral < 55) t = 'Sua vida está sustentando o básico, mas com pouca folga. Há duas áreas puxando o conjunto para baixo, e elas estão descritas logo abaixo.';
+    else if (geral < 75) t = 'A maior parte das suas necessidades está sendo preenchida. O ganho agora vem de tratar as duas mais frágeis, não de reforçar o que já vai bem.';
+    else t = 'Suas necessidades estão bem preenchidas neste momento. Vale olhar as duas mais baixas com curiosidade, não com urgência — é ali que existe espaço para crescer.';
+    $('rTxt').textContent = t;
+
+    var ord = todos.slice().sort(function(a, b){ return b.p - a.p; });
+    $('rRank').innerHTML = ord.map(function(x){
+      return '<div class="rk' + (x.crit ? ' flag' : '') + '" style="--c:var(--' + x.d.k + ')">' +
+        '<div class="rk-name"><i></i><b>' + x.d.nec + '</b></div>' +
+        '<div class="rk-track"><div class="rk-fill" style="width:' + Math.max(x.p, 2) + '%"></div></div>' +
+        '<div class="rk-val">' + x.p + '%</div></div>';
+    }).join('');
+
+    var fracos = todos.slice().sort(function(a, b){ return a.p - b.p; }).slice(0, 2);
+    $('rFocus').innerHTML = fracos.map(function(x){
+      var baixas = x.d.qs.map(function(q, qi){ return {n: q[0], v: estado[x.i][qi].v}; })
+        .sort(function(a, b){ return a.v - b.v; }).slice(0, 2)
+        .map(function(b){ return '<li>' + b.n + '</li>'; }).join('');
+      return '<div class="fc" style="--c:var(--' + x.d.k + ')">' +
+        '<div class="fc-top"><b>' + x.d.nec + '</b><span>' + x.d.nome + ' · ' + x.p + '%</span></div>' +
+        '<p>' + x.d.porque + '</p>' +
+        '<ul>' + baixas + '</ul>' +
+        '<a href="' + x.d.url + '">Ver problemas e estratégias</a></div>';
+    }).join('');
+
+    var crits = [];
+    DATA.forEach(function(d, i){
+      d.qs.forEach(function(q, qi){
+        if (estado[i][qi].c) crits.push('<li><b>' + q[0] + '</b> — ' + d.nec.toLowerCase() + '</li>');
+      });
+    });
+    $('rCrit').innerHTML = crits.length ? '<div class="critbox"><h3>O que você marcou como crítico</h3>' +
+      '<p>Independentemente da nota, estes são os temas que estão pesando agora. Eles vêm primeiro, mesmo que a frequência deles não seja a mais baixa do ranking.</p><ul>' +
+      crits.join('') + '</ul></div>' : '';
+
+    rAi.style.display = 'block';
+    rAi.innerHTML = '<div class="ai-lbl">Leitura personalizada</div><p class="ai-loading">Gerando sua leitura personalizada…</p>';
+
+    var leadData = (window.QuizLead && QuizLead.getLead()) || {};
+    var critFlags = [];
+    DATA.forEach(function(d, i){
+      d.qs.forEach(function(q, qi){
+        if (estado[i][qi].c) critFlags.push(q[0] + ' (' + d.nec + ')');
+      });
+    });
+
+    fetchAiReading({
+      name: leadData.name || '',
+      geral: geral,
+      rankingLines: ord.map(function(x, idx){
+        return (idx + 1) + '. ' + x.d.nec + ' — ' + x.p + '%' + (x.crit ? ' [crítico]' : '');
+      }).join('\n'),
+      fracos: fracos.map(function(x){ return { nec: x.d.nec, p: x.p, porque: x.d.porque }; }),
+      critFlags: critFlags
+    }).then(function(ai){
+      if (ai && ai.geral) {
+        applyAiReading(ai);
+      } else {
+        rAi.style.display = 'none';
+        rAi.innerHTML = '';
+      }
+    });
+
+    window.scrollTo({top: 0, behavior: 'instant'});
+  }
+
+  $('start').addEventListener('click', function(){
+    intro.style.display = 'none';
+    quiz.style.display = 'block';
+    render();
+  });
+  $('next').addEventListener('click', function(){
+    if (passo === 6) { resultado(); return; }
+    passo++; render();
+  });
+  $('prev').addEventListener('click', function(){ if (passo > 0){ passo--; render(); } });
+  $('again').addEventListener('click', function(){
+    estado = DATA.map(function(d){ return d.qs.map(function(){ return {v:null, c:false}; }); });
+    passo = 0;
+    res.style.display = 'none';
+    rAi.style.display = 'none';
+    rAi.innerHTML = '';
+    quiz.style.display = 'block';
+    render();
+  });
+
+  if (window.QuizLead && QuizLead.getLead()) {
+    showIntro();
+  } else if (window.QuizLead) {
+    lead.innerHTML = QuizLead.renderLeadForm({
+      title: 'Diagnóstico da Felicidade',
+      subtitle: 'Informe seu nome e e-mail para começar. Assim você pode guardar e revisitar seus resultados.',
+      buttonLabel: 'Continuar'
+    });
+    QuizLead.bindLeadForm(function(){ showIntro(); });
+  } else {
+    showIntro();
+  }
+})();
+</script>
+</body>
+</html>

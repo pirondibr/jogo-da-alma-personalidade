@@ -26,8 +26,14 @@ p{max-width:64ch}
 .lede{font-size:17px;color:var(--ink2)}
 section{padding:66px 0}
 
+nav{border-bottom:1px solid var(--border);background:rgba(247,246,243,.94);position:sticky;top:0;z-index:5;backdrop-filter:blur(6px)}
+nav .wrap{display:flex;gap:8px;padding-top:12px;padding-bottom:12px;font-size:12.5px;flex-wrap:wrap;align-items:center}
+nav a{color:var(--ink3);text-decoration:none;display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;border:1px solid transparent}
+nav a:hover{background:#fff;border-color:var(--border);color:var(--ink)}
+nav a[aria-current]{background:#fff;border-color:var(--gold);color:var(--ink);font-weight:500}
+nav .home{color:var(--muted)}
 /* hero */
-.hero{padding:88px 0 62px;border-bottom:1px solid var(--border)}
+.hero{padding:72px 0 62px;border-bottom:1px solid var(--border)}
 .hero h1{font-size:64px;line-height:1.02;max-width:14ch;margin-bottom:20px}
 .hero .sub{font-size:21px;color:var(--ink2);max-width:52ch}
 .hero .ask{margin-top:20px;font-size:16.5px;color:var(--ink3);max-width:58ch}
@@ -329,6 +335,13 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
 </style>
 </head>
 <body>
+<nav><div class="wrap">
+  <a class="home" href="inicial-v2-3.html" aria-current="page">Início</a>
+  <a href="#perfis">Personalidades</a>
+  <a href="felicidade.html">O que é felicidade?</a>
+  <a href="questionario-personalidade.html">Quiz Personalidades</a>
+  <a href="questionario.html">Quiz Chakras</a>
+</div></nav>
 
 <header class="hero">
   <div class="wrap">
@@ -351,7 +364,7 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
 
 <!-- ============ PARTE 1 ============ -->
 
-<section class="wrap">
+<section class="wrap" id="perfis">
   <div class="part-tag">Primeira parte — Personalidade</div>
   <h2>Os sete perfis</h2>
   <p class="lede">Cada um nasce de uma frequência e tem uma busca legítima, forças que ninguém te ensinou a valorizar, sombras previsíveis — e um viés: a frase silenciosa que filtra como você enxerga todos os seus problemas. Reconheça o seu.</p>

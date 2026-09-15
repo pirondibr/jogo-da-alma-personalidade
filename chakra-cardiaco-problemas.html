@@ -151,6 +151,29 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
   .claim p{font-size:18px}
   .btn{margin-right:0;width:100%;text-align:center}.btn.alt{margin-top:10px}
 }
+
+/* professor banner */
+.profs{padding:56px 0 8px}
+.profs-head{margin-bottom:28px}
+.profs-eyebrow{font-family:'Fraunces',serif;font-size:14px;font-style:italic;color:var(--gold);margin-bottom:8px}
+.profs h2{max-width:18ch}
+.profs .lede{margin-top:10px;max-width:54ch}
+.profs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px}
+.prof-card{position:relative;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px 22px 22px;display:flex;flex-direction:column;min-height:100%;overflow:hidden;transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease}
+.prof-card::before{content:'';position:absolute;inset:0 auto auto 0;width:100%;height:3px;background:linear-gradient(90deg,var(--a),var(--b))}
+.prof-card:hover{transform:translateY(-3px);box-shadow:0 16px 36px -28px rgba(26,26,26,.45);border-color:#ddd9d1}
+.prof-kicker{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+.prof-card h3{font-family:'Fraunces',serif;font-weight:500;font-size:22px;line-height:1.2;margin-bottom:8px}
+.prof-card > p{font-size:14px;color:var(--ink3);margin-bottom:16px;max-width:none}
+.prof-ex{list-style:none;display:grid;gap:8px;margin:0 0 20px;flex:1}
+.prof-ex li{font-size:13.5px;line-height:1.45;color:var(--ink2);background:#FBFBF8;border:1px solid var(--border-l);border-radius:11px;padding:11px 13px 11px 28px;position:relative}
+.prof-ex li::before{content:'“';position:absolute;left:10px;top:8px;font-family:'Fraunces',serif;font-size:18px;color:var(--gold)}
+.prof-card .btn{align-self:flex-start;margin-top:auto}
+.prof-card.p1{--a:var(--basico);--b:var(--plexo)}
+.prof-card.p2{--a:var(--frontal);--b:var(--cardiaco)}
+.prof-card.p3{--a:var(--coronario);--b:var(--laringeo)}
+@media(max-width:900px){.profs-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -332,6 +355,51 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
       <h3>Estou…</h3>
       <a href="questionario-felicidade.html">Magoado</a><a href="questionario-felicidade.html">Com medo de rejeição</a><a href="questionario-felicidade.html">Dependente emocionalmente</a><a href="questionario-felicidade.html">Carregando culpa</a><a href="questionario-felicidade.html">Me anulando para agradar</a><a href="questionario-felicidade.html">Fechado para confiar de novo</a>
     </div>
+  </div>
+</section>
+
+
+<section class="wrap profs" id="professores">
+  <div class="profs-head">
+    <div class="profs-eyebrow">Professor dos Chakras</div>
+    <h2>Três conversas. Três caminhos.</h2>
+    <p class="lede">A Veda lê o que está acontecendo pelos sete Chakras e ajuda você a compreender o padrão por trás da situação, de si mesma ou do que deseja manifestar.</p>
+  </div>
+
+  <div class="profs-grid">
+    <article class="prof-card p1">
+      <div class="prof-kicker">Situações e problemas</div>
+      <h3>Entenda o que está por trás</h3>
+      <p>Traga um problema concreto. A Veda organiza o relato, identifica Chakras e necessidades em jogo e fecha um mapa diagnóstico.</p>
+      <ul class="prof-ex">
+        <li>Travo quando preciso falar em público, mesmo sabendo o conteúdo.</li>
+        <li>Estou em transição de carreira e não consigo decidir o próximo passo.</li>
+        <li>No trabalho, a comunicação trava e tudo vira conflito ou silêncio.</li>
+      </ul>
+      <a class="btn" href="https://veda-chatbot-problemas.vercel.app" target="_blank" rel="noopener">Conversar sobre um problema</a>
+    </article>
+
+    <article class="prof-card p2">
+      <div class="prof-kicker">Autoconhecimento</div>
+      <h3>Compreenda como você funciona</h3>
+      <p>Partindo do seu perfil de Chakras, a Veda ajuda a entender padrões, preferências e o que costuma ser mais difícil para você.</p>
+      <ul class="prof-ex">
+        <li>Por que tenho tanta dificuldade de dizer não para as pessoas?</li>
+        <li>Por que penso demais e demoro para decidir?</li>
+        <li>Por que certas críticas me afetam tanto?</li>
+      </ul>
+      <a class="btn" href="https://veda-chatbot-autoconhecimento.vercel.app" target="_blank" rel="noopener">Explorar meu perfil</a>
+    </article>
+
+    <article class="prof-card p3">
+      <div class="prof-kicker">Manifestação</div>
+      <h3>Veja o que limita o movimento</h3>
+      <p>Diga o que deseja criar ou conquistar. A Veda investiga o gargalo pelos Chakras, compatibilidade e ambiente, e fecha um diagnóstico de manifestação.</p>
+      <ul class="prof-ex">
+        <li>Quero conseguir mais clientes, mas mudo de direção e nenhuma estratégia ganha continuidade.</li>
+      </ul>
+      <a class="btn" href="https://veda-chatbot-manifestacao.vercel.app" target="_blank" rel="noopener">Diagnosticar minha manifestação</a>
+    </article>
   </div>
 </section>
 

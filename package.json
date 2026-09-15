@@ -1,0 +1,7 @@
+{
+  "name": "jogo-da-alma-personalidade",
+  "private": true,
+  "engines": {
+    "node": "20.x"
+  }
+}

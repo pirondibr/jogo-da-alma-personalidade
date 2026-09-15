@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
 <script src="quiz-lead.js"></script>
-<script src="openrouter-config.js"></script>
+
 <style>
 :root{
   --bg:#F7F6F3;--card:#FFF;--ink:#1A1A1A;--ink2:#3D3D3D;--ink3:#6B6B6B;--muted:#9A9A9A;
@@ -319,10 +319,6 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
   }
 
   function fetchAiReading(ctx){
-    var cfg = window.OPENROUTER_CONFIG || {};
-    if (!cfg.apiKey) return Promise.resolve(null);
-
-    var system = 'You are an assistant for Jogo da Alma methodology. Respond in Brazilian Portuguese. Be warm, clear, practical, non-clinical. Return ONLY valid JSON: {"geral":"...","foco1":"...","foco2":"..."}. Each string 2-4 sentences.';
     var user = [
       'Nome: ' + (ctx.name || 'participante'),
       'Índice geral: ' + ctx.geral + '%',
@@ -338,29 +334,15 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
       'Escreva uma leitura personalizada: geral (visão do momento), foco1 e foco2 (para as duas necessidades mais frágeis, nesta ordem).'
     ].join('\n');
 
-    return fetch('https://openrouter.ai/api/v1/chat/completions', {
+    return fetch('/api/felicidade-insight', {
       method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + cfg.apiKey,
-        'Content-Type': 'application/json',
-        'HTTP-Referer': cfg.referer || location.origin,
-        'X-Title': cfg.title || 'Jogo da Alma'
-      },
-      body: JSON.stringify({
-        model: cfg.model || 'openai/gpt-5.5',
-        messages: [
-          { role: 'system', content: system },
-          { role: 'user', content: user }
-        ]
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: user })
     }).then(function(resp){
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
       return resp.json();
     }).then(function(data){
-      var content = data && data.choices && data.choices[0] && data.choices[0].message
-        ? data.choices[0].message.content
-        : '';
-      return parseAiJson(content);
+      return parseAiJson(data && data.content ? data.content : '');
     }).catch(function(){ return null; });
   }
 

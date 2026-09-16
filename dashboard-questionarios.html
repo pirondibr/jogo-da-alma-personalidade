@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard — Questionários Jogo da Alma</title>
+    <style>
+      :root {
+        --bg: #f7f6f3;
+        --card: #fff;
+        --ink: #1a1a1a;
+        --muted: #6b6b6b;
+        --line: #e8e6e1;
+        --gold: #c9a84c;
+        --pos: #3e8e6b;
+        --neg: #b04a46;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 10% 0, rgba(201,168,76,.12), transparent 28%),
+          var(--bg);
+        font-family: "DM Sans", "Segoe UI", system-ui, sans-serif;
+      }
+      .wrap { width: min(1100px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 48px; }
+      .hidden { display: none !important; }
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--card);
+        box-shadow: 0 18px 50px rgba(26,26,26,.06);
+      }
+      .login { width: min(420px, 100%); margin: 12vh auto 0; padding: 28px; }
+      h1 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-weight: 500; }
+      .muted { color: var(--muted); }
+      label { display: block; margin: 14px 0 6px; font-size: 13px; font-weight: 700; }
+      input, select {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        font: inherit;
+        background: #fff;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 14px;
+        padding: 12px 16px;
+        border: 0;
+        border-radius: 999px;
+        background: var(--ink);
+        color: #fff;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .btn.secondary {
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid var(--line);
+      }
+      .error { color: var(--neg); margin-top: 10px; font-size: 14px; }
+      .top {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: space-between;
+        align-items: end;
+        margin-bottom: 18px;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(260px, 340px) 1fr;
+        gap: 14px;
+      }
+      @media (max-width: 860px) {
+        .layout { grid-template-columns: 1fr; }
+      }
+      .panel { min-height: 420px; overflow: hidden; display: flex; flex-direction: column; }
+      .panel-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+      .list { overflow: auto; max-height: min(72vh, 820px); }
+      .item {
+        width: 100%;
+        text-align: left;
+        border: 0;
+        border-bottom: 1px solid var(--line);
+        background: transparent;
+        padding: 14px 16px;
+        cursor: pointer;
+        font: inherit;
+      }
+      .item:hover, .item.active { background: rgba(201,168,76,.08); }
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        color: #7a6220;
+      }
+      .detail { padding: 16px; overflow: auto; max-height: min(72vh, 820px); }
+      .meta {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .meta div, .block {
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fafaf8;
+      }
+      .meta span, .block span {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      pre {
+        white-space: pre-wrap;
+        word-break: break-word;
+        margin: 0;
+        font-family: ui-monospace, Consolas, monospace;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+      .filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+      .filters select { width: auto; min-width: 180px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <section id="loginView" class="card login">
+        <h1>Dashboard dos questionários</h1>
+        <p class="muted">Personalidade e Felicidade — Jogo da Alma</p>
+        <form id="loginForm">
+          <label for="password">Senha</label>
+          <input id="password" type="password" autocomplete="current-password" required minlength="6" />
+          <button class="btn" type="submit" id="loginBtn">Entrar</button>
+          <p id="loginError" class="error hidden"></p>
+        </form>
+      </section>
+
+      <section id="appView" class="hidden">
+        <div class="top">
+          <div>
+            <h1>Envios</h1>
+            <p class="muted" style="margin:6px 0 0">Leads e resultados salvos</p>
+          </div>
+          <div class="filters">
+            <select id="typeFilter">
+              <option value="">Todos</option>
+              <option value="personality-pt">Personalidade</option>
+              <option value="felicidade-pt">Felicidade</option>
+            </select>
+            <button class="btn secondary" type="button" id="refreshBtn">Atualizar</button>
+            <button class="btn secondary" type="button" id="logoutBtn">Sair</button>
+          </div>
+        </div>
+
+        <div class="layout">
+          <aside class="card panel">
+            <div class="panel-head">
+              <strong>Lista</strong>
+              <span id="countLabel" class="muted">0</span>
+            </div>
+            <div id="list" class="list"><div class="muted" style="padding:20px">Carregando…</div></div>
+          </aside>
+          <main class="card panel">
+            <div class="panel-head"><strong id="detailTitle">Detalhe</strong></div>
+            <div id="detail" class="detail"><div class="muted">Selecione um envio.</div></div>
+          </main>
+        </div>
+        <p id="appError" class="error hidden"></p>
+      </section>
+    </div>
+
+    <script>
+      const STORAGE_KEY = "jogo-alma-quiz-dashboard-password";
+      const loginView = document.getElementById("loginView");
+      const appView = document.getElementById("appView");
+      const loginForm = document.getElementById("loginForm");
+      const loginError = document.getElementById("loginError");
+      const appError = document.getElementById("appError");
+      const listEl = document.getElementById("list");
+      const detailEl = document.getElementById("detail");
+      const detailTitle = document.getElementById("detailTitle");
+      const countLabel = document.getElementById("countLabel");
+      const typeFilter = document.getElementById("typeFilter");
+      const passwordInput = document.getElementById("password");
+      const loginBtn = document.getElementById("loginBtn");
+
+      let password = sessionStorage.getItem(STORAGE_KEY) || "";
+      let selectedId = null;
+      let submissions = [];
+
+      function showError(el, message) {
+        if (!message) {
+          el.classList.add("hidden");
+          el.textContent = "";
+          return;
+        }
+        el.textContent = message;
+        el.classList.remove("hidden");
+      }
+
+      function formatDate(value) {
+        if (!value) return "—";
+        try {
+          return new Date(value).toLocaleString("pt-BR");
+        } catch {
+          return String(value);
+        }
+      }
+
+      function typeLabel(type) {
+        if (type === "personality-pt") return "Personalidade";
+        if (type === "felicidade-pt") return "Felicidade";
+        return type || "—";
+      }
+
+      function escapeHtml(value) {
+        return String(value || "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+      }
+
+      async function api(path) {
+        const response = await fetch(path, {
+          headers: { "x-dashboard-password": password },
+          cache: "no-store",
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          const error = new Error(data.error || "Falha na requisição.");
+          error.status = response.status;
+          throw error;
+        }
+        return data;
+      }
+
+      function renderList() {
+        countLabel.textContent = String(submissions.length);
+        if (!submissions.length) {
+          listEl.innerHTML = '<div class="muted" style="padding:20px">Nenhum envio ainda.</div>';
+          return;
+        }
+        listEl.innerHTML = submissions
+          .map((item) => {
+            const active = item.id === selectedId ? "active" : "";
+            return `
+              <button class="item ${active}" type="button" data-id="${item.id}">
+                <div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:4px">
+                  <strong>${escapeHtml(item.userName)}</strong>
+                  <span class="badge">${typeLabel(item.quizType)}</span>
+                </div>
+                <div class="muted" style="font-size:13px">${escapeHtml(item.userEmail)} · ${formatDate(item.createdAt)}</div>
+                <div class="muted" style="margin-top:8px;font-size:13px">${escapeHtml(item.headline || "")}</div>
+              </button>
+            `;
+          })
+          .join("");
+
+        listEl.querySelectorAll(".item").forEach((button) => {
+          button.addEventListener("click", () => {
+            selectedId = button.dataset.id;
+            renderList();
+            loadDetail(selectedId);
+          });
+        });
+      }
+
+      async function loadList() {
+        showError(appError, "");
+        const type = typeFilter.value;
+        const query = type ? `?type=${encodeURIComponent(type)}` : "";
+        const data = await api(`/api/quiz-submissions${query}`);
+        submissions = data.submissions || [];
+        renderList();
+      }
+
+      async function loadDetail(id) {
+        detailEl.innerHTML = '<div class="muted">Carregando…</div>';
+        const data = await api(`/api/quiz-submissions?id=${encodeURIComponent(id)}`);
+        const item = data.submission;
+        if (!item) {
+          detailEl.innerHTML = '<div class="muted">Não encontrado.</div>';
+          return;
+        }
+        detailTitle.textContent = item.userName || "Detalhe";
+        detailEl.innerHTML = `
+          <div class="meta">
+            <div><span>E-mail</span>${escapeHtml(item.userEmail)}</div>
+            <div><span>Questionário</span>${typeLabel(item.quizType)}</div>
+            <div><span>Criado em</span>${formatDate(item.createdAt)}</div>
+            <div><span>ID</span>${escapeHtml(item.id)}</div>
+          </div>
+          <div class="block" style="margin-bottom:12px">
+            <span>Resumo</span>
+            <pre>${escapeHtml(JSON.stringify(item.summary || {}, null, 2))}</pre>
+          </div>
+          <div class="block">
+            <span>Respostas</span>
+            <pre>${escapeHtml(JSON.stringify(item.answers || {}, null, 2))}</pre>
+          </div>
+        `;
+      }
+
+      function showApp() {
+        loginView.classList.add("hidden");
+        appView.classList.remove("hidden");
+      }
+
+      function showLogin() {
+        password = "";
+        sessionStorage.removeItem(STORAGE_KEY);
+        appView.classList.add("hidden");
+        loginView.classList.remove("hidden");
+        passwordInput.value = "";
+      }
+
+      loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        showError(loginError, "");
+        loginBtn.disabled = true;
+        password = passwordInput.value.trim();
+        try {
+          await loadList();
+          sessionStorage.setItem(STORAGE_KEY, password);
+          showApp();
+        } catch (error) {
+          password = "";
+          showError(
+            loginError,
+            error.status === 401 ? "Senha inválida." : error.message || "Falha ao entrar.",
+          );
+        } finally {
+          loginBtn.disabled = false;
+        }
+      });
+
+      document.getElementById("logoutBtn").addEventListener("click", showLogin);
+      document.getElementById("refreshBtn").addEventListener("click", async () => {
+        try {
+          await loadList();
+        } catch (error) {
+          if (error.status === 401) showLogin();
+          else showError(appError, error.message);
+        }
+      });
+      typeFilter.addEventListener("change", async () => {
+        selectedId = null;
+        detailTitle.textContent = "Detalhe";
+        detailEl.innerHTML = '<div class="muted">Selecione um envio.</div>';
+        try {
+          await loadList();
+        } catch (error) {
+          if (error.status === 401) showLogin();
+          else showError(appError, error.message);
+        }
+      });
+
+      if (password) {
+        loadList().then(showApp).catch(() => showLogin());
+      }
+    </script>
+  </body>
+</html>

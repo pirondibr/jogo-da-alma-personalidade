@@ -48,6 +48,10 @@ nav .home{color:var(--muted);margin-right:6px}
 .quiz-lead-btn{margin-top:16px;padding:14px 24px;border:none;border-radius:999px;background:var(--ink);color:#fff;font-family:inherit;font-size:1rem;font-weight:500;cursor:pointer;transition:filter .2s,transform .2s}
 .quiz-lead-btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
 .quiz-lead-note{margin-top:14px;font-size:.75rem;color:var(--muted);text-align:center;line-height:1.5}
+.quiz-save-status{margin:16px 0 0;padding:12px 14px;border-radius:12px;font-size:.9rem;line-height:1.5}
+.quiz-save-saving{background:#F4F1EA;color:var(--ink3)}
+.quiz-save-ok{background:var(--pos-bg);color:var(--pos)}
+.quiz-save-err{background:var(--neg-bg);color:var(--neg)}
 
 .ai-box{margin-top:26px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 24px;border-left:3px solid var(--gold)}
 .ai-box .ai-lbl{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.04em;margin-bottom:10px}
@@ -217,6 +221,7 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
       <small>ÍNDICE GERAL</small>
       <div class="big" id="rBig"></div>
       <p id="rTxt"></p>
+      <div id="rSave"></div>
     </div>
 
     <div id="rAi" class="ai-box" style="display:none"></div>
@@ -473,6 +478,17 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
       });
     });
 
+    var submissionId = null;
+    var pendingAi = null;
+    var saveBox = $('rSave');
+
+    function maybeAttachAi() {
+      if (window.QuizLead && QuizLead.attachQuizAi && submissionId && pendingAi) {
+        QuizLead.attachQuizAi({ id: submissionId, ai: pendingAi });
+        pendingAi = null;
+      }
+    }
+
     fetchAiReading({
       name: leadData.name || '',
       geral: geral,
@@ -484,11 +500,57 @@ footer{border-top:1px solid var(--border);padding:24px 0 48px;font-size:12px;col
     }).then(function(ai){
       if (ai && ai.geral) {
         applyAiReading(ai);
+        pendingAi = ai;
+        maybeAttachAi();
       } else {
         rAi.style.display = 'none';
         rAi.innerHTML = '';
       }
     });
+
+    if (window.QuizLead && QuizLead.saveQuizSubmission) {
+      saveBox.innerHTML = QuizLead.saveStatusHtml('saving');
+      var summary = {
+        geral: geral,
+        ranking: ord.map(function(x){
+          return { k: x.d.k, nome: x.d.nome, nec: x.d.nec, p: x.p, crit: x.crit };
+        }),
+        fracos: fracos.map(function(x){
+          return { k: x.d.k, nec: x.d.nec, p: x.p };
+        }),
+        critFlags: critFlags
+      };
+      var answers = {
+        steps: DATA.map(function(d, i){
+          return {
+            k: d.k,
+            nec: d.nec,
+            items: d.qs.map(function(q, qi){
+              return {
+                label: q[0],
+                value: estado[i][qi].v,
+                critico: estado[i][qi].c
+              };
+            })
+          };
+        })
+      };
+      QuizLead.saveQuizSubmission({
+        quizType: 'felicidade-pt',
+        summary: summary,
+        answers: answers
+      }).then(function(result){
+        if (result && result.skipped) {
+          saveBox.innerHTML = '';
+          return;
+        }
+        submissionId = result && result.id ? result.id : null;
+        saveBox.innerHTML = QuizLead.saveStatusHtml('saved');
+        maybeAttachAi();
+      }).catch(function(){
+        saveBox.innerHTML = QuizLead.saveStatusHtml('error');
+      });
+    }
 
     window.scrollTo({top: 0, behavior: 'instant'});
   }

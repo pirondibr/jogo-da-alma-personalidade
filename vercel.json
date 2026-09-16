@@ -1,7 +1,11 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/", "destination": "/inicial-v2-3.html" }
+    { "source": "/", "destination": "/inicial-v2-3.html" },
+    {
+      "source": "/dashboard-questionarios",
+      "destination": "/dashboard-questionarios.html"
+    }
   ],
   "functions": {
     "api/**/*.js": {

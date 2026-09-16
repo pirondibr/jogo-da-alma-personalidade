@@ -1,19 +1,18 @@
-/* Lead gate + save opcional (pula se não houver API / Supabase) */
+/* Lead gate + save via /api/quiz-submissions (Neon) */
 (function (global) {
-  const STORAGE_KEY = 'sg_quiz_lead';
-  let cachedConfig = null;
+  const STORAGE_KEY = "sg_quiz_lead";
   let saveInFlight = false;
 
   function esc(s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
   }
 
   function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || '').trim());
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || "").trim());
   }
 
   function getLead() {
@@ -22,7 +21,10 @@
       if (!raw) return null;
       const data = JSON.parse(raw);
       if (!data || !data.name || !data.email) return null;
-      return { name: String(data.name).trim(), email: String(data.email).trim().toLowerCase() };
+      return {
+        name: String(data.name).trim(),
+        email: String(data.email).trim().toLowerCase(),
+      };
     } catch {
       return null;
     }
@@ -30,18 +32,19 @@
 
   function setLead(name, email) {
     const lead = {
-      name: String(name || '').trim(),
-      email: String(email || '').trim().toLowerCase(),
+      name: String(name || "").trim(),
+      email: String(email || "").trim().toLowerCase(),
     };
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(lead));
     return lead;
   }
 
   function renderLeadForm(opts) {
-    const title = opts.title || 'Antes de começar';
-    const subtitle = opts.subtitle || 'Digite seu nome e e-mail para iniciar o questionário.';
-    const buttonLabel = opts.buttonLabel || 'Continuar';
-    const existing = getLead() || { name: '', email: '' };
+    const title = opts.title || "Antes de começar";
+    const subtitle =
+      opts.subtitle || "Digite seu nome e e-mail para iniciar o questionário.";
+    const buttonLabel = opts.buttonLabel || "Continuar";
+    const existing = getLead() || { name: "", email: "" };
 
     return `
       <div class="quiz-lead-card">
@@ -61,66 +64,46 @@
   }
 
   function bindLeadForm(onContinue) {
-    const form = document.getElementById('quizLeadForm');
-    const err = document.getElementById('quizLeadError');
+    const form = document.getElementById("quizLeadForm");
+    const err = document.getElementById("quizLeadError");
     if (!form) return;
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const name = (document.getElementById('quizLeadName')?.value || '').trim();
-      const email = (document.getElementById('quizLeadEmail')?.value || '').trim();
+      const name = (document.getElementById("quizLeadName")?.value || "").trim();
+      const email = (
+        document.getElementById("quizLeadEmail")?.value || ""
+      ).trim();
 
       if (name.length < 2) {
         err.hidden = false;
-        err.textContent = 'Digite seu nome.';
+        err.textContent = "Digite seu nome.";
         return;
       }
       if (!isValidEmail(email)) {
         err.hidden = false;
-        err.textContent = 'Digite um e-mail válido.';
+        err.textContent = "Digite um e-mail válido.";
         return;
       }
 
       err.hidden = true;
       setLead(name, email);
-      if (typeof onContinue === 'function') onContinue(getLead());
+      if (typeof onContinue === "function") onContinue(getLead());
     });
-  }
-
-  async function getPublicConfig() {
-    if (cachedConfig) return cachedConfig;
-    try {
-      const resp = await fetch('/api/public-config');
-      if (!resp.ok) return null;
-      const data = await resp.json().catch(() => ({}));
-      if (!data.supabaseUrl || !data.supabaseAnonKey) return null;
-      cachedConfig = data;
-      return cachedConfig;
-    } catch {
-      return null;
-    }
   }
 
   async function saveQuizSubmission({ quizType, summary, answers }) {
     const lead = getLead();
-    if (!lead) throw new Error('Falta nome/e-mail');
+    if (!lead) throw new Error("Falta nome/e-mail");
     if (saveInFlight) return { ok: false, skipped: true };
 
     saveInFlight = true;
     try {
-      const config = await getPublicConfig();
-      if (!config) return { ok: false, skipped: true };
-
-      const resp = await fetch(`${config.supabaseUrl}/rest/v1/quiz_submissions`, {
-        method: 'POST',
-        headers: {
-          apikey: config.supabaseAnonKey,
-          Authorization: `Bearer ${config.supabaseAnonKey}`,
-          'Content-Type': 'application/json',
-          Prefer: 'return=minimal',
-        },
+      const resp = await fetch("/api/quiz-submissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          quiz_type: quizType,
+          quizType,
           name: lead.name,
           email: lead.email,
           summary: summary || {},
@@ -128,28 +111,50 @@
         }),
       });
 
+      const data = await resp.json().catch(() => ({}));
       if (!resp.ok) {
-        const errText = await resp.text().catch(() => '');
-        throw new Error(errText || `Falha ao salvar (${resp.status})`);
+        throw new Error(data.error || `Falha ao salvar (${resp.status})`);
       }
 
-      return { ok: true };
+      if (data.skipped || data.persistence === "disabled") {
+        return { ok: false, skipped: true, ...data };
+      }
+
+      return { ok: true, id: data.id, ...data };
     } finally {
       saveInFlight = false;
     }
   }
 
+  async function attachQuizAi({ id, ai }) {
+    if (!id || !ai) return { ok: false, skipped: true };
+    try {
+      const resp = await fetch("/api/quiz-submissions", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, ai }),
+      });
+      const data = await resp.json().catch(() => ({}));
+      if (!resp.ok) {
+        return { ok: false, error: data.error || "Falha ao anexar AI" };
+      }
+      return { ok: true, ...data };
+    } catch (error) {
+      return { ok: false, error: error.message };
+    }
+  }
+
   function saveStatusHtml(state) {
-    if (state === 'saving') {
+    if (state === "saving") {
       return '<p class="quiz-save-status quiz-save-saving">Salvando seus resultados…</p>';
     }
-    if (state === 'saved') {
+    if (state === "saved") {
       return '<p class="quiz-save-status quiz-save-ok">Resultados salvos. Você pode voltar depois: seu mapa fica vinculado ao seu e-mail.</p>';
     }
-    if (state === 'error') {
+    if (state === "error") {
       return '<p class="quiz-save-status quiz-save-err">Seus resultados estão prontos, mas não conseguimos salvar agora. Você ainda pode baixar o PDF.</p>';
     }
-    return '';
+    return "";
   }
 
   global.QuizLead = {
@@ -158,6 +163,7 @@
     renderLeadForm,
     bindLeadForm,
     saveQuizSubmission,
+    attachQuizAi,
     saveStatusHtml,
     isValidEmail,
   };

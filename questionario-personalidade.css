@@ -102,7 +102,7 @@
   border: 1px solid var(--border);
   transition: all 0.2s ease;
   cursor: grab;
-  touch-action: none;
+  touch-action: pan-y;
 }
 
 .pq-rank-item:active { cursor: grabbing; }
@@ -111,11 +111,17 @@
   opacity: 0.5;
   border-color: var(--accent);
   background: var(--accent-soft);
+  touch-action: none;
 }
 
 .pq-rank-item.drag-over {
   border-color: var(--accent);
   transform: scale(1.01);
+}
+
+.pq-rank-item.pq-drag-ready {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
 }
 
 .pq-rank-pos {
@@ -440,4 +446,10 @@
   .pq-rank-item { padding: 12px 10px; }
   .pq-rank-text { font-size: 0.8rem; }
   .pq-result-bar-wrap { width: 60px; }
+  .pq-arrow-btn {
+    width: 36px;
+    height: 30px;
+    font-size: 0.85rem;
+  }
+  .pq-rank-arrows { gap: 4px; }
 }

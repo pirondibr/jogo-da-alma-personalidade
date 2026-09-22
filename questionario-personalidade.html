@@ -188,12 +188,13 @@ function renderQuiz(app) {
            ondrop="onDrop(event,${i})"
            ontouchstart="onTouchStart(event,${i})"
            ontouchmove="onTouchMove(event)"
-           ontouchend="onTouchEnd(event)">
+           ontouchend="onTouchEnd(event)"
+           ontouchcancel="onTouchCancel(event)">
         <span class="pq-rank-pos ${posClass(i)}">${i + 1}</span>
         <span class="pq-rank-text">${opt.text}</span>
         <span class="pq-rank-arrows">
-          <button class="pq-arrow-btn" onclick="moveItem(${i},-1)" ${i === 0 ? 'disabled' : ''} aria-label="Subir">&#9650;</button>
-          <button class="pq-arrow-btn" onclick="moveItem(${i},1)" ${i === 6 ? 'disabled' : ''} aria-label="Descer">&#9660;</button>
+          <button class="pq-arrow-btn" onclick="event.stopPropagation(); moveItem(${i},-1)" ontouchstart="event.stopPropagation()" ${i === 0 ? 'disabled' : ''} aria-label="Subir">&#9650;</button>
+          <button class="pq-arrow-btn" onclick="event.stopPropagation(); moveItem(${i},1)" ontouchstart="event.stopPropagation()" ${i === 6 ? 'disabled' : ''} aria-label="Descer">&#9660;</button>
         </span>
       </div>`;
   });
@@ -207,7 +208,7 @@ function renderQuiz(app) {
     </div>
     <div class="pq-question-header">
       <h2>${q.title}</h2>
-      <p class="pq-instruction">Arraste ou use as setas para ordenar do que mais combina com você (topo) ao que menos combina (base).</p>
+      <p class="pq-instruction">No celular, use as setas para ordenar — ou mantenha pressionado um item para arrastar. No computador, você também pode arrastar. Ordem: do que mais combina (topo) ao que menos combina (base).</p>
     </div>
     <div class="pq-ranking-list" id="rankingList">${items}</div>
     <div class="pq-nav">
@@ -417,15 +418,30 @@ window.onDrop = function(e, dropIdx) {
   render();
 };
 
-/* ---- Touch Drag (mobile) ---- */
+/* ---- Touch Drag (mobile): long-press to drag, otherwise allow scroll ---- */
 let touchStartIdx = null;
 let touchClone = null;
 let touchStartY = 0;
+let touchStartX = 0;
+let touchDragging = false;
+let touchLongPressTimer = null;
+const TOUCH_LONG_PRESS_MS = 380;
+const TOUCH_SCROLL_SLOP = 12;
 
-window.onTouchStart = function(e, idx) {
+function clearTouchLongPress() {
+  if (touchLongPressTimer) {
+    clearTimeout(touchLongPressTimer);
+    touchLongPressTimer = null;
+  }
+  document.querySelectorAll('.pq-rank-item.pq-drag-ready').forEach((el) => {
+    el.classList.remove('pq-drag-ready');
+  });
+}
+
+function beginTouchDrag(el, idx) {
+  touchDragging = true;
   touchStartIdx = idx;
-  touchStartY = e.touches[0].clientY;
-  const el = e.currentTarget;
+  el.classList.remove('pq-drag-ready');
   touchClone = el.cloneNode(true);
   touchClone.style.position = 'fixed';
   touchClone.style.left = el.getBoundingClientRect().left + 'px';
@@ -438,37 +454,72 @@ window.onTouchStart = function(e, idx) {
   touchClone.style.transform = 'scale(1.03)';
   document.body.appendChild(touchClone);
   el.classList.add('dragging');
+  if (navigator.vibrate) navigator.vibrate(12);
+}
+
+window.onTouchStart = function(e, idx) {
+  if (e.target.closest('.pq-arrow-btn')) return;
+  clearTouchLongPress();
+  touchDragging = false;
+  touchStartIdx = idx;
+  touchStartY = e.touches[0].clientY;
+  touchStartX = e.touches[0].clientX;
+  const el = e.currentTarget;
+  touchLongPressTimer = setTimeout(() => {
+    touchLongPressTimer = null;
+    beginTouchDrag(el, idx);
+  }, TOUCH_LONG_PRESS_MS);
+  el.classList.add('pq-drag-ready');
 };
 
 window.onTouchMove = function(e) {
-  if (touchClone) {
-    e.preventDefault();
-    const y = e.touches[0].clientY;
-    const dy = y - touchStartY;
-    const origTop = parseFloat(touchClone.style.top);
-    touchClone.style.transform = `scale(1.03) translateY(${dy}px)`;
+  const y = e.touches[0].clientY;
+  const x = e.touches[0].clientX;
+  const dy = y - touchStartY;
+  const dx = x - touchStartX;
 
-    const items = document.querySelectorAll('.pq-rank-item');
-    items.forEach(el => el.classList.remove('drag-over'));
-    items.forEach((el, idx) => {
-      if (idx === touchStartIdx) return;
-      const rect = el.getBoundingClientRect();
-      if (y > rect.top && y < rect.bottom) {
-        el.classList.add('drag-over');
-      }
-    });
+  if (!touchDragging) {
+    if (Math.abs(dy) > TOUCH_SCROLL_SLOP || Math.abs(dx) > TOUCH_SCROLL_SLOP) {
+      clearTouchLongPress();
+      touchStartIdx = null;
+    }
+    return;
   }
+
+  e.preventDefault();
+  if (!touchClone) return;
+  touchClone.style.transform = `scale(1.03) translateY(${dy}px)`;
+
+  const items = document.querySelectorAll('.pq-rank-item');
+  items.forEach((el) => el.classList.remove('drag-over'));
+  items.forEach((el, idx) => {
+    if (idx === touchStartIdx) return;
+    const rect = el.getBoundingClientRect();
+    if (y > rect.top && y < rect.bottom) {
+      el.classList.add('drag-over');
+    }
+  });
 };
 
 window.onTouchEnd = function(e) {
+  clearTouchLongPress();
+
+  if (!touchDragging) {
+    touchStartIdx = null;
+    return;
+  }
+
   if (touchClone) {
     document.body.removeChild(touchClone);
     touchClone = null;
   }
-  document.querySelectorAll('.pq-rank-item').forEach(el => {
+  document.querySelectorAll('.pq-rank-item').forEach((el) => {
     el.classList.remove('dragging', 'drag-over');
   });
-  if (touchStartIdx === null) return;
+  if (touchStartIdx === null) {
+    touchDragging = false;
+    return;
+  }
   const y = e.changedTouches[0].clientY;
   const items = document.querySelectorAll('.pq-rank-item');
   let dropIdx = touchStartIdx;
@@ -485,6 +536,20 @@ window.onTouchEnd = function(e) {
     render();
   }
   touchStartIdx = null;
+  touchDragging = false;
+};
+
+window.onTouchCancel = function() {
+  clearTouchLongPress();
+  if (touchClone) {
+    document.body.removeChild(touchClone);
+    touchClone = null;
+  }
+  document.querySelectorAll('.pq-rank-item').forEach((el) => {
+    el.classList.remove('dragging', 'drag-over', 'pq-drag-ready');
+  });
+  touchStartIdx = null;
+  touchDragging = false;
 };
 
 /* ---- PDF Generation ---- */

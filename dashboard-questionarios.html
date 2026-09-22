@@ -139,6 +139,155 @@
       }
       .filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
       .filters select { width: auto; min-width: 180px; }
+      .section-title {
+        margin: 18px 0 10px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 18px;
+        font-weight: 500;
+      }
+      .section-title:first-child { margin-top: 0; }
+      .hero-score {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: stretch;
+        margin-bottom: 14px;
+      }
+      .score-card {
+        flex: 1;
+        min-width: 160px;
+        padding: 16px 18px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: linear-gradient(180deg, #fffef9, #fafaf8);
+      }
+      .score-card .lbl { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+      .score-card .val {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 28px;
+        line-height: 1.1;
+      }
+      .score-card .sub { margin-top: 4px; font-size: 13px; color: var(--muted); }
+      .rank-list { display: grid; gap: 8px; }
+      .rank-row {
+        display: grid;
+        grid-template-columns: 28px 1fr auto;
+        gap: 10px;
+        align-items: center;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+      }
+      .rank-num {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: #f1efe8;
+        font-size: 12px;
+        font-weight: 700;
+        color: #7a6220;
+      }
+      .rank-name { font-weight: 600; }
+      .rank-meta { font-size: 12px; color: var(--muted); }
+      .bar-wrap {
+        height: 7px;
+        border-radius: 99px;
+        background: #efece5;
+        overflow: hidden;
+        margin-top: 6px;
+      }
+      .bar-fill {
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #c9a84c, #8a6b2f);
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        font-size: 12px;
+        background: #fff;
+      }
+      .chip.crit {
+        border-color: rgba(176,74,70,.28);
+        color: var(--neg);
+        background: #fdf4f3;
+      }
+      .chip.weak {
+        border-color: rgba(201,168,76,.35);
+        background: rgba(201,168,76,.08);
+      }
+      .ai-box {
+        padding: 14px 16px;
+        border-radius: 14px;
+        border: 1px solid rgba(201,168,76,.35);
+        background: rgba(201,168,76,.08);
+        margin-bottom: 14px;
+      }
+      .ai-box h3 {
+        margin: 0 0 8px;
+        font-size: 14px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 500;
+      }
+      .ai-box p { margin: 0 0 10px; font-size: 14px; line-height: 1.55; }
+      .ai-box p:last-child { margin-bottom: 0; }
+      .qa-block {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+        padding: 14px;
+        margin-bottom: 10px;
+      }
+      .qa-block h4 {
+        margin: 0 0 10px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .qa-item {
+        padding: 8px 0;
+        border-top: 1px solid var(--line);
+        font-size: 13px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+      }
+      .qa-item:first-of-type { border-top: 0; padding-top: 0; }
+      .qa-rank {
+        display: grid;
+        gap: 6px;
+      }
+      .qa-rank-row {
+        display: grid;
+        grid-template-columns: 24px 1fr;
+        gap: 8px;
+        align-items: start;
+        font-size: 13px;
+        padding: 6px 0;
+        border-top: 1px dashed var(--line);
+      }
+      .qa-rank-row:first-child { border-top: 0; }
+      .pill-pts {
+        font-size: 11px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      details.raw {
+        margin-top: 16px;
+        border-top: 1px solid var(--line);
+        padding-top: 12px;
+      }
+      details.raw summary {
+        cursor: pointer;
+        color: var(--muted);
+        font-size: 13px;
+      }
     </style>
   </head>
   <body>
@@ -294,6 +443,207 @@
         renderList();
       }
 
+      function pct(value) {
+        const n = Number(value);
+        if (!Number.isFinite(n)) return 0;
+        return Math.max(0, Math.min(100, Math.round(n)));
+      }
+
+      function renderFelicidadeSummary(summary) {
+        const ranking = Array.isArray(summary.ranking) ? summary.ranking : [];
+        const fracos = Array.isArray(summary.fracos) ? summary.fracos : [];
+        const critFlags = Array.isArray(summary.critFlags) ? summary.critFlags : [];
+        const ai = summary.ai || null;
+        const geral = pct(summary.geral);
+
+        const rankingHtml = ranking.length
+          ? `<div class="rank-list">${ranking
+              .map((row, idx) => {
+                const p = pct(row.p);
+                return `
+                  <div class="rank-row">
+                    <div class="rank-num">${idx + 1}</div>
+                    <div>
+                      <div class="rank-name">${escapeHtml(row.nec || row.nome || row.k || "—")}</div>
+                      <div class="rank-meta">${escapeHtml(row.nome || row.k || "")}${row.crit ? ' · <span class="chip crit">crítico</span>' : ""}</div>
+                      <div class="bar-wrap"><div class="bar-fill" style="width:${p}%"></div></div>
+                    </div>
+                    <strong>${p}%</strong>
+                  </div>
+                `;
+              })
+              .join("")}</div>`
+          : '<p class="muted">Sem ranking salvo.</p>';
+
+        const fracosHtml = fracos.length
+          ? `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">${fracos
+              .map(
+                (row) =>
+                  `<span class="chip weak">${escapeHtml(row.nec || row.k || "—")} · ${pct(row.p)}%</span>`,
+              )
+              .join("")}</div>`
+          : "";
+
+        const critHtml = critFlags.length
+          ? `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">${critFlags
+              .map((flag) => `<span class="chip crit">${escapeHtml(flag)}</span>`)
+              .join("")}</div>`
+          : '<p class="muted" style="margin:8px 0 0">Nenhum marcador crítico.</p>';
+
+        const aiHtml = ai && (ai.geral || ai.foco1 || ai.foco2)
+          ? `<div class="ai-box">
+              <h3>Leitura personalizada (IA)</h3>
+              ${ai.geral ? `<p>${escapeHtml(ai.geral)}</p>` : ""}
+              ${ai.foco1 ? `<p><strong>Foco 1:</strong> ${escapeHtml(ai.foco1)}</p>` : ""}
+              ${ai.foco2 ? `<p><strong>Foco 2:</strong> ${escapeHtml(ai.foco2)}</p>` : ""}
+            </div>`
+          : "";
+
+        return `
+          <div class="hero-score">
+            <div class="score-card">
+              <div class="lbl">Índice geral</div>
+              <div class="val">${geral}%</div>
+              <div class="sub">Satisfação média das 7 necessidades</div>
+            </div>
+            <div class="score-card">
+              <div class="lbl">Mais frágeis</div>
+              <div class="val" style="font-size:18px;margin-top:8px">${escapeHtml(
+                fracos.map((f) => f.nec || f.k).filter(Boolean).join(" · ") || "—",
+              )}</div>
+            </div>
+          </div>
+          ${aiHtml}
+          <h3 class="section-title">Ranking das necessidades</h3>
+          ${rankingHtml}
+          <h3 class="section-title">Pontos de atenção</h3>
+          ${fracosHtml}
+          <h3 class="section-title">Marcadores críticos</h3>
+          ${critHtml}
+        `;
+      }
+
+      function renderPersonalitySummary(summary) {
+        const top = summary.top || null;
+        const ranking = Array.isArray(summary.ranking) ? summary.ranking : [];
+        const maxScore = Math.max(...ranking.map((r) => Number(r.score) || 0), 1);
+
+        const topHtml = top
+          ? `<div class="hero-score">
+              <div class="score-card">
+                <div class="lbl">Perfil dominante</div>
+                <div class="val" style="font-size:24px">${escapeHtml(top.name || top.id || "—")}</div>
+                <div class="sub">${escapeHtml(top.chakra || "")}${top.score != null ? ` · ${escapeHtml(top.score)} pts` : ""}</div>
+              </div>
+            </div>`
+          : "";
+
+        const rankingHtml = ranking.length
+          ? `<div class="rank-list">${ranking
+              .map((row) => {
+                const score = Number(row.score) || 0;
+                const width = Math.round((score / maxScore) * 100);
+                return `
+                  <div class="rank-row">
+                    <div class="rank-num">${escapeHtml(row.rank || "")}</div>
+                    <div>
+                      <div class="rank-name">${escapeHtml(row.name || row.id || "—")}</div>
+                      <div class="rank-meta">${escapeHtml(row.chakra || "")}</div>
+                      <div class="bar-wrap"><div class="bar-fill" style="width:${width}%"></div></div>
+                    </div>
+                    <strong>${escapeHtml(score)} pts</strong>
+                  </div>
+                `;
+              })
+              .join("")}</div>`
+          : '<p class="muted">Sem ranking salvo.</p>';
+
+        return `
+          ${topHtml}
+          <h3 class="section-title">Ranking das personalidades</h3>
+          ${rankingHtml}
+        `;
+      }
+
+      function renderFelicidadeAnswers(answers) {
+        const steps = Array.isArray(answers.steps) ? answers.steps : [];
+        if (!steps.length) return '<p class="muted">Sem respostas salvas.</p>';
+
+        return steps
+          .map((step) => {
+            const items = Array.isArray(step.items) ? step.items : [];
+            return `
+              <div class="qa-block">
+                <h4>${escapeHtml(step.nec || step.k || "Etapa")}</h4>
+                ${items
+                  .map((item) => {
+                    const value =
+                      item.value == null || item.value === ""
+                        ? "—"
+                        : String(item.value);
+                    return `
+                      <div class="qa-item">
+                        <div>
+                          ${escapeHtml(item.label || "Pergunta")}
+                          ${item.critico ? ' <span class="chip crit">crítico</span>' : ""}
+                        </div>
+                        <strong>${escapeHtml(value)}</strong>
+                      </div>
+                    `;
+                  })
+                  .join("")}
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      function renderPersonalityAnswers(answers) {
+        const questions = Array.isArray(answers.questions) ? answers.questions : [];
+        if (!questions.length) return '<p class="muted">Sem respostas salvas.</p>';
+
+        return questions
+          .map((q) => {
+            const ranking = Array.isArray(q.ranking) ? q.ranking : [];
+            return `
+              <div class="qa-block">
+                <h4>${escapeHtml(q.number || "")}. ${escapeHtml(q.title || "Pergunta")}</h4>
+                <div class="qa-rank">
+                  ${ranking
+                    .map(
+                      (row) => `
+                        <div class="qa-rank-row">
+                          <div class="rank-num">${escapeHtml(row.rank || "")}</div>
+                          <div>
+                            <div><strong>${escapeHtml(row.archetype || "")}</strong> <span class="pill-pts">${escapeHtml(row.points != null ? row.points + " pts" : "")}</span></div>
+                            <div class="rank-meta">${escapeHtml(row.chakra || "")}</div>
+                            <div style="margin-top:4px">${escapeHtml(row.answer || "")}</div>
+                          </div>
+                        </div>
+                      `,
+                    )
+                    .join("")}
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      function renderSummary(item) {
+        const summary = item.summary || {};
+        if (item.quizType === "felicidade-pt") return renderFelicidadeSummary(summary);
+        if (item.quizType === "personality-pt") return renderPersonalitySummary(summary);
+        return `<pre>${escapeHtml(JSON.stringify(summary, null, 2))}</pre>`;
+      }
+
+      function renderAnswers(item) {
+        const answers = item.answers || {};
+        if (item.quizType === "felicidade-pt") return renderFelicidadeAnswers(answers);
+        if (item.quizType === "personality-pt") return renderPersonalityAnswers(answers);
+        return `<pre>${escapeHtml(JSON.stringify(answers, null, 2))}</pre>`;
+      }
+
       async function loadDetail(id) {
         detailEl.innerHTML = '<div class="muted">Carregando…</div>';
         const data = await api(`/api/quiz-submissions?id=${encodeURIComponent(id)}`);
@@ -310,14 +660,20 @@
             <div><span>Criado em</span>${formatDate(item.createdAt)}</div>
             <div><span>ID</span>${escapeHtml(item.id)}</div>
           </div>
-          <div class="block" style="margin-bottom:12px">
-            <span>Resumo</span>
-            <pre>${escapeHtml(JSON.stringify(item.summary || {}, null, 2))}</pre>
-          </div>
-          <div class="block">
-            <span>Respostas</span>
-            <pre>${escapeHtml(JSON.stringify(item.answers || {}, null, 2))}</pre>
-          </div>
+          ${renderSummary(item)}
+          <h3 class="section-title">Respostas</h3>
+          ${renderAnswers(item)}
+          <details class="raw">
+            <summary>Ver JSON bruto</summary>
+            <div class="block" style="margin-top:10px">
+              <span>Resumo</span>
+              <pre>${escapeHtml(JSON.stringify(item.summary || {}, null, 2))}</pre>
+            </div>
+            <div class="block" style="margin-top:10px">
+              <span>Respostas</span>
+              <pre>${escapeHtml(JSON.stringify(item.answers || {}, null, 2))}</pre>
+            </div>
+          </details>
         `;
       }
 

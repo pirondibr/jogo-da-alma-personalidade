@@ -47,27 +47,15 @@ const ARCHETYPES = [
 
 const QUESTIONS = [
   {
-    title:'O que mais você procura em uma amizade?',
+    title:'Qual é o estereótipo que mais combina com você?',
     options:[
-      { archId:'tradicional',    text:'Pessoas que sempre estiveram ao meu lado, que pensam como eu e têm o mesmo estilo de vida.' },
-      { archId:'criativa',       text:'Pessoas divertidas, sociáveis, leves, com bom humor.' },
-      { archId:'ambiciosa',      text:'Pessoas que têm destaque, poder, sucesso, influência e ambição.' },
-      { archId:'empatica',       text:'Pessoas a quem eu possa ajudar ou dar apoio, seja intelectual, material, emocional ou físico.' },
-      { archId:'intelectual',    text:'Pessoas com quem eu possa conversar de forma profunda ou aprender.' },
-      { archId:'expressiva',     text:'Pessoas a quem eu possa influenciar, impactar, que me admirem, me deem atenção ou me reconheçam.' },
-      { archId:'espiritualista', text:'Pessoas que são espirituais, intuitivas, que não se importam tanto com o material.' }
-    ]
-  },
-  {
-    title:'O que você mais gostaria de fazer no seu tempo livre?',
-    options:[
-      { archId:'tradicional',    text:'Fazer atividades que me relaxam ou que eu já domino e com as quais tenho familiaridade.' },
-      { archId:'criativa',       text:'Fazer coisas diferentes e me divertir, como participar de eventos, festas, ouvir música, estar com amigos, praticar esportes, apreciar arte, culinária, dança, entre outros.' },
-      { archId:'ambiciosa',      text:'Estar fazendo algo que me traga destaque, dinheiro, desafios, capacidades ou que esteja relacionado à minha ambição.' },
-      { archId:'empatica',       text:'Estar ajudando, contribuindo ou dando suporte a pessoas ou animais, seja de forma intelectual, material, física ou emocional.' },
-      { archId:'intelectual',    text:'Estar aprendendo assuntos novos ou me aprofundando em algum conhecimento.' },
-      { archId:'expressiva',     text:'Estar me comunicando, influenciando ou recebendo atenção de pessoas.' },
-      { archId:'espiritualista', text:'Estar realizando alguma prática espiritual, em busca de experiências ou missões espirituais, ou integrando diferentes áreas.' }
+      { archId:'tradicional',    text:'Sou uma pessoa que gosta de seguir o fluxo da vida, ter um bom emprego, curtir os momentos, e aproveitar a família, os amigos e os filhos.' },
+      { archId:'criativa',       text:'Sou uma pessoa que quer experimentar a vida, me divertir, fazer coisas diferentes, emocional e sensível.' },
+      { archId:'ambiciosa',      text:'Sou uma pessoa muito ambiciosa, preciso me destacar no que faço, gosto de competir e quero estar entre os melhores.' },
+      { archId:'empatica',       text:'Sou uma pessoa empática, gosto de ajudar pessoas ou animais e tenho dificuldade em dizer \'não\' ou em não me conectar com as emoções e problemas dos outros.' },
+      { archId:'intelectual',    text:'Sou uma pessoa muito curiosa, estou sempre questionando as coisas e buscando aprender mais. Tenho um perfil analítico.' },
+      { archId:'expressiva',     text:'Sou uma pessoa comunicativa, gosto de poder expressar minhas ideias e ser ouvido e notado por outras pessoas. Sempre estou procurando me comunicar ou ter atenção/influência de pessoas.' },
+      { archId:'espiritualista', text:'Sou uma pessoa intuitiva ou espiritual, procuro ver as coisas de forma mais holística e não apenas material.' }
     ]
   },
   {
@@ -83,15 +71,15 @@ const QUESTIONS = [
     ]
   },
   {
-    title:'Qual é o estereótipo que mais combina com você?',
+    title:'O que você mais gostaria de fazer no seu tempo livre?',
     options:[
-      { archId:'tradicional',    text:'Sou uma pessoa que gosta de seguir o fluxo da vida, ter um bom emprego, curtir os momentos, e aproveitar a família, os amigos e os filhos.' },
-      { archId:'criativa',       text:'Sou uma pessoa que quer experimentar a vida, me divertir, fazer coisas diferentes, emocional e sensível.' },
-      { archId:'ambiciosa',      text:'Sou uma pessoa muito ambiciosa, preciso me destacar no que faço, gosto de competir e quero estar entre os melhores.' },
-      { archId:'empatica',       text:'Sou uma pessoa empática, gosto de ajudar pessoas ou animais e tenho dificuldade em dizer \'não\' ou em não me conectar com as emoções e problemas dos outros.' },
-      { archId:'intelectual',    text:'Sou uma pessoa muito curiosa, estou sempre questionando as coisas e buscando aprender mais. Tenho um perfil analítico.' },
-      { archId:'expressiva',     text:'Sou uma pessoa comunicativa, gosto de poder expressar minhas ideias e ser ouvido e notado por outras pessoas. Sempre estou procurando me comunicar ou ter atenção/influência de pessoas.' },
-      { archId:'espiritualista', text:'Sou uma pessoa intuitiva ou espiritual, procuro ver as coisas de forma mais holística e não apenas material.' }
+      { archId:'tradicional',    text:'Fazer atividades que me relaxam ou que eu já domino e com as quais tenho familiaridade.' },
+      { archId:'criativa',       text:'Fazer coisas diferentes e me divertir, como participar de eventos, festas, ouvir música, estar com amigos, praticar esportes, apreciar arte, culinária, dança, entre outros.' },
+      { archId:'ambiciosa',      text:'Estar fazendo algo que me traga destaque, dinheiro, desafios, capacidades ou que esteja relacionado à minha ambição.' },
+      { archId:'empatica',       text:'Estar ajudando, contribuindo ou dando suporte a pessoas ou animais, seja de forma intelectual, material, física ou emocional.' },
+      { archId:'intelectual',    text:'Estar aprendendo assuntos novos ou me aprofundando em algum conhecimento.' },
+      { archId:'expressiva',     text:'Estar me comunicando, influenciando ou recebendo atenção de pessoas.' },
+      { archId:'espiritualista', text:'Estar realizando alguma prática espiritual, em busca de experiências ou missões espirituais, ou integrando diferentes áreas.' }
     ]
   },
   {
@@ -104,6 +92,18 @@ const QUESTIONS = [
       { archId:'intelectual',    text:'Vou usar esse dinheiro para ampliar meu conhecimento, investindo em cursos, livros e ferramentas, experimentos.' },
       { archId:'expressiva',     text:'Vou usar esse dinheiro para expandir minha influência, investindo em formas de me promover e aumentar minha visibilidade.' },
       { archId:'espiritualista', text:'Vou usar esse dinheiro para reduzir minhas obrigações e dedicar mais tempo às minhas práticas espirituais ou à minha missão espiritual.' }
+    ]
+  },
+  {
+    title:'O que mais você procura em uma amizade?',
+    options:[
+      { archId:'tradicional',    text:'Pessoas que sempre estiveram ao meu lado, que pensam como eu e têm o mesmo estilo de vida.' },
+      { archId:'criativa',       text:'Pessoas divertidas, sociáveis, leves, com bom humor.' },
+      { archId:'ambiciosa',      text:'Pessoas que têm destaque, poder, sucesso, influência e ambição.' },
+      { archId:'empatica',       text:'Pessoas a quem eu possa ajudar ou dar apoio, seja intelectual, material, emocional ou físico.' },
+      { archId:'intelectual',    text:'Pessoas com quem eu possa conversar de forma profunda ou aprender.' },
+      { archId:'expressiva',     text:'Pessoas a quem eu possa influenciar, impactar, que me admirem, me deem atenção ou me reconheçam.' },
+      { archId:'espiritualista', text:'Pessoas que são espirituais, intuitivas, que não se importam tanto com o material.' }
     ]
   }
 ];
